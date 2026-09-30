@@ -56,3 +56,11 @@
 - time travel tile: solid black in light theme (no fade); fades out only in dark theme.
 - ies push: pill hugging its text, centred, 16px from the top, drops in from the top centre.
 - No hover lift on tiles/cards — the animation lives inside the blocks. tippy island centred in the tile; ticker drops below it.
+
+## Case pages (2026-09-30)
+- `cases/<slug>.html` — password-gated case pages (password `123456`). Text and images are AES-GCM encrypted (PBKDF2-SHA256, WebCrypto); unreadable in page source. Correct password is kept in sessionStorage for the tab.
+- Plaintext sources live in `cases/_src/<slug>/case.html` + `img/` — **gitignored**, exist only on this Mac.
+- New case: `node tools/encrypt-case.mjs new <slug>` → fill → `node tools/encrypt-case.mjs <slug>` (optional `--password`).
+- Blocks (see `tools/case-template.html`): hero, cover, stats, company card, text section, big statement, numbered list, wide image, sideways-scroll strip, gallery, bars, numbers in two columns.
+- Shell: `tools/case-shell.html`; styles `cases/case.css`; gate `cases/lock.js`.
+- QR case filled from the Notion export (images → webp, 15 MB → 0.9 MB); home card links to `cases/qr.html`. Other 3 cards still link to Notion.

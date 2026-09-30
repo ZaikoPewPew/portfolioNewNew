@@ -1,0 +1,114 @@
+<!--
+  Case content — plaintext source. Lives in cases/_src/<slug>/case.html and is NOT committed.
+  Build:  node tools/encrypt-case.mjs <slug>          → cases/<slug>.html (password 123456)
+  Images: drop them into cases/_src/<slug>/img/ (webp is best) and use a relative src — they get encrypted too.
+  Blocks are independent: copy, reorder or delete any of them. Comments are stripped on build.
+-->
+
+<!-- HERO: mono chips (company · dates · topics), title, one-sentence summary -->
+<header class="c-hero">
+  <div class="c-meta">
+    <span>Company</span><span>2024</span><span>Topic</span><span>Platform</span>
+  </div>
+  <h1>Case title in one line</h1>
+  <p class="c-lead">One or two sentences: what changed and the headline result.</p>
+</header>
+
+<!-- COVER: large hero image, rounded 60px -->
+<figure class="c-fig c-cover"><img src="img/cover.webp" alt="Describe the cover"></figure>
+
+<!-- STATS: 2–4 key numbers -->
+<div class="c-stats">
+  <div><b>−50%</b><span>what this number means</span></div>
+  <div><b>+17%</b><span>what this number means</span></div>
+  <div><b>2×</b><span>what this number means</span></div>
+</div>
+
+<!-- COMPANY CARD: logo + one line + a couple of numbers -->
+<section class="c-sec">
+  <h2 class="c-label">About</h2>
+  <div class="c-body">
+    <div class="c-company">
+      <img src="img/logo.webp" alt="Company logo">
+      <p>Who the company is, in one sentence.</p>
+      <dl><div><dt>MAU</dt><dd>1M</dd></div><div><dt>Rating</dt><dd>4.8</dd></div></dl>
+    </div>
+  </div>
+</section>
+
+<!-- TEXT SECTION: mono label on the left, paragraphs on the right. <em> highlights a phrase -->
+<section class="c-sec">
+  <h2 class="c-label">Context</h2>
+  <div class="c-body">
+    <p>Paragraph of context.</p>
+    <p>Another paragraph with an <em>emphasised phrase</em>.</p>
+  </div>
+</section>
+
+<!-- BIG STATEMENT: larger text for the problem / key finding -->
+<section class="c-sec">
+  <h2 class="c-label">Problem</h2>
+  <div class="c-body">
+    <p class="c-big">The problem in one or two strong sentences with the <em>key number</em>.</p>
+  </div>
+</section>
+
+<!-- NUMBERED LIST: role, goals, findings, solution points -->
+<section class="c-sec">
+  <h2 class="c-label">My role</h2>
+  <div class="c-body">
+    <ul class="c-list">
+      <li>First point</li>
+      <li>Second point</li>
+      <li>Third point</li>
+    </ul>
+  </div>
+</section>
+
+<!-- WIDE IMAGE with an optional caption -->
+<figure class="c-fig c-wide"><img src="img/screens.webp" alt="Describe the image"><figcaption>Optional caption</figcaption></figure>
+
+<!-- VERY WIDE STRIP (e.g. a whole flow): add c-scroll — scrolls sideways on phones -->
+<figure class="c-fig c-wide c-scroll"><img src="img/flow.webp" alt="Describe the flow"></figure>
+
+<!-- GALLERY: stacked images -->
+<div class="c-gallery">
+  <figure class="c-fig"><img src="img/photo-1.webp" alt=""></figure>
+  <figure class="c-fig"><img src="img/photo-2.webp" alt=""></figure>
+</div>
+
+<!-- BARS: --max = the largest value; .acc = highlighted row, .bad = red row -->
+<section class="c-sec">
+  <h2 class="c-label">Observations</h2>
+  <div class="c-body">
+    <div class="c-bars" style="--max:60">
+      <div style="--v:60"><span>Option A</span><b>60</b></div>
+      <div class="acc" style="--v:20"><span>Our product</span><b>20</b></div>
+      <div class="bad" style="--v:10"><span>Failed</span><b>10</b></div>
+    </div>
+  </div>
+</section>
+
+<!-- NUMBERS IN TWO COLUMNS: research scope, validation etc. -->
+<section class="c-sec">
+  <h2 class="c-label">Validation</h2>
+  <div class="c-body">
+    <div class="c-duo">
+      <div>
+        <h3>Quantitative</h3>
+        <dl class="c-nums"><div><dt>1,000+</dt><dd>label</dd></div><div><dt>143</dt><dd>label</dd></div></dl>
+      </div>
+      <div>
+        <h3>Qualitative</h3>
+        <dl class="c-nums"><div><dt>10</dt><dd>label</dd></div><div><dt>5</dt><dd>label</dd></div></dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="c-sec">
+  <h2 class="c-label">Results</h2>
+  <div class="c-body">
+    <p>What happened after the release.</p>
+  </div>
+</section>
