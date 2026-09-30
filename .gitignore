@@ -1,0 +1,5 @@
+.DS_Store
+about/
+.claude/
+cases/_src/
+node_modules/
