@@ -61,6 +61,10 @@
 - `cases/<slug>.html` — password-gated case pages (password `123456`). Text and images are AES-GCM encrypted (PBKDF2-SHA256, WebCrypto); unreadable in page source. Correct password is kept in sessionStorage for the tab.
 - Plaintext sources live in `cases/_src/<slug>/case.html` + `img/` — **gitignored**, exist only on this Mac.
 - New case: `node tools/encrypt-case.mjs new <slug>` → fill → `node tools/encrypt-case.mjs <slug>` (optional `--password`).
-- Blocks (see `tools/case-template.html`): hero, cover, stats, company card, text section, big statement, numbered list, wide image, sideways-scroll strip, gallery, bars, numbers in two columns.
-- Shell: `tools/case-shell.html`; styles `cases/case.css`; gate `cases/lock.js`.
+- Blocks (see `tools/case-template.html`): hero, stats, company card, text section, big statement, numbered list, image, gallery, bars, numbers in two columns.
+- Shell: `tools/case-shell.html`; styles `cases/case.css`; gate `cases/lock.js`; contents + player `cases/case-ui.js`.
+- Layout (v2): no cover — the page opens straight with tags (glass), title, lead, numbers. Everything sits in one fixed 720px column; sizes toned down (h1 ≤44px, body 17px).
+- Contents always visible: glass rail left of the column (≥1220px) with scroll-spy + progress; below that a bottom dock (current section + progress) that opens a sheet. Built from `.c-sec .c-label`.
+- Voice-over: glass pill in the nav left of the theme button — play + track only, no text. `<audio class="c-voice" src="audio/voice.m4a">` in the case source (encrypted too). Without it the pill is dimmed, tooltip «Voice-over is coming soon».
+- Images: click → lightbox (fit to screen; click / zoom button → real size with scroll; ← → between images; Esc closes). Export wide flows large — they're studied in the lightbox.
 - QR case filled from the Notion export (images → webp, 15 MB → 0.9 MB); home card links to `cases/qr.html`. Other 3 cards still link to Notion.

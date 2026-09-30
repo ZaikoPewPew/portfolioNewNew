@@ -14,8 +14,9 @@
   <p class="c-lead">One or two sentences: what changed and the headline result.</p>
 </header>
 
-<!-- COVER: large hero image, rounded 60px -->
-<figure class="c-fig c-cover"><img src="img/cover.webp" alt="Describe the cover"></figure>
+<!-- VOICE-OVER (optional): one audio file, shown in the "Listen" player. Without it the player says "coming soon".
+     mp3 / m4a; it is encrypted like the images. -->
+<!-- <audio class="c-voice" src="audio/voice.m4a"></audio> -->
 
 <!-- STATS: 2–4 key numbers -->
 <div class="c-stats">
@@ -36,7 +37,7 @@
   </div>
 </section>
 
-<!-- TEXT SECTION: mono label on the left, paragraphs on the right. <em> highlights a phrase -->
+<!-- TEXT SECTION: every .c-sec with a .c-label becomes an item in the Contents menu. <em> highlights a phrase -->
 <section class="c-sec">
   <h2 class="c-label">Context</h2>
   <div class="c-body">
@@ -65,11 +66,9 @@
   </div>
 </section>
 
-<!-- WIDE IMAGE with an optional caption -->
-<figure class="c-fig c-wide"><img src="img/screens.webp" alt="Describe the image"><figcaption>Optional caption</figcaption></figure>
-
-<!-- VERY WIDE STRIP (e.g. a whole flow): add c-scroll — scrolls sideways on phones -->
-<figure class="c-fig c-wide c-scroll"><img src="img/flow.webp" alt="Describe the flow"></figure>
+<!-- IMAGE with an optional caption. Every image opens full view on click (zoom to real size, ← → between images),
+     so wide flows and dense screens can be exported large — they're studied there, not in the column. -->
+<figure class="c-fig"><img src="img/screens.webp" alt="Describe the image"><figcaption>Optional caption</figcaption></figure>
 
 <!-- GALLERY: stacked images -->
 <div class="c-gallery">

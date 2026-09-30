@@ -32,15 +32,30 @@
     const h1 = main.querySelector('h1');
     if (h1) document.title = h1.textContent.trim() + ' — Vladislav Kurguzov';
     main.querySelectorAll('img[data-enc]').forEach(img => loadImage(img, key));
+    const voice = main.querySelector('audio[data-enc]');
+    if (voice) loadVoice(voice, key);
     reveal(main);
     $('#foot').hidden = false;
+    document.dispatchEvent(new CustomEvent('case:ready', { detail:{ main, voice:!!voice } }));
     return true;
+  }
+
+  async function decryptFile(url, key){
+    const buf = new Uint8Array(await (await fetch(url)).arrayBuffer());
+    return crypto.subtle.decrypt({ name:'AES-GCM', iv:buf.subarray(0,12) }, key, buf.subarray(12));
+  }
+
+  /* voice-over: decrypted into a blob and handed to the player (case-ui.js) */
+  async function loadVoice(el, key){
+    try{
+      const url = URL.createObjectURL(new Blob([await decryptFile(el.dataset.enc, key)], { type:el.dataset.type }));
+      document.dispatchEvent(new CustomEvent('case:voice', { detail:url }));
+    }catch(e){ document.dispatchEvent(new CustomEvent('case:voice', { detail:null })) }
   }
 
   async function loadImage(img, key){
     try{
-      const buf = new Uint8Array(await (await fetch(img.dataset.enc)).arrayBuffer());
-      const data = await crypto.subtle.decrypt({ name:'AES-GCM', iv:buf.subarray(0,12) }, key, buf.subarray(12));
+      const data = await decryptFile(img.dataset.enc, key);
       img.addEventListener('load', () => img.classList.add('in'), { once:true });
       img.src = URL.createObjectURL(new Blob([data], { type:img.dataset.type }));
     }catch(e){ img.classList.add('in', 'broken') }
@@ -50,8 +65,15 @@
   function reveal(main){
     const els = main.querySelectorAll(':scope > *');
     if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches){ els.forEach(e => e.classList.add('rv-in')); return }
-    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting){ e.target.classList.add('rv-in'); io.unobserve(e.target) } }), { rootMargin:'0px 0px -8% 0px' });
+    const show = el => { el.classList.add('rv-in'); io.unobserve(el) };
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) show(e.target) }), { rootMargin:'0px 0px -8% 0px' });
     els.forEach(e => { e.classList.add('rv'); io.observe(e) });
+    /* safety net: the content arrives after decryption, so the browser restores the scroll position with a jump
+       and the observer can miss sections — on every scroll anything already above the fold is shown too */
+    let raf = 0;
+    const sweep = () => { raf = 0; els.forEach(el => { if (!el.classList.contains('rv-in') && el.getBoundingClientRect().top < innerHeight * .92) show(el) }) };
+    addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(sweep) }, { passive:true });
+    addEventListener('load', () => setTimeout(sweep, 50));
   }
 
   function unlocked(){

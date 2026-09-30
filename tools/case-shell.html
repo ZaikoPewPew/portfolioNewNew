@@ -22,17 +22,52 @@
   <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="i-sun" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g></symbol>
   <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z" fill="currentColor"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><g fill="currentColor"><rect x="6.5" y="5" width="4" height="14" rx="1.2"/><rect x="13.5" y="5" width="4" height="14" rx="1.2"/></g></symbol>
+  <symbol id="i-up" viewBox="0 0 24 24"><path d="M6 15l6-6 6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-left" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-right" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-zoom" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4 4M11 8.5v5M8.5 11h5"/></g></symbol>
   <symbol id="i-lock" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="5" y="10.5" width="14" height="10" rx="3"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/></g></symbol>
 </svg>
 
 <nav class="c-nav">
   <a class="c-pill" href="../index.html#deck"><svg class="ic" aria-hidden="true"><use href="#i-back"/></svg>All work</a>
-  <button class="c-pill c-ico" id="themeBtn" type="button" aria-label="Toggle theme">
-    <svg class="sun" aria-hidden="true"><use href="#i-sun"/></svg><svg class="moon" aria-hidden="true"><use href="#i-moon"/></svg>
-  </button>
+  <div class="c-nav-r">
+    <div class="c-pill c-voice" id="player" role="group" aria-label="Voice-over">
+      <button class="pl-btn" type="button" data-play aria-label="Play voice-over"><svg class="play" aria-hidden="true"><use href="#i-play"/></svg><svg class="pause" aria-hidden="true"><use href="#i-pause"/></svg></button>
+      <div class="pl-wave" id="wave" role="slider" tabindex="0" aria-label="Seek" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+    </div>
+    <button class="c-pill c-ico" id="themeBtn" type="button" aria-label="Toggle theme">
+      <svg class="sun" aria-hidden="true"><use href="#i-sun"/></svg><svg class="moon" aria-hidden="true"><use href="#i-moon"/></svg>
+    </button>
+  </div>
 </nav>
 
 <main class="c-main" id="case" aria-live="polite"></main>
+
+<div class="c-dock" id="dock">
+  <button class="dk-sec" id="dkSec" type="button" aria-controls="toc" aria-expanded="false"><b id="dkTitle">Contents</b><span class="dk-bar"></span></button>
+  <button class="dk-list" id="dkList" type="button" aria-controls="toc" aria-expanded="false" aria-label="Show contents"><svg aria-hidden="true"><use href="#i-up"/></svg></button>
+</div>
+
+<audio id="voice" preload="metadata"></audio>
+
+<nav class="c-toc" id="toc" aria-label="Contents">
+  <h2>Contents</h2>
+  <ol id="tocList"></ol>
+</nav>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Image viewer"><img id="lbImg" alt=""></div>
+<div class="lb-bar" id="lbBar">
+  <button type="button" id="lbPrev" aria-label="Previous image"><svg aria-hidden="true"><use href="#i-left"/></svg></button>
+  <span id="lbCount"></span>
+  <button type="button" id="lbNext" aria-label="Next image"><svg aria-hidden="true"><use href="#i-right"/></svg></button>
+  <button type="button" id="lbZoom" aria-label="Zoom"><svg aria-hidden="true"><use href="#i-zoom"/></svg></button>
+  <button type="button" id="lbClose" aria-label="Close"><svg aria-hidden="true"><use href="#i-close"/></svg></button>
+</div>
+<p class="lb-cap" id="lbCap"></p>
 
 <footer class="c-foot" id="foot" hidden>
   <a href="../index.html#deck"><span class="star"><svg><use href="#star"/></svg></span>Back to all work</a>
@@ -53,6 +88,7 @@
 </div>
 
 <script type="application/json" id="payload">{{PAYLOAD}}</script>
+<script src="case-ui.js"></script>
 <script src="lock.js"></script>
 </body>
 </html>

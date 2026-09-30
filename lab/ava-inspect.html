@@ -1,0 +1,8 @@
+<!doctype html><meta charset="utf-8"><title>ava inspect</title>
+<style>body{margin:0;background:#ddd}#h svg{width:930px;height:772px;display:block;background:#fff}</style>
+<div id="h"></div>
+<script>
+fetch('ava-src.svg').then(r=>r.text()).then(t=>{ h.innerHTML=t;
+  window.P=[...h.querySelectorAll('path')].map((p,i)=>{ const b=p.getBBox(), s=.25; return {i,f:p.getAttribute('fill'),x:Math.round(b.x*s),y:Math.round(b.y*s),w:Math.round(b.width*s),h:Math.round(b.height*s)} });
+  document.title='ready' });
+</script>
