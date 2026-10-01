@@ -29,11 +29,8 @@
     });
   }
 
-  let lastY = scrollY;
   function update(){
     const vh = innerHeight, y = scrollY;
-    // the top bar (narrow screens) slides away while reading down and comes back on any scroll up
-    if (Math.abs(y - lastY) > 4){ root.classList.toggle('bar-hide', y > lastY && y > 120); lastY = y }
     const max = root.scrollHeight - vh;
     root.style.setProperty('--p', (max > 0 ? Math.min(1, y / max) : 0).toFixed(4));
     // contents fade out once the article ends, so the sticky rail never drags them past the pinned back button

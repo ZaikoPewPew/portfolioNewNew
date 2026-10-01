@@ -134,6 +134,7 @@ img{display:block;max-width:100%}
   -webkit-backdrop-filter:blur(14px) saturate(160%);backdrop-filter:blur(14px) saturate(160%);
   opacity:0;transform:translate3d(0,-8px,0) scale(.985);transform-origin:top center;transition:opacity .3s var(--ease),transform .3s var(--ease)}
 .m-menu.open{opacity:1;transform:none;pointer-events:auto}
+.m-menu.contacts-only a[href^="#"],.m-menu.contacts-only .m-sep{display:none}   /* "Work with me" opens just the contacts */
 .m-menu a{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-radius:24px;font-size:18px;font-weight:400;transition:color .2s}
 .m-menu a:hover{color:var(--red)}
 .m-menu a span{color:var(--ink-3)}
@@ -1054,7 +1055,7 @@ function layoutNav(){
 let raf=0; new ResizeObserver(()=>{ cancelAnimationFrame(raf); raf=requestAnimationFrame(layoutNav) }).observe(shell);
 const navUp=()=>root.classList.toggle('nav-up',scrollY>8); addEventListener('scroll',navUp,{passive:true}); navUp();
 const mm=$('#mMenu');
-$('#burger').addEventListener('click',()=>{ mm.classList.toggle('open'); play(mm.classList.contains('open')?'pop':'click') });
+$('#burger').addEventListener('click',()=>{ mm.classList.remove('contacts-only'); mm.classList.toggle('open'); play(mm.classList.contains('open')?'pop':'click') });
 $$('a',mm).forEach(a=>a.addEventListener('click',()=>{ mm.classList.remove('open'); play('click') }));
 document.addEventListener('click',e=>{ if(mm.classList.contains('open') && !e.target.closest('#mMenu,#burger,[data-open-contacts]')) mm.classList.remove('open') });
 
@@ -1243,7 +1244,9 @@ const dup=set.replace(/<article /g,'<article aria-hidden="true" '); $('#loveTrac
   let raf=requestAnimationFrame(tick);
   const wake=()=>{ if(!raf&&visible&&!document.hidden){ last=performance.now(); raf=requestAnimationFrame(tick) } };
   document.addEventListener('visibilitychange',wake);
-  rail.addEventListener('pointerenter',()=>hover=true); rail.addEventListener('pointerleave',()=>hover=false);
+  // hover pause is for the mouse only: a finger also fires pointerenter, but mobile Safari often never sends the matching
+  // pointerleave, so the rail used to freeze for good after the first touch
+  rail.addEventListener('pointerenter',e=>{ if(e.pointerType==='mouse') hover=true }); rail.addEventListener('pointerleave',()=>hover=false);
   rail.addEventListener('wheel',()=>hold(2500),{passive:true}); rail.addEventListener('touchstart',()=>hold(3000),{passive:true});
   new IntersectionObserver(([e])=>{ visible=e.isIntersecting; wake() }).observe(rail);
   // drag with the mouse
@@ -1438,7 +1441,7 @@ cb.addEventListener('click',()=>setC(!cw.classList.contains('open')));
 document.addEventListener('click',e=>{ if(!cw.contains(e.target) && !e.target.closest('[data-open-contacts]')) setC(false) });
 document.addEventListener('keydown',e=>{ if(e.key==='Escape') setC(false) });
 // narrow screens hide the contacts dropdown, so "Work with me" opens the mobile menu (it holds the contacts) instead
-$$('[data-open-contacts]').forEach(b=>b.addEventListener('click',()=>{ if(cw.getClientRects().length) setC(true); else if(!mm.classList.contains('open')){ mm.classList.add('open'); play('pop') } }));
+$$('[data-open-contacts]').forEach(b=>b.addEventListener('click',()=>{ if(cw.getClientRects().length) setC(true); else if(!mm.classList.contains('open')){ mm.classList.add('open','contacts-only'); play('pop') } }));
 $$('.cmenu a').forEach(a=>a.addEventListener('click',()=>setC(false)));
 
 /* ───── Copy email ───── */
@@ -1448,6 +1451,6 @@ $$('[data-mail]').forEach(b=>b.addEventListener('click',async e=>{ const m=e.cur
   play('pop'); toast.classList.add('show'); clearTimeout(tt); tt=setTimeout(()=>toast.classList.remove('show'),1600) }));
 })();
 </script>
-<script src="assets/haptic.js" defer></script>
+<script src="assets/haptic.js?v=2" defer></script>
 </body>
 </html>
