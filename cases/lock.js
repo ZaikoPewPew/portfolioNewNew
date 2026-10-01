@@ -26,7 +26,7 @@
     if (h1) document.title = h1.textContent.trim() + ' — Vladislav Kurguzov';
     main.querySelectorAll('img[data-enc]').forEach(img => loadImage(img, key));
     const voice = main.querySelector('audio[data-enc]');
-    if (voice) loadVoice(voice, key);
+    if (voice){ loadVoice(voice, key); voice.remove() }   // out of the flow, or the hero stops being the first child and loses its top alignment
     reveal(main);
     $('#foot').hidden = false;
     document.dispatchEvent(new CustomEvent('case:ready', { detail:{ main, voice:!!voice } }));

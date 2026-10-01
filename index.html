@@ -174,6 +174,7 @@ img{display:block;max-width:100%}
 .arrows{display:flex;gap:8px}
 
 /* ═══════════ Open to work — glass pill (recipe from voiceos.com "Download for Mac"); click fires the burst ═══════════ */
+@media (max-width:640px){.otw-more{display:none}}   /* phones: just "Almaty 10:48 PM" */
 @property --angle-1{syntax:"<angle>";inherits:false;initial-value:-75deg}
 @property --angle-2{syntax:"<angle>";inherits:false;initial-value:-45deg}
 .otw{display:flex;justify-content:center;margin-top:clamp(32px,4vw,48px);padding:0 var(--gutter)}
@@ -750,7 +751,7 @@ footer.wrap{margin-top:var(--gap)}
     <p class="statement lit-text">I’m Vlad — Senior Product Designer at Alfa-Bank, crafting digital experiences for <em class="acc">millions</em></p>
     <div class="otw">
       <div class="gb-wrap">
-        <button class="gb" id="otwBtn" type="button" data-burst><span><i class="live" aria-hidden="true"></i>Almaty <span id="almTime"></span></span></button>
+        <button class="gb" id="otwBtn" type="button" data-burst><span><i class="live" aria-hidden="true"></i>Almaty<span class="otw-more"> / remote /</span> <span id="almTime"></span></span></button>
         <div class="gb-shadow" aria-hidden="true"></div>
         <span class="burst" aria-hidden="true"></span>
       </div>
