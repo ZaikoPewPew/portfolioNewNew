@@ -6,10 +6,10 @@
 <title>Vladislav Kurguzov</title>
 <meta name="description" content="Vladislav Kurguzov — Senior Product Designer at Alfa-Bank. Fintech, design systems, mobile apps and my own products.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://krgzv.com/">
+<meta property="og:url" content="https://krgzv.net/">
 <meta property="og:title" content="Vladislav Kurguzov — Senior Product Designer">
 <meta property="og:description" content="Fintech, design systems, mobile apps and my own products.">
-<meta property="og:image" content="https://krgzv.com/assets/og.png">
+<meta property="og:image" content="https://krgzv.net/assets/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
@@ -276,7 +276,7 @@ section.sec{padding-top:var(--gap)}
 @keyframes ava-dash{0%,72%,100%{scale:1;opacity:1}78%{scale:.55;opacity:.6}86%{scale:1.14;opacity:1}93%{scale:.97}}
 .hero-ava:is(:hover,.on) .ava-dash{animation-duration:1.1s}
 /* hover (tap on touch): the sticker tilts a little and a speech bubble pops out at its top-right */
-.ava-say{position:absolute;left:calc(100% - 15px);top:calc(4% - 8px);display:flex;flex-direction:column;align-items:flex-start;gap:4px;pointer-events:none}
+.ava-say{position:absolute;left:calc(100% - 3px);top:calc(4% - 8px);display:flex;flex-direction:column;align-items:flex-start;gap:4px;pointer-events:none}
 .ava-say span{padding:7px 14px;border-radius:18px 18px 18px 4px;background:var(--panel);color:var(--ink);font-size:14px;line-height:1.4;white-space:nowrap;
   opacity:0;transform:translate(-6px,8px) scale(.6) rotate(-4deg);transform-origin:0 100%;transition:opacity .2s var(--ease),transform .25s var(--ease)}
 .hero-ava:is(:hover,.on)>:is(img,svg){transform:rotate(-6deg) scale(1.03)}
@@ -607,6 +607,10 @@ section.sec{padding-top:var(--gap)}
 
 /* ═══════════ Footer ═══════════ */
 footer.wrap{margin-top:var(--gap)}
+@media (min-width:821px){
+  footer.wrap{margin-top:178px}   /* 150px of air: the "100+ other colleagues" line hangs 28px below the love section */
+  .frow .me .star{display:none}
+}
 .dotline{height:2px;background:radial-gradient(circle,var(--dot) 1px,transparent 1.2px) 0 0/9.6px 2px repeat-x}
 .frow{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding:32px 0 34px;font-size:14px;line-height:28px;color:var(--ink)}
 .frow .me{display:flex;align-items:center;gap:8px;transition:color .2s}
@@ -939,7 +943,7 @@ footer.wrap{margin-top:var(--gap)}
     </div>
     <div class="dotline"></div>
     <div class="frow">
-      <a href="#top" class="me" data-snd="click"><span class="star"><svg><use href="#star"/></svg></span>krgzv.com © 2026</a>
+      <a href="#top" class="me" data-snd="click"><span class="star"><svg><use href="#star"/></svg></span>krgzv.net © 2026</a>
       <div class="fl">
         <span class="lab">Contacts:</span>
         <a href="https://www.linkedin.com/in/kvneasy/" target="_blank" rel="noopener">LinkedIn</a>
