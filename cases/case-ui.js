@@ -36,6 +36,8 @@
     if (Math.abs(y - lastY) > 4){ root.classList.toggle('bar-hide', y > lastY && y > 120); lastY = y }
     const max = root.scrollHeight - vh;
     root.style.setProperty('--p', (max > 0 ? Math.min(1, y / max) : 0).toFixed(4));
+    // contents fade out once the article ends, so the sticky rail never drags them past the pinned back button
+    root.classList.toggle('toc-out', $('#case').getBoundingClientRect().bottom < vh * .6);
     if (!sections.length) return;
 
     // reading line: 30% from the top, sliding down to the bottom edge during the last screen of scroll,
