@@ -264,6 +264,7 @@ section.sec{padding-top:var(--gap)}
 /* the <img> is swapped for the inline svg by JS, so its parts can move; float uses `translate`, the hover tilt uses `transform` */
 .hero-ava>:is(img,svg){display:block;width:100%;height:auto;-webkit-user-drag:none;transition:transform .6s var(--spring);animation:ava-float 5.5s ease-in-out infinite}
 @keyframes ava-float{0%,100%{translate:0 0}50%{translate:0 -5px}}
+.anim-off,.anim-off *,.anim-off ::before{animation-play-state:paused!important}
 .ava-eye,.ava-dash{transform-box:fill-box}
 .ava-eye{transform-origin:50% 72%}
 .ava-iris{transition:transform .35s var(--ease)}
@@ -1175,16 +1176,21 @@ const dup=set.replace(/<article /g,'<article aria-hidden="true" '); $('#loveTrac
   requestAnimationFrame(()=>{ rail.scrollLeft=setW() });
   function tick(t){ const dt=Math.min(64,t-last); last=t;
     if(!reduced && visible && !hover && !drag && t>idleUntil){ rail.scrollLeft+=dt*.045; }   // ~45px/s
-    wrap(); requestAnimationFrame(tick) }
-  requestAnimationFrame(tick);
+    wrap(); raf=visible&&!document.hidden?requestAnimationFrame(tick):0 }
+  let raf=requestAnimationFrame(tick);
+  const wake=()=>{ if(!raf&&visible&&!document.hidden){ last=performance.now(); raf=requestAnimationFrame(tick) } };
+  document.addEventListener('visibilitychange',wake);
   rail.addEventListener('pointerenter',()=>hover=true); rail.addEventListener('pointerleave',()=>hover=false);
   rail.addEventListener('wheel',()=>hold(2500),{passive:true}); rail.addEventListener('touchstart',()=>hold(3000),{passive:true});
-  new IntersectionObserver(([e])=>visible=e.isIntersecting).observe(rail);
+  new IntersectionObserver(([e])=>{ visible=e.isIntersecting; wake() }).observe(rail);
   // drag with the mouse
   rail.addEventListener('pointerdown',e=>{ if(e.pointerType!=='mouse') return; e.preventDefault(); drag=true; sx=e.clientX; sl=rail.scrollLeft; rail.classList.add('drag') });
   addEventListener('pointermove',e=>{ if(!drag) return; rail.scrollLeft=sl-(e.clientX-sx) });
   addEventListener('pointerup',()=>{ if(!drag) return; drag=false; rail.classList.remove('drag'); hold(2500) });
   rail.addEventListener('dragstart',e=>e.preventDefault()); }
+/* ───── Infinite CSS loops (avatar float, live dot) stop while off screen ───── */
+{ const io=new IntersectionObserver(es=>es.forEach(e=>e.target.classList.toggle('anim-off',!e.isIntersecting)));
+  $$('.hero-ava,#otwBtn').forEach(el=>io.observe(el)) }
 /* ───── Photo video: plays from the start once the fan is on screen, pauses off-screen ───── */
 { const v=$('.ph video'); new IntersectionObserver(([e])=>{ if(e.isIntersecting) v.play().catch(()=>{}); else v.pause() },{threshold:.25}).observe(v) }
 $('#loveFaces').innerHTML=TESTIMONIALS.slice(0,4).map(t=>face(t)).join('');
