@@ -75,7 +75,8 @@ img{display:block;max-width:100%}
 .nav-root{position:fixed;top:0;left:0;right:0;z-index:50;pointer-events:none}
 .nav-bar{position:relative;display:flex;justify-content:center;padding:0 12px}
 .nav-shell{position:relative;width:max-content;max-width:100%;pointer-events:auto}
-.nav-layer{position:absolute;inset:0;pointer-events:none}
+.nav-layer{position:absolute;inset:0;pointer-events:none;opacity:0;visibility:hidden;transition:opacity .32s var(--ease),visibility 0s .32s}
+.nav-up .nav-layer{opacity:1;visibility:visible;transition:opacity .32s var(--ease)}   /* glass only once the page scrolls: nothing to blur at the top, and hidden layers cost nothing */
 .nav-glass{-webkit-backdrop-filter:blur(20px) saturate(180%);backdrop-filter:blur(20px) saturate(180%);isolation:isolate;transform:translateZ(0)}
 .lg-on .nav-glass{-webkit-backdrop-filter:blur(3px) saturate(180%);backdrop-filter:blur(3px) saturate(180%);filter:url(#nav-lens)}
 .nav-overlay{background:var(--nav-overlay)}
@@ -259,6 +260,7 @@ section.sec{padding-top:var(--gap)}
 /* ═══════════ Case coverflow (3D) ═══════════ */
 #work{overflow-x:clip}   /* side cards must not widen the mobile layout viewport */
 #work.sec{padding-top:250px}   /* first block on the page: a flat 250px from the top, nav overlaps it */
+@media (max-width:640px){ #work.sec{padding-top:162px} }   /* phones: avatar sits 120px below the 70px nav */
 @media (min-width:900px){ #work .after{margin-top:250px} }   /* Almaty pill → cases: a flat 250px on desktop, not the scaling --gap */
 .hero-ava{position:relative;width:182px;margin:0 auto 40px;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
 /* the <img> is swapped for the inline svg by JS, so its parts can move; float uses `translate`, the hover tilt uses `transform` */
@@ -332,7 +334,18 @@ section.sec{padding-top:var(--gap)}
   .slide.top:hover .ov{opacity:1;translate:0 0}
 }
 @media (hover:none){ .slide.top .device{top:38.5%} .slide.top .ov{opacity:1;translate:0 0} }
-@media (max-width:560px){ .ov{gap:12px;top:7%} .ov h3{font-size:17px} .ov .pills{gap:6px} .ov .pills span{height:30px;padding:0 12px;font-size:12px} .slide.top .device{top:52%!important} .slide{transform:translateX(calc(var(--d) * 80%)) translateZ(calc(var(--ad) * -200px)) rotateY(calc(var(--d) * -30deg))} }
+/* phones: a wider, taller card — title clears the lock, pills wrap, the phone sits lower and crops at the bottom */
+@media (max-width:560px){
+  .deck-in{width:calc(100vw - 48px);aspect-ratio:3/4}
+  .slide{transform:translateX(calc(var(--d) * 86%)) translateZ(calc(var(--ad) * -200px)) rotateY(calc(var(--d) * -30deg))}
+  .lock{top:16px;right:16px}
+  .ov{gap:14px;top:68px;padding:0 20px}
+  .ov h3{font-size:20px;line-height:1.25}
+  .ov .pills{flex-wrap:wrap;gap:8px}
+  .ov .pills span{height:36px;padding:0 14px;font-size:14px}
+  .device{width:52%}
+  .slide.top .device{top:52%!important}
+}
 .phone{position:relative;aspect-ratio:297/600;border-radius:15%/7.4%;background:var(--bg);padding:22% 9% 0;display:flex;flex-direction:column;gap:12px;
   box-shadow:0 0 0 7px #0B0D12,0 0 0 8.5px #3A3D45;transition:background-color .5s}
 :root[data-theme="dark"] .phone{box-shadow:0 0 0 7px #2A2A30,0 0 0 8.5px #44444C}
@@ -354,6 +367,7 @@ section.sec{padding-top:var(--gap)}
 .ds .tgl::after{content:"";position:absolute;right:2px;top:2px;width:14px;height:14px;border-radius:50%;background:#fff}
 .ds .bt{height:18px;border-radius:99px;background:var(--ink)}
 .case-ctrl{width:min(600px,78vw);margin:40px auto 0}
+@media (max-width:560px){ .case-ctrl{width:calc(100vw - 48px)} }
 
 /* ═══════════ Photo fan ═══════════ */
 .fan{position:relative;aspect-ratio:1216/594;max-width:var(--maxw);margin-inline:auto}
@@ -393,24 +407,21 @@ section.sec{padding-top:var(--gap)}
 .pcap b{display:flex;justify-content:center;align-items:center;gap:6px;font-weight:400;font-size:16px;line-height:22px}
 .pcap span{display:block;font-size:14px;line-height:20px;color:var(--ink-3)}
 .badge{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.02em;padding:2px 7px;border-radius:99px;background:var(--panel);color:var(--ink-2)}
-/* product tiles: on desktop hover the interface comes alive (like the time travel flip clock) */
-.pui{display:none}
-@media (hover:hover) and (min-width:900px){
-  .pui{display:block;position:absolute;inset:0;z-index:3;pointer-events:none}
-  .ptile > img{transition:transform .8s var(--spring),filter .6s var(--ease)}
-  /* ies — a streak push slides down, the icon gets a badge */
-  .ies-note{position:absolute;left:50%;top:16px;width:max-content;max-width:calc(100% - 32px);box-sizing:border-box;display:flex;gap:10px;align-items:center;padding:8px 20px 8px 8px;border-radius:999px;
-    background:rgba(255,255,255,.55);-webkit-backdrop-filter:blur(18px) saturate(180%);backdrop-filter:blur(18px) saturate(180%);box-shadow:inset 0 1px 1px #fff9,0 8px 24px -10px rgba(0,0,0,.25);
-    color:#111827;opacity:0;translate:-50% -130%;transition:translate .7s var(--spring),opacity .4s var(--ease)}
-  .ies-ic{flex:none;width:34px;height:34px;border-radius:50%;background:url(assets/product-ies.webp) 57.19% 35.84%/449.7% auto no-repeat}
-  .ies-note > div{min-width:0;display:flex;flex-direction:column;gap:2px}
-  .ies-t{font-size:12px;line-height:1.2;color:#374151} .ies-t small{margin-left:4px;color:#6B7280;font-size:11px}
-  .ies-m{font-size:13px;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .ies-badge{position:absolute;left:62.5%;top:24.5%;display:grid;place-items:center;min-width:30px;height:30px;padding:0 9px;margin:-4px 0 0 -4px;border-radius:99px;background:#FF3B30;color:#fff;font:400 17px/1 var(--font);font-style:normal;
-    box-shadow:0 2px 8px rgba(255,59,48,.45);scale:.4;opacity:0;transition:scale .22s var(--ease),opacity .18s var(--ease)}
-  .pcard:hover .ies-note{translate:-50% 0;opacity:1}
-  .pcard:hover .ies-badge{scale:1;opacity:1;transition:scale .5s var(--bounce) .25s,opacity .12s linear .25s}   /* bounce only on the way in: on the way out the overshoot dips below 0 and flips the badge */
-}
+/* product tiles: the interface comes alive on hover (desktop) or once the tile scrolls into view (touch, .on) */
+.pui{display:block;position:absolute;inset:0;z-index:3;pointer-events:none}
+.ptile > img{transition:transform .8s var(--spring),filter .6s var(--ease)}
+/* ies — a streak push slides down, the icon gets a badge */
+.ies-note{position:absolute;left:50%;top:16px;width:max-content;max-width:calc(100% - 32px);box-sizing:border-box;display:flex;gap:10px;align-items:center;padding:8px 20px 8px 8px;border-radius:999px;
+  background:rgba(255,255,255,.55);-webkit-backdrop-filter:blur(18px) saturate(180%);backdrop-filter:blur(18px) saturate(180%);box-shadow:inset 0 1px 1px #fff9,0 8px 24px -10px rgba(0,0,0,.25);
+  color:#111827;opacity:0;translate:-50% -130%;transition:translate .7s var(--spring),opacity .4s var(--ease)}
+.ies-ic{flex:none;width:34px;height:34px;border-radius:50%;background:url(assets/product-ies.webp) 57.19% 35.84%/449.7% auto no-repeat}
+.ies-note > div{min-width:0;display:flex;flex-direction:column;gap:2px}
+.ies-t{font-size:12px;line-height:1.2;color:#374151} .ies-t small{margin-left:4px;color:#6B7280;font-size:11px}
+.ies-m{font-size:13px;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ies-badge{position:absolute;left:62.5%;top:24.5%;display:grid;place-items:center;min-width:30px;height:30px;padding:0 9px;margin:-4px 0 0 -4px;border-radius:99px;background:#FF3B30;color:#fff;font:400 17px/1 var(--font);font-style:normal;
+  box-shadow:0 2px 8px rgba(255,59,48,.45);scale:.4;opacity:0;transition:scale .22s var(--ease),opacity .18s var(--ease)}
+.pcard:is(:hover,.on) .ies-note{translate:-50% 0;opacity:1}
+.pcard:is(:hover,.on) .ies-badge{scale:1;opacity:1;transition:scale .5s var(--bounce) .25s,opacity .12s linear .25s}   /* bounce only on the way in: on the way out the overshoot dips below 0 and flips the badge */
 /* ───── time travel (ZaikoPewPew/time-travel-site): starfield + glass split-flap cards, scramble → lock-in, caption rises per letter ───── */
 .ptile.tt-tile{background:#020202;container-type:inline-size;display:block}
 .tt-sky{position:absolute;inset:0;width:100%;height:100%;display:block;transform-origin:center}
@@ -557,6 +568,7 @@ section.sec{padding-top:var(--gap)}
   .cbox::before,.cbox::after{display:none}
   .posts{display:grid;grid-template-columns:1fr;gap:16px;padding:0;overflow:visible;scroll-snap-type:none}
   .post{min-width:0}
+  .post:nth-child(n+5){display:none}   /* only the 4 latest */
   .comm-ctrl{display:none}
 }
 
@@ -604,10 +616,11 @@ footer.wrap{margin-top:var(--gap)}
 .fl a,.fl button{position:relative;transition:color .2s}
 .fl a:hover,.fl button:hover,.frow .me:hover{color:var(--red)}
 .fl .lab{color:var(--ink-3)}
-@media (max-width:640px){
-  .frow{flex-direction:column;align-items:flex-start;gap:14px;padding:24px 0 28px}
-  .fl{gap:6px 20px;line-height:24px}
-  .fl .lab{width:100%}
+@media (max-width:640px){   /* phones: everything centred — contacts on top, the email on its own line, © last */
+  .frow{flex-direction:column-reverse;align-items:center;gap:20px;padding:32px 0 40px;text-align:center}
+  .fl{justify-content:center;gap:8px 20px;line-height:24px}
+  .fl .lab{display:none}
+  .fl [data-mail]{flex-basis:100%}
 }
 
 .rv{opacity:0;translate:0 28px;filter:blur(6px);transition:opacity 1s var(--ease),translate 1s var(--ease),filter 1s var(--ease)}
@@ -616,6 +629,10 @@ footer.wrap{margin-top:var(--gap)}
 .toast.show{opacity:1;transform:translate(-50%,0) scale(1)}
 /* Glass blur only where something sits underneath (nav, menus, play over thumbnails) — static tiles on a plain bg don't need it */
 .dots,.rbtn,.ptile,.bento>div,.cbox,.love-card,.gb,.gb:hover{-webkit-backdrop-filter:none;backdrop-filter:none}
+/* Effects tiers, set by JS on <html>: fx-lite drops the nav lens, fx-flat drops all glass blur and the endless decorative loops */
+.fx-flat *,.fx-flat *::before{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+.fx-flat .nav-overlay{background:color-mix(in srgb,var(--bg) 94%,transparent)}
+.fx-flat .hero-ava>:is(img,svg),.fx-flat .ava-dash,.fx-flat .gb .live::before{animation:none}
 @media (prefers-reduced-motion:reduce){.pt{animation:burst-still 1.4s ease-out var(--bd,0s) forwards!important;transform:translate3d(calc(-50% + var(--bx)),calc(-50% + var(--by)),0) scale(var(--bs))}.js-boot main .statement,.js-boot main .otw,.js-boot main .after,.js-boot footer{opacity:1;translate:0 0;filter:none}*,*::before,*::after{animation:none!important;transition-duration:.01ms!important}.rv,.fan .ph{opacity:1;translate:0 0;filter:none}.statement .x{color:var(--ink)}.statement .acc .x{color:var(--red)}}
 </style>
 </head>
@@ -922,6 +939,26 @@ const root=document.documentElement;
 const store={get(k){try{return localStorage.getItem(k)}catch{return null}},set(k,v){try{localStorage.setItem(k,v)}catch{}}};
 const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+/* ───── Effects tier: full → lite → flat. Battery, hardware and the real frame rate each vote; the strictest wins. ?fx=flat forces one ───── */
+const FX=['full','lite','flat'], fxVote={hw:0,batt:0,fps:0}, fxForced=new URLSearchParams(location.search).get('fx');
+let fx='';
+function applyFx(){ const next=FX.includes(fxForced)?fxForced:FX[Math.max(...Object.values(fxVote))]; if(next===fx) return;
+  if(fx) root.classList.remove('fx-'+fx); fx=next; root.classList.add('fx-'+fx);
+  if(fx!=='full') root.classList.remove('lg-on'); else requestAnimationFrame(()=>layoutNav()) }
+fxVote.hw=matchMedia('(prefers-reduced-transparency: reduce)').matches||navigator.connection?.saveData?2
+  :(navigator.hardwareConcurrency||8)<=4||(navigator.deviceMemory||8)<=4?1:0;
+applyFx();
+navigator.getBattery?.().then(b=>{ const upd=()=>{ fxVote.batt=b.charging?0:b.level<=.2?2:b.level<=.5?1:0; applyFx() };
+  upd(); b.addEventListener('levelchange',upd); b.addEventListener('chargingchange',upd) }).catch(()=>{});
+// frame-rate probe: on load and whenever scrolling starts; under ~45fps steps one tier down (never back up, so it doesn't flap)
+{ let probing=false;
+  const probe=()=>{ if(probing||fx==='flat'||document.hidden) return; probing=true; let n=0, sum=0, prev=0; const t0=performance.now();
+    const f=t=>{ if(prev){ const d=t-prev; if(d<250){ sum+=d; n++ } } prev=t;
+      if(t-t0<1500) return requestAnimationFrame(f);
+      probing=false; if(n>20&&sum/n>22){ fxVote.fps=Math.min(2,FX.indexOf(fx)+1); applyFx() } };
+    requestAnimationFrame(f) };
+  addEventListener('load',()=>setTimeout(probe,600)); addEventListener('scroll',probe,{passive:true}) }
+
 /* ───── Sound (synthesized) ───── */
 let ctx=null, soundOn=store.get('snd')!=='0';
 const syncSound=()=>document.body.classList.toggle('sound-on',soundOn); syncSound();
@@ -987,9 +1024,10 @@ function layoutNav(){
   ['navGlass','navOverlay','navSheen','navRim'].forEach(id=>document.getElementById(id).style.clipPath=clip);
   $('#navRim').setAttribute('viewBox',`0 0 ${w} ${h}`);
   $$('#navRim .outline').forEach(p=>p.setAttribute('d',outline(w,h)));
-  if(isChromium){ buildLens(w,h); root.classList.add('lg-on') }
+  if(isChromium&&fx==='full'){ buildLens(w,h); root.classList.add('lg-on') }
 }
 let raf=0; new ResizeObserver(()=>{ cancelAnimationFrame(raf); raf=requestAnimationFrame(layoutNav) }).observe(shell);
+const navUp=()=>root.classList.toggle('nav-up',scrollY>8); addEventListener('scroll',navUp,{passive:true}); navUp();
 const mm=$('#mMenu');
 $('#burger').addEventListener('click',()=>{ mm.classList.toggle('open'); play(mm.classList.contains('open')?'pop':'click') });
 $$('a',mm).forEach(a=>a.addEventListener('click',()=>{ mm.classList.remove('open'); play('click') }));
@@ -1201,6 +1239,13 @@ const cc=$('#calSlide'); let ct;
 cc.addEventListener('pointerenter',()=>{ let d=0; clearInterval(ct); ct=setInterval(()=>{ const el=$(`i[data-d="${++d}"]`,cal); if(!el){ clearInterval(ct); return } el.classList.add('on'); if(d%3===0) play('tick') },28) });
 cc.addEventListener('pointerleave',()=>{ clearInterval(ct); $$('i.on',cal).forEach(i=>i.classList.remove('on')) });
 
+/* ───── Product tiles on touch: no hover, so each tile plays its animation once, the first time it scrolls into view ───── */
+const touch=!matchMedia('(hover:hover)').matches;
+function onView(card,start){ if(!touch||reduced) return;
+  const io=new IntersectionObserver(([e])=>{ if(e.intersectionRatio<.6) return; io.disconnect(); card.classList.add('on'); start() },{threshold:.6});
+  io.observe(card.querySelector('.ptile')) }
+onView($('#productsGrid .pcard'),()=>{});   // ies: the push + badge are CSS, keyed off .on
+
 /* ───── time travel (port of ZaikoPewPew/time-travel-site: app.js + sky.js, shortened for a hover) ───── */
 { const tile=$('#ttTile'), card=$('#ttCard'), cap=$('#ttCap'), canvas=$('#ttSky'), cx2=canvas.getContext('2d');
   const EVENTS=[[1066,'14 October','Battle of Hastings'],[1492,'12 October','Columbus reaches the Americas'],[1703,'16 May','Saint Petersburg is founded'],
@@ -1246,8 +1291,10 @@ cc.addEventListener('pointerleave',()=>{ clearInterval(ct); $$('i.on',cal).forEa
     later(arrive,TRAVEL); const d=yd(target[0]);
     later(()=>cards.forEach((k,i)=>later(()=>scramble(k,SETTLE[i],d[i]),i*48+ri(0,160))),150) }
   function arrive(){ timers.forEach(clearTimeout); timers=[]; yd(target[0]).forEach((d,i)=>lockIn(cards[i],d)); traveling=false; caption(`${target[1]} — ${target[2]}`) }
-  yd(new Date().getFullYear()).forEach((d,i)=>set(cards[i],d)); caption('Hover to travel through time',true);
+  yd(new Date().getFullYear()).forEach((d,i)=>set(cards[i],d)); caption(touch?'Travel through time':'Hover to travel through time',true);
+  if(touch) $('.pcap span',card).textContent='Flip-clock widget that jumps through years';
   if(matchMedia('(hover:hover)').matches) card.addEventListener('pointerenter',()=>{ if(!reduced) launch() });
+  onView(card,launch);
   // sky: twinkling stars that streak out from the centre while travelling
   const sky={ stars:[], w:0, h:0, jumpAt:-1e9, jump(){ this.jumpAt=performance.now() } };
   function size(){ const r=canvas.getBoundingClientRect(), dpr=Math.min(devicePixelRatio||1,2); sky.w=r.width; sky.h=r.height; canvas.width=r.width*dpr; canvas.height=r.height*dpr; cx2.setTransform(dpr,0,0,dpr,0,0);
@@ -1293,7 +1340,8 @@ cc.addEventListener('pointerleave',()=>{ clearInterval(ct); $$('i.on',cal).forEa
     if(alive()) rain() }
   async function unfill(id){ const alive=()=>run===id;
     await Promise.all(slots.filter(s=>s.classList.contains('done')).map((s,i)=>sleep(i*70).then(()=>alive()&&hop(s,alive,false)))) }
-  if(matchMedia('(hover:hover)').matches){ card.addEventListener('pointerenter',()=>{ if(!reduced) fill(++run) }); card.addEventListener('pointerleave',()=>{ if(!reduced) unfill(++run) }) } }
+  if(matchMedia('(hover:hover)').matches){ card.addEventListener('pointerenter',()=>{ if(!reduced) fill(++run) }); card.addEventListener('pointerleave',()=>{ if(!reduced) unfill(++run) }) }
+  onView(card,()=>fill(++run)) }
 
 /* ───── tippy (port of ZaikoPewPew/pomoshnik: TamagotchiView eyes/blink, VoiceTickerView, loader, pointer flight + highlight + comment) ───── */
 { const tile=$('#tpTile'), card=tile.closest('.pcard'), st=$('.tp-stage',tile), ch=$('#tpChar'), eyes=$$('.tp-eye',ch), bars=$$('.tp-bars i',tile), words=$('#tpWords'),
@@ -1321,7 +1369,7 @@ cc.addEventListener('pointerleave',()=>{ clearInterval(ct); $$('i.on',cal).forEa
   const at=(x,y,sc=1)=>({transform:`translate(${x}px,${y}px) scale(${sc})`});
   function ripple(x,y){ const r=document.createElement('i'); r.className='tp-ripple'; r.style.left=x+'px'; r.style.top=y+'px'; st.append(r); setTimeout(()=>r.remove(),650) }
   async function clickAt(x,y){ fly.classList.add('press'); ripple(x,y); play('tick'); await sleep(120); fly.classList.remove('press') }
-  async function scene(id){ const alive=()=>run===id;
+  async function scene(id,loop=true){ const alive=()=>run===id;
     await sleep(260); if(!alive()) return;
     listening=true; st.classList.add('listening'); words.replaceChildren();
     const spans=PHRASE.map(w=>{ const s=document.createElement('span'); s.textContent=w; return s }); words.append(...spans);
@@ -1350,10 +1398,11 @@ cc.addEventListener('pointerleave',()=>{ clearInterval(ct); $$('i.on',cal).forEa
     await sleep(650); sel.style.opacity=0; setTimeout(()=>sel.remove(),400);
     if(!alive()) return;
     await fly.animate([at(...cur),at(hx,hy,.8)],{duration:650,easing:'cubic-bezier(.3,1,.5,1)',fill:'forwards'}).finished.catch(()=>{});
-    if(!alive()) return; fly.style.opacity=0; ch.style.opacity=1; ch.style.scale=1; await sleep(1200); if(alive()) scene(id) }
+    if(!alive()) return; fly.style.opacity=0; ch.style.opacity=1; ch.style.scale=1; await sleep(1200); if(alive()&&loop) scene(id) }
   function reset(){ run++; listening=false; st.classList.remove('listening','processing');
     fly.getAnimations().forEach(a=>a.cancel()); fly.style.opacity=0; fly.style.transform=''; $$('.tp-sel',st).forEach(e=>e.remove()); ch.style.opacity=1; ch.style.scale=1 }
-  if(matchMedia('(hover:hover)').matches){ card.addEventListener('pointerenter',()=>{ reset(); if(!reduced) scene(run) }); card.addEventListener('pointerleave',reset) } }
+  if(matchMedia('(hover:hover)').matches){ card.addEventListener('pointerenter',()=>{ reset(); if(!reduced) scene(run) }); card.addEventListener('pointerleave',reset) }
+  onView(card,()=>{ reset(); scene(run,false) }) }
 
 /* ───── Contacts dropdown: hover like voiceos.com, tap on touch ───── */
 const cw=$('#cwrap'), cb=$('#ctaBtn'); let cT;

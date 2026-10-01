@@ -87,3 +87,10 @@
 - 2026-10-01 (round 7): product links sit under the company logo + text (above the numbers row); 40px between hero chips and the title; contents rail starts level with the title (rail gap 40px → both at 112px).
 - 2026-10-01 (round 8): password screen is solid --bg (case UI hidden via html.locked); close button and the 6 code cells are glass (dot = inner <i>); close sits where the top-right tools are. Esc on the password screen goes back to the home page (already in lock.js). Content was already safe: text and images are AES-encrypted, so removing the modal in devtools shows an empty page.
 - 2026-10-01 (round 9): case pages link case.css / cases.js / case-ui.js / lock.js with ?v=<content hash> (added by encrypt-case.mjs) — rebuild the cases after editing those files so browsers drop the cached copies. Home contacts menu ordered by reply speed: Telegram (within 20 minutes), LinkedIn (within a day), Email (within a week), CV. No "·" separators anywhere (time-travel caption uses —).
+
+## Mobile pass (2026-10-01)
+- Phones (≤560px): case cards are `100vw − 48px` wide, 3:4; title starts below the lock (68px), pills wrap (36px / 14px), phone at 52% and cropped at the bottom.
+- Touch devices: product tiles (ies, obratka, time travel, tippy) play their hover animation once per page load, when the tile is 60% in view (`onView` → `.pcard.on`). Time-travel copy switches from "hover" wording on touch.
+- Phones: blog list shows only the 4 latest posts.
+- Footer ≤640px (home + cases): centred — links row, email on its own line, © last; "Contacts:" hidden.
+- Phones (≤640px): avatar sits 120px under the 70px nav (`#work.sec` padding-top 162px).
