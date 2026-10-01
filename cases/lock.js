@@ -100,6 +100,19 @@
   form.addEventListener('submit', e => e.preventDefault());
   addEventListener('keydown', e => { if (e.key === 'Escape' && document.getElementById('lock')) $('#lockClose').click() });
 
+  /* phones: while the keyboard is open the code sits midway between the top of the screen and the top of the keyboard;
+     when it closes the code goes back to the centre */
+  const vv = window.visualViewport;
+  if (vv){
+    const fit = () => {
+      const kb = innerHeight - vv.height - vv.offsetTop;
+      if (kb < 80){ form.style.translate = ''; return }
+      const r = form.getBoundingClientRect(), mid = r.top + r.height / 2 - (parseFloat(getComputedStyle(form).translate.split(' ')[1]) || 0);
+      form.style.translate = `0 ${Math.round(vv.offsetTop + vv.height / 2 - mid)}px`;
+    };
+    vv.addEventListener('resize', fit); vv.addEventListener('scroll', fit);
+  }
+
   if (!window.crypto || !crypto.subtle){ pw.disabled = true; return }
 
   root.classList.add('locked');

@@ -324,22 +324,22 @@ section.sec{padding-top:var(--gap)}
 /* Figma «Case / State=On»: text slides in, phone moves down 100px → 231px */
 .device{position:absolute;left:50%;top:16.7%;width:42.4%;translate:-50% 0;transition:top .8s var(--spring)}
 .device > img{width:100%;pointer-events:none}
-.ov{position:absolute;left:0;right:0;top:8.3%;display:flex;flex-direction:column;align-items:center;gap:clamp(16px,4vw,40px);padding:0 8%;text-align:center;
+.ov{position:absolute;left:0;right:0;top:8.3%;height:30.2%;display:flex;flex-direction:column;align-items:center;padding:0 8%;text-align:center;  /* runs down to the phone (38.5%) */
   opacity:0;translate:0 -24px;transition:opacity .45s var(--ease),translate .8s var(--spring)}
 .ov h3{max-width:385px;font-size:clamp(18px,2.2vw,24px);font-weight:400;line-height:1.2;letter-spacing:-.01em;color:var(--ink);text-wrap:balance}
-.ov .pills{display:flex;flex-wrap:nowrap;justify-content:center;gap:8px}
+.ov .pills{display:flex;flex-wrap:nowrap;justify-content:center;gap:8px;margin-block:auto}  /* same air above and below: title ↔ pills ↔ phone */
 .ov .pills span{display:inline-flex;align-items:center;height:43px;padding:0 24px;border-radius:60px;background:var(--bg);font-size:16px;color:var(--ink);white-space:nowrap}
 @media (hover:hover){
   .slide.top:hover .device{top:38.5%}
   .slide.top:hover .ov{opacity:1;translate:0 0}
 }
 @media (hover:none){ .slide.top .device{top:38.5%} .slide.top .ov{opacity:1;translate:0 0} }
-/* phones: a wider, taller card — title clears the lock, pills wrap, the phone sits lower and crops at the bottom */
+/* phones: a wider, taller card — lock centred above the title, pills wrap, the phone sits lower and crops at the bottom; neighbours peek ~8px at the edges */
 @media (max-width:560px){
   .deck-in{width:calc(100vw - 48px);aspect-ratio:3/4}
-  .slide{transform:translateX(calc(var(--d) * 86%)) translateZ(calc(var(--ad) * -200px)) rotateY(calc(var(--d) * -30deg))}
-  .lock{top:16px;right:16px}
-  .ov{gap:14px;top:68px;padding:0 20px}
+  .slide{transform:translateX(calc(var(--d) * (86% + 72px))) translateZ(calc(var(--ad) * -200px)) rotateY(calc(var(--d) * -30deg))}
+  .lock{top:16px;right:auto;left:50%;translate:-50% 0}
+  .ov{top:68px;height:calc(52% - 68px);padding:0 20px}
   .ov h3{font-size:20px;line-height:1.25}
   .ov .pills{flex-wrap:wrap;gap:8px}
   .ov .pills span{height:36px;padding:0 14px;font-size:14px}
@@ -407,6 +407,37 @@ section.sec{padding-top:var(--gap)}
 .pcap b{display:flex;justify-content:center;align-items:center;gap:6px;font-weight:400;font-size:16px;line-height:22px}
 .pcap span{display:block;font-size:14px;line-height:20px;color:var(--ink-3)}
 .badge{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.02em;padding:2px 7px;border-radius:99px;background:var(--panel);color:var(--ink-2)}
+/* theme switcher — port of ZaikoPewPew/light-dark-switcher; flips to night on hover (or once in view on touch) */
+.ts-tile{background:#D1D8E8;transition:background .45s ease}
+.pcard:is(:hover,.on) .ts-tile{background:#252C3D}
+.ts-shell{position:absolute;left:50%;top:50%;width:403px;height:156px;translate:-50% -50%;scale:var(--ts,.6)}
+.ts{position:relative;display:flex;width:403px;padding:12px;align-items:center;border-radius:600px;clip-path:inset(0 round 600px);background:#2f8bde;overflow:hidden;
+  box-shadow:-4.481px -4.481px 10px 0 rgba(0,0,0,.25) inset,4.481px 8.962px 10px 0 rgba(0,0,0,.25) inset;transition:background .45s ease,box-shadow .45s ease}
+.ts img{position:absolute;display:block;pointer-events:none}
+.ts-thumb{position:relative;width:132px;height:132px;flex:none;z-index:5;transition:transform .55s cubic-bezier(.2,.9,.2,1)}
+.ts-sun{left:-12px;top:0;width:144px;height:144px;z-index:7;transition:transform .45s ease,opacity .45s ease}
+.ts-moon{left:-18px;top:0;width:150px;height:144px;z-index:7;opacity:0;transform:scale(.85);transition:transform .85s cubic-bezier(.2,.9,.2,1),opacity .35s ease}
+.ts-beams{position:absolute;left:50%;top:50%;width:309px;height:156px;transform:translate(-50%,-50%);z-index:1;transition:opacity .45s ease}
+.ts-beams img{left:50%;top:50%;height:auto;opacity:.4;transform:translate(-50%,-50%)}
+.ts-beams .b1{width:370.8px}.ts-beams .b2{width:230.4px}.ts-beams .b3{width:301.2px}
+.ts-clouds{position:absolute;left:50%;top:72%;width:500px;height:229px;transform:translate(calc(-43% + 64px),-53%);z-index:2;transition:opacity .45s ease,transform .45s ease}
+.ts-clouds img{left:50%;top:50%;width:500px;height:229px;transform:translate(-50%,-50%)}
+.ts-clouds .c1{animation:ts-drift-1 11s cubic-bezier(.42,0,.58,1) infinite}
+.ts-clouds .c2{animation:ts-drift-2 13s cubic-bezier(.42,0,.58,1) infinite}
+.ts-stars{position:absolute;inset:0;z-index:6;pointer-events:none;opacity:0;transition:opacity .35s ease}
+.ts-stars svg{display:block;width:100%;height:100%}
+.ts-stars path{transform-box:fill-box;transform-origin:center;animation:ts-twinkle 2.8s ease-in-out infinite}
+.ts-stars path:nth-of-type(2n){animation-duration:3.2s;animation-delay:.9s}.ts-stars path:nth-of-type(3n){animation-duration:2.5s;animation-delay:.4s}
+.pcard:is(:hover,.on) .ts{background:#031221;box-shadow:-4.481px -4.481px 10px 0 rgba(48,66,86,.25) inset,4.481px 8.962px 10px 0 rgba(0,0,0,.28) inset}
+.pcard:is(:hover,.on) .ts-thumb{transform:translateX(247px)}
+.pcard:is(:hover,.on) .ts-sun{opacity:0;transform:scale(.88)}
+.pcard:is(:hover,.on) .ts-moon{opacity:1;transform:scale(1)}
+.pcard:is(:hover,.on) .ts-clouds{opacity:0;transform:translate(calc(-43% + 64px),-45%) scale(.88)}
+.pcard:is(:hover,.on) .ts-beams{opacity:.5}
+.pcard:is(:hover,.on) .ts-stars{opacity:1}
+@keyframes ts-drift-1{0%,100%{transform:translate(-50%,-50%) translate(-6px,0)}50%{transform:translate(-50%,-50%) translate(10px,-3px)}}
+@keyframes ts-drift-2{0%,100%{transform:translate(-50%,-50%) translate(5px,-1px)}50%{transform:translate(-50%,-50%) translate(-9px,2px)}}
+@keyframes ts-twinkle{0%,100%{opacity:.2;transform:scale(.82)}35%{opacity:.95;transform:scale(1.06)}65%{opacity:.45;transform:scale(.92)}}
 /* product tiles: the interface comes alive on hover (desktop) or once the tile scrolls into view (touch, .on) */
 .pui{display:block;position:absolute;inset:0;z-index:3;pointer-events:none}
 .ptile > img{transition:transform .8s var(--spring),filter .6s var(--ease)}
@@ -531,9 +562,8 @@ section.sec{padding-top:var(--gap)}
 .pthumb .tc{position:absolute;inset:-1px;display:flex;flex-direction:column;justify-content:flex-end;padding:22px;color:#fff;transition:transform .8s var(--spring)}
 .pthumb .tc b{font-size:clamp(28px,2.6vw,36px);font-weight:400;letter-spacing:-.04em;line-height:1.05}
 .pthumb .tc.tgc{background:linear-gradient(135deg,#5C9BFF,#2F6FE4)}
-.pthumb .tc.lic,.pthumb .tc.vcc{background:var(--bg);color:var(--ink)}
-:root[data-theme="dark"] .pthumb .tc.lic{background:#0A66C2;color:#fff}
-:root[data-theme="dark"] .pthumb .tc.vcc{background:#E0312A;color:#fff}
+.pthumb .tc.lic{background:linear-gradient(135deg,#2E8BE6,#0A66C2)}
+.pthumb .tc.vcc{background:linear-gradient(135deg,#FF6A55,#E0312A)}
 .pthumb .tc.podc{background:linear-gradient(135deg,#9B4DEB,#6A1FC2);color:#fff}
 .pthumb .tc.ytc{background:linear-gradient(135deg,#FF5A4E,#C4161C)}
 .pthumb .tc.dk{background:radial-gradient(120% 80% at 50% 110%,#3A1A6B,#0B0B0C 60%)}
@@ -845,6 +875,17 @@ footer.wrap{margin-top:var(--gap)}
             </div></div>
           <div class="pcap"><b>tippy</b><span>A native macOS AI sidekick that<br>teaches you stuff on the fly</span></div>
         </div>
+        <a class="pcard rv" href="https://zaikopewpew.github.io/light-dark-switcher/" target="_blank" rel="noopener" data-snd="click" style="transition-delay:.08s">
+          <div class="ptile ts-tile" id="tsTile"><div class="ts-shell" aria-hidden="true"><div class="ts">
+              <div class="ts-thumb">
+                <div class="ts-beams"><img class="b1" src="assets/switcher/beam-senior.svg" alt=""><img class="b2" src="assets/switcher/beam-middle.svg" alt=""><img class="b3" src="assets/switcher/beam-junior.svg" alt=""></div>
+                <div class="ts-clouds"><img class="c1" src="assets/switcher/cloud-junior.svg" alt=""><img class="c2" src="assets/switcher/cloud-senior.svg" alt=""></div>
+                <img class="ts-sun" src="assets/switcher/sun.svg" alt=""><img class="ts-moon" src="assets/switcher/moon.svg" alt="">
+              </div>
+              <div class="ts-stars"><svg viewBox="0 0 403 156" fill="none" preserveAspectRatio="none"><path d="M71.164 24.2738C71.5589 23.6721 72.4411 23.6721 72.836 24.2738L75.0235 27.6069C75.127 27.7646 75.2731 27.8899 75.4448 27.9681L79.0035 29.5901C79.7838 29.9457 79.7838 31.0543 79.0035 31.4099L75.4448 33.0319C75.2731 33.1101 75.127 33.2354 75.0235 33.3931L72.836 36.7262C72.4411 37.3279 71.5589 37.3279 71.164 36.7262L68.9765 33.3931C68.873 33.2354 68.7269 33.1101 68.5552 33.0319L64.9965 31.4099C64.2162 31.0543 64.2162 29.9457 64.9965 29.5901L68.5552 27.9681C68.7269 27.8899 68.873 27.7646 68.9765 27.6069L71.164 24.2738Z" fill="white"/><path d="M35.164 78.2738C35.5589 77.6721 36.4411 77.6721 36.836 78.2738L39.0235 81.6069C39.127 81.7646 39.2731 81.8899 39.4448 81.9681L43.0035 83.5901C43.7838 83.9457 43.7838 85.0543 43.0035 85.4099L39.4448 87.0319C39.2731 87.1101 39.127 87.2354 39.0235 87.3931L36.836 90.7262C36.4411 91.3279 35.5589 91.3279 35.164 90.7262L32.9765 87.3931C32.873 87.2354 32.7269 87.1101 32.5552 87.0319L28.9965 85.4099C28.2162 85.0543 28.2162 83.9457 28.9965 83.5901L32.5552 81.9681C32.7269 81.8899 32.873 81.7646 32.9765 81.6069L35.164 78.2738Z" fill="white"/><path d="M151.164 54.2738C151.559 53.6721 152.441 53.6721 152.836 54.2738L155.023 57.6069C155.127 57.7646 155.273 57.8899 155.445 57.9681L159.003 59.5901C159.784 59.9457 159.784 61.0543 159.003 61.4099L155.445 63.0319C155.273 63.1101 155.127 63.2354 155.023 63.3931L152.836 66.7262C152.441 67.3279 151.559 67.3279 151.164 66.7262L148.976 63.3931C148.873 63.2354 148.727 63.1101 148.555 63.0319L144.997 61.4099C144.216 61.0543 144.216 59.9457 144.997 59.5901L148.555 57.9681C148.727 57.8899 148.873 57.7646 148.976 57.6069L151.164 54.2738Z" fill="white"/><path d="M188.164 104.274C188.559 103.672 189.441 103.672 189.836 104.274L192.023 107.607C192.127 107.765 192.273 107.89 192.445 107.968L196.003 109.59C196.784 109.946 196.784 111.054 196.003 111.41L192.445 113.032C192.273 113.11 192.127 113.235 192.023 113.393L189.836 116.726C189.441 117.328 188.559 117.328 188.164 116.726L185.976 113.393C185.873 113.235 185.727 113.11 185.555 113.032L181.997 111.41C181.216 111.054 181.216 109.946 181.997 109.59L185.555 107.968C185.727 107.89 185.873 107.765 185.976 107.607L188.164 104.274Z" fill="white"/><path d="M93.6602 84.2993C94.0541 83.6898 94.9458 83.6898 95.3398 84.2993L96.641 86.3123C96.7436 86.4712 96.8892 86.5976 97.0608 86.677L99.0389 87.5925C99.8123 87.9504 99.8123 89.0496 99.0389 89.4075L97.0608 90.323C96.8892 90.4024 96.7436 90.5288 96.641 90.6877L95.3398 92.7007C94.9459 93.3102 94.0542 93.3102 93.6602 92.7007L92.359 90.6877C92.2564 90.5288 92.1108 90.4024 91.9392 90.323L89.9611 89.4075C89.1877 89.0496 89.1877 87.9504 89.9611 87.5925L91.9392 86.677C92.1108 86.5976 92.2564 86.4712 92.359 86.3123L93.6602 84.2993Z" fill="white"/><path d="M58.6602 116.299C59.0541 115.69 59.9458 115.69 60.3398 116.299L61.641 118.312C61.7436 118.471 61.8892 118.598 62.0608 118.677L64.0389 119.592C64.8123 119.95 64.8123 121.05 64.0389 121.408L62.0608 122.323C61.8892 122.402 61.7436 122.529 61.641 122.688L60.3398 124.701C59.9459 125.31 59.0542 125.31 58.6602 124.701L57.359 122.688C57.2564 122.529 57.1108 122.402 56.9392 122.323L54.9611 121.408C54.1877 121.05 54.1877 119.95 54.9611 119.592L56.9392 118.677C57.1108 118.598 57.2564 118.471 57.359 118.312L58.6602 116.299Z" fill="white"/><path d="M121.66 30.2993C122.054 29.6898 122.946 29.6898 123.34 30.2993L124.641 32.3123C124.744 32.4712 124.889 32.5976 125.061 32.677L127.039 33.5925C127.812 33.9504 127.812 35.0496 127.039 35.4075L125.061 36.323C124.889 36.4024 124.744 36.5288 124.641 36.6877L123.34 38.7007C122.946 39.3102 122.054 39.3102 121.66 38.7007L120.359 36.6877C120.256 36.5288 120.111 36.4024 119.939 36.323L117.961 35.4075C117.188 35.0496 117.188 33.9504 117.961 33.5925L119.939 32.677C120.111 32.5976 120.256 32.4712 120.359 32.3123L121.66 30.2993Z" fill="white"/><path d="M196.659 18.3107C197.052 17.6977 197.948 17.6977 198.341 18.3107L202.116 24.1903C202.219 24.3496 202.364 24.4766 202.536 24.5565L209.054 27.5935C209.825 27.9524 209.825 29.0476 209.054 29.4065L202.536 32.4435C202.364 32.5234 202.219 32.6504 202.116 32.8097L198.341 38.6893C197.948 39.3023 197.052 39.3023 196.659 38.6893L192.884 32.8097C192.781 32.6504 192.636 32.5234 192.464 32.4435L185.946 29.4065C185.175 29.0476 185.175 27.9524 185.946 27.5935L192.464 24.5565C192.636 24.4766 192.781 24.3496 192.884 24.1903L196.659 18.3107Z" fill="white"/><path d="M118.659 110.311C119.052 109.698 119.948 109.698 120.341 110.311L124.116 116.19C124.219 116.35 124.364 116.477 124.536 116.556L131.054 119.594C131.825 119.952 131.825 121.048 131.054 121.406L124.536 124.444C124.364 124.523 124.219 124.65 124.116 124.81L120.341 130.689C119.948 131.302 119.052 131.302 118.659 130.689L114.884 124.81C114.781 124.65 114.636 124.523 114.464 124.444L107.946 121.406C107.175 121.048 107.175 119.952 107.946 119.594L114.464 116.556C114.636 116.477 114.781 116.35 114.884 116.19L118.659 110.311Z" fill="white"/></svg></div>
+            </div></div></div>
+          <div class="pcap"><b>theme switcher</b><span>Animated light and dark theme toggle</span></div>
+        </a>
       </div>
     </div>
   </section>
@@ -932,10 +973,10 @@ footer.wrap{margin-top:var(--gap)}
     <div class="fmenu">
       <span class="star"><svg><use href="#star"/></svg></span>
       <div class="fcols">
-        <div class="fcol"><b>Site</b><a href="#deck">cases</a><a href="#fan">about</a><a href="#conceptsGrid">concepts</a></div>
-        <div class="fcol"><b>Products</b><a href="#productsGrid">tiffy</a><a href="https://obratka.net/" target="_blank" rel="noopener">obratka</a><a href="https://t.me/ies_app" target="_blank" rel="noopener">ies — noxchiin mott</a></div>
-        <div class="fcol"><b>Articles</b><a href="https://medium.com/" target="_blank" rel="noopener">medium</a><a href="https://vc.ru/design/1258164-design-whiteboard-challenge-lichnyi-opyt-kratko-i-po-delu" target="_blank" rel="noopener">vc</a><a href="https://habr.com/" target="_blank" rel="noopener">habr</a></div>
-        <div class="fcol"><b>Blog</b><a href="https://www.youtube.com/@DesignLeadd" target="_blank" rel="noopener">YouTube</a><a href="https://t.me/dsgn_thinking" target="_blank" rel="noopener">Telegram</a></div>
+        <div class="fcol"><b>Communities</b><a href="https://t.me/devsigners" target="_blank" rel="noopener">devsigners</a><a href="https://t.me/+z5vj6YaMw_U4Yjky" target="_blank" rel="noopener">design science</a></div>
+        <div class="fcol"><b>Products</b><a href="#productsGrid">tiffy</a><a href="https://obratka.net/" target="_blank" rel="noopener">obratka</a><a href="https://t.me/ies_app" target="_blank" rel="noopener">ies — noxchiin mott</a><a href="https://zaikopewpew.github.io/light-dark-switcher/" target="_blank" rel="noopener">theme switcher</a></div>
+        <div class="fcol"><b>Articles</b><a href="https://medium.com/@kvneasy" target="_blank" rel="noopener">medium</a><a href="https://vc.ru/design/1258164-design-whiteboard-challenge-lichnyi-opyt-kratko-i-po-delu" target="_blank" rel="noopener">vc</a><a href="https://habr.com/ru/users/kvneasy/" target="_blank" rel="noopener">habr</a></div>
+        <div class="fcol"><b>Blog</b><a href="https://www.youtube.com/@DesignLeadd" target="_blank" rel="noopener">youtube</a><a href="https://t.me/dsgn_thinking" target="_blank" rel="noopener">telegram</a></div>
       </div>
     </div>
     <div class="dotline"></div>
@@ -1053,7 +1094,7 @@ const navUp=()=>root.classList.toggle('nav-up',scrollY>8); addEventListener('scr
 const mm=$('#mMenu');
 $('#burger').addEventListener('click',()=>{ mm.classList.toggle('open'); play(mm.classList.contains('open')?'pop':'click') });
 $$('a',mm).forEach(a=>a.addEventListener('click',()=>{ mm.classList.remove('open'); play('click') }));
-document.addEventListener('click',e=>{ if(mm.classList.contains('open') && !e.target.closest('#mMenu,#burger')) mm.classList.remove('open') });
+document.addEventListener('click',e=>{ if(mm.classList.contains('open') && !e.target.closest('#mMenu,#burger,[data-open-contacts]')) mm.classList.remove('open') });
 
 /* ───── Avatar: hover tilts it and pops the bubble (CSS); touch has no hover, so a tap toggles it.
    The svg (tools/avatar-svg.mjs) is inlined so it can blink, follow the cursor with its eyes and twitch the strokes ───── */
@@ -1268,6 +1309,11 @@ function onView(card,start){ if(!touch||reduced) return;
   io.observe(card.querySelector('.ptile')) }
 onView($('#productsGrid .pcard'),()=>{});   // ies: the push + badge are CSS, keyed off .on
 
+/* theme switcher: the 403px toggle scales to ~64% of the tile width; touch plays the flip once in view */
+{ const tile=$('#tsTile'), sh=$('.ts-shell',tile);
+  new ResizeObserver(([e])=>sh.style.setProperty('--ts',(e.contentRect.width*.64/403).toFixed(3))).observe(tile);
+  onView(tile.closest('.pcard'),()=>{}) }
+
 /* ───── time travel (port of ZaikoPewPew/time-travel-site: app.js + sky.js, shortened for a hover) ───── */
 { const tile=$('#ttTile'), card=$('#ttCard'), cap=$('#ttCap'), canvas=$('#ttSky'), cx2=canvas.getContext('2d');
   const EVENTS=[[1066,'14 October','Battle of Hastings'],[1492,'12 October','Columbus reaches the Americas'],[1703,'16 May','Saint Petersburg is founded'],
@@ -1433,7 +1479,8 @@ if(matchMedia('(hover:hover)').matches){ cw.addEventListener('pointerenter',()=>
 cb.addEventListener('click',()=>setC(!cw.classList.contains('open')));
 document.addEventListener('click',e=>{ if(!cw.contains(e.target) && !e.target.closest('[data-open-contacts]')) setC(false) });
 document.addEventListener('keydown',e=>{ if(e.key==='Escape') setC(false) });
-$$('[data-open-contacts]').forEach(b=>b.addEventListener('click',()=>setC(true)));
+// narrow screens hide the contacts dropdown, so "Work with me" opens the mobile menu (it holds the contacts) instead
+$$('[data-open-contacts]').forEach(b=>b.addEventListener('click',()=>{ if(cw.getClientRects().length) setC(true); else if(!mm.classList.contains('open')){ mm.classList.add('open'); play('pop') } }));
 $$('.cmenu a').forEach(a=>a.addEventListener('click',()=>setC(false)));
 
 /* ───── Copy email ───── */
