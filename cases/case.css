@@ -247,54 +247,6 @@ a.glass:active,button.glass:active{transform:scale(.94);transition-duration:80ms
   transition:opacity .3s var(--ease),transform .5s var(--spring);pointer-events:none}
 .toast.show{opacity:1;transform:translate(-50%,0) scale(1)}
 
-/* ───────────── Mini player: docked at the bottom while the voice-over is open ───────────── */
-/* glass pill; Listen flies down into it and stretches (case-ui.js). Same inner padding --p on every side:
-   each control is exactly --h − 2·--p tall, so the gaps to the top, bottom, left and right edges match */
-.c-player{--h:56px;--p:8px;--c:calc(var(--h) - var(--p) * 2);position:fixed;z-index:26;left:50%;bottom:max(16px,env(safe-area-inset-bottom));translate:-50% 0;
-  display:flex;align-items:center;gap:var(--p);width:min(560px,100% - 32px);height:var(--h);padding:var(--p);border-radius:99px;
-  opacity:0;visibility:hidden;transition:opacity .25s,visibility 0s .25s}
-.pl-open .c-player{opacity:1;visibility:visible;transition:opacity .25s}
-.c-player::before{display:none}   /* the sheen reads as a smudge across the track */
-.c-player>*{position:relative;z-index:1;transition:opacity .3s var(--ease)}
-.pl-fly .c-player{overflow:hidden;transition:none}
-.pl-fly .c-player>*{opacity:0;transition:none}
-.pl-open #listen{opacity:0;visibility:hidden}
-#listen{transition:transform .4s var(--ease),box-shadow .4s var(--ease),opacity .2s,visibility 0s}
-.pl-btn{flex:none;display:grid;place-items:center;width:var(--c);height:var(--c);border-radius:50%;background:var(--ink);color:var(--bg);transition:transform .3s var(--ease)}
-.pl-btn:active{transform:scale(.92)}
-.pl-btn svg{width:14px;height:14px}
-.pl-btn .pause,.playing .pl-btn .play{display:none}
-.playing .pl-btn .pause{display:block}
-.pl-track{flex:1;min-width:40px;height:var(--c);cursor:pointer;touch-action:none}
-.pl-track::before,.pl-track i{content:"";position:absolute;left:0;top:50%;height:4px;margin-top:-2px;border-radius:2px}
-.pl-track::before{right:0;background:color-mix(in srgb,var(--ink) 14%,transparent)}
-.pl-track i{width:calc(var(--pp,0) * 100%);background:var(--ink)}
-.pl-track:focus-visible{outline:2px solid var(--ink-4);outline-offset:2px;border-radius:6px}
-.pl-time{flex:none;font-size:14px;color:var(--ink-3);font-variant-numeric:tabular-nums}
-.pl-speed,.pl-x{flex:none;display:grid;place-items:center;height:var(--c);border-radius:99px;color:var(--ink-2);transition:background-color .2s,color .2s}
-.pl-speed{min-width:52px;padding:0 10px;font-size:14px;font-variant-numeric:tabular-nums}
-.pl-x{width:var(--c)}
-.pl-speed:hover,.pl-x:hover{background:color-mix(in srgb,var(--ink) 8%,transparent);color:var(--ink)}
-.pl-x svg{width:16px;height:16px}
-.pl-open .frow{padding-bottom:120px}
-/* desktop: no flight — the player takes Listen's place next to the theme button. Paused it is a short pill
-   (play + time left); playing, it stretches left with the track and speed, stopping short of the case column */
-@media (min-width:1280px){
-  :root{--tools-r:max(var(--gutter),calc((100vw - var(--col)) / 2 - clamp(40px,4vw,72px) - var(--rail)))}
-  .has-voice #listen{display:none}
-  :root:not(.has-voice) .c-player{display:none}
-  .c-player{--h:44px;--p:4px;--g:6px;gap:0;top:28px;bottom:auto;left:auto;right:calc(var(--tools-r) + 52px);translate:none;width:auto;
-    opacity:1;visibility:visible;transition:none}
-  .c-player>*+*{margin-left:var(--g)}
-  .pl-time{min-width:32px;padding-right:8px;text-align:right}
-  .pl-x{display:none}
-  .pl-track,.pl-speed{transition:width .5s var(--spring),min-width .5s var(--spring),margin .5s var(--spring),padding .5s var(--spring),opacity .3s var(--ease)}
-  .pl-track{flex:none;width:clamp(56px,(100vw - var(--col)) / 2 - var(--tools-r) - 52px - 148px,160px)}
-  .pl-speed{min-width:44px;padding:0 6px}
-  .pl-time{transition:padding .5s var(--spring)}
-  :root:not(.playing) .pl-track,:root:not(.playing) .pl-speed{width:0;min-width:0;margin-left:0;padding:0;opacity:0;pointer-events:none}
-  .playing .pl-time{padding-right:0}
-}
 
 
 /* ───────────── Lightbox ───────────── */
@@ -395,8 +347,6 @@ html.locked .c-bar,html.locked .c-tools,html.locked .c-page{visibility:hidden}
   .c-next strong{align-self:stretch;text-wrap:wrap;font-size:15px;line-height:1.3;letter-spacing:-.01em;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
   .c-next .c-chips{display:none}
   .c-next a+a strong{text-align:left}   /* the arrow stays right; Chrome drops the "…" of a right-aligned clamp */
-  .c-player{--h:52px;--p:6px}
-  .pl-speed{min-width:48px;padding:0 8px}
   .lock-code span{width:44px;height:56px;border-radius:12px}
 }
 @media (max-width:640px){   /* phones: everything centred — contacts on top, the email on its own line, © last */

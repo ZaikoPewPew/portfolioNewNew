@@ -74,7 +74,7 @@
 - Refs for cases: Medium article layout + voiceos.com/blog. No glass, blur or shadows in cases — flat `--panel #F0F2F6` cards, text `#111827` + gray shades, Styrene 400 only.
 - Theme: no toggle in cases — inherited from the home page (`localStorage.theme`), else follows the system live.
 - Layout: sticky rail on the left (≥1200px: "All work" + contents with scroll-spy/progress), article grid with a 680px text column; `.c-fig.wide` spans the whole article. <1200px: top bar (back · current section · progress, hides on scroll down) + contents bottom sheet.
-- Hero gets "N min read" + Listen (injected by case-ui.js); Listen opens a mini player docked at the bottom (seek, 1–2× speed, close).
+- Hero gets "N min read" (injected by case-ui.js). Voice-over (2026-10-01): no player — the glass Listen button top right just plays / pauses at 1.5×, desktop and mobile. Scripts for ElevenLabs: `cases/_src/<slug>/voice.md`; audio → `cases/_src/<slug>/audio/voice.m4a` (afconvert to 64 kbps mono AAC) + uncomment the `<audio class="c-voice">` line. Done: qr, balance; waiting: ios, desops.
 - Prefooter: previous / next case, cyclic, order + titles in `cases/cases.js` (keep in sync with the home carousel). Shell gets the slug via `{{SLUG}}` in encrypt-case.mjs.
 - Data blocks play once on scroll: count-up numbers (stats, nums, company card), `.c-bars`, new `.c-shift` (before → after) and `.c-cols` (vertical columns). Real numbers only.
 - Pilot: QR (wide figures, 9 → 3 shift, +8% → +17% columns). Other cases rebuilt with the new shell but their sources aren't enriched yet.

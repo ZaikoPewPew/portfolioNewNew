@@ -1,11 +1,11 @@
 /* Case page UI that runs once lock.js has decrypted the content:
    contents (rail on wide screens, top bar + sheet on narrow ones) with scroll-spy + reading progress,
-   Listen + theme buttons top right, a mini player docked at the bottom, data blocks that play on scroll,
+   Listen (play / pause) + theme buttons top right, data blocks that play on scroll,
    previous / next case links, and the image lightbox. */
 (() => {
   const $ = s => document.querySelector(s);
   const root = document.documentElement;
-  const audio = $('#voice'), track = $('#track'), list = $('#tocList');
+  const audio = $('#voice'), list = $('#tocList');
   const still = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
   let sections = [], links = [];
 
@@ -64,83 +64,19 @@
   $('#barSec').addEventListener('click', () => setToc(!root.classList.contains('toc-open')));
   document.addEventListener('click', e => { if (root.classList.contains('toc-open') && !e.target.closest('#toc,#bar')) setToc(false) });
 
-  const fmt = t => !isFinite(t) ? '0:00' : Math.floor(t / 60) + ':' + String(Math.floor(t % 60)).padStart(2, '0');
-
-  /* ── top-right tools: Listen opens the mini player; theme toggle shares the key with the home page ── */
+  /* ── top-right tools: Listen plays / pauses the voice-over at 1.5×; theme toggle shares the key with the home page ── */
+  audio.defaultPlaybackRate = audio.playbackRate = 1.5;
   $('#listen').addEventListener('click', () => {
-    if (!hasVoice()) return;
-    if (!root.classList.contains('pl-open')){ fly(true); audio.play().catch(() => {}) }
-    else toggle();
+    if (root.classList.contains('no-voice')) return;
+    audio.paused ? audio.play().catch(() => {}) : audio.pause();
   });
+  audio.addEventListener('play', () => root.classList.add('playing'));
+  audio.addEventListener('pause', () => root.classList.remove('playing'));
+  audio.addEventListener('ended', () => { root.classList.remove('playing'); audio.currentTime = 0 });
   $('#themeBtn').addEventListener('click', () => {
     const t = root.dataset.theme === 'dark' ? 'light' : 'dark';
     root.dataset.theme = t;
     try { localStorage.setItem('theme', t) } catch {}
-  });
-
-  /* ── mini player ── */
-  const hasVoice = () => !root.classList.contains('no-voice');
-  const toggle = () => { if (hasVoice()) audio.paused ? audio.play().catch(() => {}) : audio.pause() };
-  const SPEEDS = [1, 1.5, 2];
-  const player = $('#player'), listen = $('#listen');
-
-  /* Listen → player: the glass circle drops from the top-right corner to the bottom centre along an arc
-     (x eases out, y eases in), then stretches into the pill and the controls fade in. Closing plays it backwards. */
-  let flying = null;
-  function fly(open){
-    if (flying) flying.forEach(a => a.cancel());
-    root.classList.add('pl-open');
-    if (still()){ if (!open) root.classList.remove('pl-open'); return }
-    root.classList.add('pl-fly');
-    const b = listen.getBoundingClientRect(), f = player.getBoundingClientRect();
-    const px = v => v + 'px', mid = .58, spring = 'cubic-bezier(.34,1.2,.5,1)';
-    const x = [{ left: px(b.left), width: px(b.width), translate: '0 0', easing: 'cubic-bezier(.2,.7,.3,1)' },
-               { offset: mid, left: px(f.left + (f.width - b.width) / 2), width: px(b.width), translate: '0 0', easing: spring },
-               { left: px(f.left), width: px(f.width), translate: '0 0' }];
-    const y = [{ top: px(b.top), height: px(b.height), easing: 'cubic-bezier(.55,0,.8,.5)' },
-               { offset: mid, top: px(f.top + (f.height - b.height) / 2), height: px(b.height), easing: spring },
-               { top: px(f.top), height: px(f.height) }];
-    const o = { duration: 820, direction: open ? 'normal' : 'reverse', fill: 'both' };
-    flying = [player.animate(x, o), player.animate(y, o)];
-    flying[0].finished.then(() => {
-      flying.forEach(a => a.cancel()); flying = null;
-      root.classList.remove('pl-fly');
-      if (!open) root.classList.remove('pl-open');
-    }, () => {});
-  }
-
-  function paint(){
-    const f = audio.duration ? audio.currentTime / audio.duration : 0;
-    track.style.setProperty('--pp', f.toFixed(4));
-    track.setAttribute('aria-valuenow', Math.round(f * 100));
-    track.setAttribute('aria-valuetext', fmt(audio.currentTime) + ' of ' + fmt(audio.duration));
-    $('#plTime').textContent = fmt(audio.duration ? audio.duration - audio.currentTime : 0);
-  }
-  audio.addEventListener('timeupdate', paint);
-  audio.addEventListener('loadedmetadata', paint);
-  audio.addEventListener('play', () => root.classList.add('playing'));
-  audio.addEventListener('pause', () => root.classList.remove('playing'));
-  audio.addEventListener('ended', () => root.classList.remove('playing'));
-  $('.pl-btn').addEventListener('click', toggle);
-  $('#plClose').addEventListener('click', () => { audio.pause(); fly(false) });
-  $('#plSpeed').addEventListener('click', e => {
-    audio.playbackRate = SPEEDS[(SPEEDS.indexOf(audio.playbackRate) + 1) % SPEEDS.length];
-    e.currentTarget.textContent = 'x' + audio.playbackRate;
-  });
-
-  const seek = x => {
-    if (!hasVoice() || !audio.duration) return;
-    const r = track.getBoundingClientRect();
-    audio.currentTime = Math.min(1, Math.max(0, (x - r.left) / r.width)) * audio.duration;
-    paint();
-  };
-  track.addEventListener('pointerdown', e => { seek(e.clientX); track.setPointerCapture(e.pointerId) });
-  track.addEventListener('pointermove', e => { if (track.hasPointerCapture(e.pointerId)) seek(e.clientX) });
-  track.addEventListener('keydown', e => {
-    if (!hasVoice()) return;
-    if (e.key === 'ArrowRight') audio.currentTime += 5;
-    else if (e.key === 'ArrowLeft') audio.currentTime -= 5;
-    else if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); toggle() }
   });
 
   /* ── data blocks: play once when scrolled into view ── */
@@ -289,7 +225,7 @@
     update();
   });
   document.addEventListener('case:voice', e => {
-    if (e.detail){ audio.src = e.detail; root.classList.remove('no-voice'); root.classList.add('has-voice'); $('#listen').removeAttribute('title') }
+    if (e.detail){ audio.src = e.detail; root.classList.remove('no-voice'); $('#listen').removeAttribute('title') }
     else root.classList.add('no-voice');
   });
 })();
