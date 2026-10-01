@@ -1001,13 +1001,18 @@ const sfx={ tick(){noise(.012,5200,.09)}, click(){tone(1100,520,.06,.12);noise(.
   pop(){tone(520,980,.09,.14)}, on(){tone(660,990,.08,.12);setTimeout(()=>tone(990,1320,.08,.1),70)}, dark(){tone(700,300,.16,.12)}, light(){tone(420,900,.14,.12)}, swipe(){noise(.05,1800,.07)},
   confetti(){noise(.07,900,.22);noise(.04,4200,.1);for(let i=0;i<14;i++) setTimeout(()=>{ const f=1800+Math.random()*2600; tone(f,f*(.9+Math.random()*.25),.05,.035+Math.random()*.03); if(Math.random()<.5) noise(.012,5000+Math.random()*3000,.05) },40+i*38+Math.random()*50)} };   // party popper: a papery thump, then a spray of tiny glints
 let lastTick=0;
+/* hover sounds only follow a real mouse move: scrolling with a still cursor slides blocks under it and the browser
+   fires pointerover / pointerenter, which used to make sounds "by themselves" */
+let movedAt=0;
+addEventListener('pointermove',e=>{ if(e.pointerType==='mouse' && (e.movementX||e.movementY)) movedAt=performance.now() },{passive:true});
+const realHover=()=>performance.now()-movedAt<150;
 function play(n){ if(!soundOn) return; if(n==='tick'){ const t=performance.now(); if(t-lastTick<45||!ctx||ctx.state!=='running') return; lastTick=t } sfx[n]?.() }
 $('#soundBtn').addEventListener('click',()=>{ soundOn=!soundOn; store.set('snd',soundOn?'1':'0'); syncSound(); if(soundOn){ ac(); sfx.on() } });
 document.addEventListener('pointerdown',()=>{ if(soundOn) ac() },{once:true});
 const SILENT='.ctrl,.dots,.love-rail';   // sliders switch silently
 document.addEventListener('click',e=>{ const el=e.target.closest('[data-snd]'); if(el && !e.target.closest(SILENT) && !(el.classList.contains('slide') && !el.classList.contains('top'))) play(el.dataset.snd) });
 document.addEventListener('pointerover',e=>{ if(e.relatedTarget && e.target.closest('a,button')?.contains(e.relatedTarget)) return;
-  if(e.target.closest('a[href],button') && !e.target.closest(SILENT+',.deck,.posts')) play('tick') });
+  if(realHover() && e.target.closest('a[href],button') && !e.target.closest(SILENT+',.deck,.posts')) play('tick') });
 
 /* ───── Theme ───── */
 $('#themeBtn').addEventListener('click',()=>{ const t=root.dataset.theme==='dark'?'light':'dark'; root.dataset.theme=t; store.set('theme',t); play(t) });
@@ -1062,7 +1067,7 @@ document.addEventListener('click',e=>{ if(mm.classList.contains('open') && !e.ta
 /* ───── Avatar: hover tilts it and pops the bubble (CSS); touch has no hover, so a tap toggles it.
    The svg (tools/avatar-svg.mjs) is inlined so it can blink, follow the cursor with its eyes and twitch the strokes ───── */
 { const ava=$('#heroAva'), canHover=matchMedia('(hover:hover)').matches;
-  if(canHover) ava.addEventListener('pointerenter',()=>play('pop'));
+  if(canHover) ava.addEventListener('pointerenter',()=>{ if(realHover()) play('pop') });
   else ava.addEventListener('click',()=>{ if(ava.classList.toggle('on')) play('pop') });
   fetch('assets/avatar.svg').then(r=>r.ok?r.text():Promise.reject()).then(txt=>{
     const img=$('img',ava), tmp=document.createElement('div'); tmp.innerHTML=txt; const svg=tmp.firstElementChild;
@@ -1264,7 +1269,7 @@ $('#loveFaces').innerHTML=TESTIMONIALS.slice(0,4).map(t=>face(t)).join('');
 /* ───── Case visuals: 31-day calendar fills up ───── */
 const cal=$('#cal'); for(let d=1;d<=35;d++){ const i=document.createElement('i'); if(d<=31) i.dataset.d=d; else i.style.visibility='hidden'; cal.appendChild(i) }
 const cc=$('#calSlide'); let ct;
-cc.addEventListener('pointerenter',()=>{ let d=0; clearInterval(ct); ct=setInterval(()=>{ const el=$(`i[data-d="${++d}"]`,cal); if(!el){ clearInterval(ct); return } el.classList.add('on'); if(d%3===0) play('tick') },28) });
+cc.addEventListener('pointerenter',()=>{ let d=0; const loud=realHover(); clearInterval(ct); ct=setInterval(()=>{ const el=$(`i[data-d="${++d}"]`,cal); if(!el){ clearInterval(ct); return } el.classList.add('on'); if(loud && d%3===0) play('tick') },28) });
 cc.addEventListener('pointerleave',()=>{ clearInterval(ct); $$('i.on',cal).forEach(i=>i.classList.remove('on')) });
 
 /* ───── Product tiles on touch: no hover, so each tile plays its animation once, the first time it scrolls into view ───── */
@@ -1287,7 +1292,8 @@ onView($('#productsGrid .pcard'),()=>{});   // ies: the push + badge are CSS, ke
   // flip click: the repo's wav, pitched by how many cards are still spinning
   let flipBuf=null; fetch('assets/flip.wav').then(r=>r.arrayBuffer()).then(b=>{ tile._bytes=b }).catch(()=>{});
   const arm=()=>{ const c=ac(); if(!c||flipBuf||!tile._bytes) return; c.decodeAudioData(tile._bytes.slice(0)).then(b=>flipBuf=b).catch(()=>{}) };
-  function click(k,interval,force){ if(!soundOn||!flipBuf||!ctx||ctx.state!=='running') return;
+  let loud=false;   // flip clicks only for a real hover (or the touch on-view run), not for a scroll under a still cursor
+  function click(k,interval,force){ if(!loud||!soundOn||!flipBuf||!ctx||ctx.state!=='running') return;
     const spin=Math.min(cards.reduce((n,c)=>n+(c.locked?0:1),0)||1,4), now=performance.now(), gap=[0,230,140,78,36][spin];
     if(!force && now-k.last<gap) return; k.last=now;
     const slow=force?1:Math.min(Math.max(interval,40)/420,1), energy=force?0:(spin-1)/3*(1-slow*.5);
@@ -1322,8 +1328,8 @@ onView($('#productsGrid .pcard'),()=>{});   // ies: the push + badge are CSS, ke
   function arrive(){ timers.forEach(clearTimeout); timers=[]; yd(target[0]).forEach((d,i)=>lockIn(cards[i],d)); traveling=false; caption(`${target[1]} — ${target[2]}`) }
   yd(new Date().getFullYear()).forEach((d,i)=>set(cards[i],d)); caption(touch?'Travel through time':'Hover to travel through time',true);
   if(touch) $('.pcap span',card).textContent='Flip-clock widget that jumps through years';
-  if(matchMedia('(hover:hover)').matches) card.addEventListener('pointerenter',()=>{ if(!reduced) launch() });
-  onView(card,launch);
+  if(matchMedia('(hover:hover)').matches) card.addEventListener('pointerenter',()=>{ if(!reduced){ loud=realHover(); launch() } });
+  onView(card,()=>{ loud=true; launch() });
   // sky: twinkling stars that streak out from the centre while travelling
   const sky={ stars:[], w:0, h:0, jumpAt:-1e9, jump(){ this.jumpAt=performance.now() } };
   function size(){ const r=canvas.getBoundingClientRect(), dpr=Math.min(devicePixelRatio||1,2); sky.w=r.width; sky.h=r.height; canvas.width=r.width*dpr; canvas.height=r.height*dpr; cx2.setTransform(dpr,0,0,dpr,0,0);
@@ -1347,7 +1353,7 @@ onView($('#productsGrid .pcard'),()=>{});   // ies: the push + badge are CSS, ke
 { const tile=$('#obTile'), card=tile.closest('.pcard'), slots=$$('.ob-slot',tile), sky=$('#obSky');
   const FACES=['gaearon','sindresorhus','yyx990803'];   // fake reviewers, same source as obratka's founder-avatars (unavatar/github)
   slots.forEach((s,i)=>s.innerHTML=`<img src="https://unavatar.io/github/${FACES[i]}" alt="" loading="lazy">`);
-  const sleep=ms=>new Promise(r=>setTimeout(r,ms)); let run=0;
+  const sleep=ms=>new Promise(r=>setTimeout(r,ms)); let run=0, obLoud=false;   // sounds only for a real hover
   // the slot hops up; the moment it lands, its "+" turns into the avatar (or back into "+" on the way out)
   const DUR=560, LAND=.72;
   async function hop(s,alive,on){ const h=s.offsetHeight*.45; s.getAnimations().forEach(a=>a.cancel());
@@ -1356,9 +1362,9 @@ onView($('#productsGrid .pcard'),()=>{});   // ies: the push + badge are CSS, ke
       {transform:`translateY(${-h}px)`,offset:.4,easing:'cubic-bezier(.6,0,.9,.6)'},
       {transform:'translateY(0) scale(1.1,.88)',offset:LAND,easing:'cubic-bezier(.3,1.4,.5,1)'},
       {transform:'translateY(0) scale(1)'}],{duration:DUR});
-    await sleep(DUR*LAND); if(!alive()) return; s.classList.toggle('done',on); if(s===slots.find(x=>x.classList.contains('done')===on)) play('pop');
+    await sleep(DUR*LAND); if(!alive()) return; s.classList.toggle('done',on); if(obLoud && s===slots.find(x=>x.classList.contains('done')===on)) play('pop');
     await a.finished.catch(()=>{}) }
-  function rain(){ const W=tile.clientWidth, H=tile.clientHeight, n=24; play('confetti');
+  function rain(){ const W=tile.clientWidth, H=tile.clientHeight, n=24; if(obLoud) play('confetti');
     for(let i=0;i<n;i++){ const d=document.createElement('img'), w=22+Math.random()*18, x=Math.random()*(W-w), r=(Math.random()-.5)*60, sway=(Math.random()-.5)*40;
       d.src='assets/duck.svg'; d.alt=''; d.className='ob-duck'; d.style.width=w+'px'; sky.append(d);
       const a=d.animate([{transform:`translate(${x}px,${-w-10}px) rotate(${-r}deg)`},{transform:`translate(${x+sway}px,${H+10}px) rotate(${r}deg)`}],
@@ -1369,8 +1375,8 @@ onView($('#productsGrid .pcard'),()=>{});   // ies: the push + badge are CSS, ke
     if(alive()) rain() }
   async function unfill(id){ const alive=()=>run===id;
     await Promise.all(slots.filter(s=>s.classList.contains('done')).map((s,i)=>sleep(i*70).then(()=>alive()&&hop(s,alive,false)))) }
-  if(matchMedia('(hover:hover)').matches){ card.addEventListener('pointerenter',()=>{ if(!reduced) fill(++run) }); card.addEventListener('pointerleave',()=>{ if(!reduced) unfill(++run) }) }
-  onView(card,()=>fill(++run)) }
+  if(matchMedia('(hover:hover)').matches){ card.addEventListener('pointerenter',()=>{ obLoud=realHover(); if(!reduced) fill(++run) }); card.addEventListener('pointerleave',()=>{ obLoud=realHover(); if(!reduced) unfill(++run) }) }
+  onView(card,()=>{ obLoud=true; fill(++run) }) }
 
 /* ───── tippy (port of ZaikoPewPew/pomoshnik: TamagotchiView eyes/blink, VoiceTickerView, loader, pointer flight + highlight + comment) ───── */
 { const tile=$('#tpTile'), card=tile.closest('.pcard'), st=$('.tp-stage',tile), ch=$('#tpChar'), eyes=$$('.tp-eye',ch), bars=$$('.tp-bars i',tile), words=$('#tpWords'),
@@ -1397,7 +1403,8 @@ onView($('#productsGrid .pcard'),()=>{});   // ies: the push + badge are CSS, ke
   const pos=el=>{ const a=el.getBoundingClientRect(), b=tile.getBoundingClientRect(); return {x:a.left-b.left,y:a.top-b.top,w:a.width,h:a.height} };
   const at=(x,y,sc=1)=>({transform:`translate(${x}px,${y}px) scale(${sc})`});
   function ripple(x,y){ const r=document.createElement('i'); r.className='tp-ripple'; r.style.left=x+'px'; r.style.top=y+'px'; st.append(r); setTimeout(()=>r.remove(),650) }
-  async function clickAt(x,y){ fly.classList.add('press'); ripple(x,y); play('tick'); await sleep(120); fly.classList.remove('press') }
+  async function clickAt(x,y){ fly.classList.add('press'); ripple(x,y); if(tpLoud) play('tick'); await sleep(120); fly.classList.remove('press') }
+  let tpLoud=false;   // ticks only for a real hover (or the touch on-view run)
   async function scene(id,loop=true){ const alive=()=>run===id;
     await sleep(260); if(!alive()) return;
     listening=true; st.classList.add('listening'); words.replaceChildren();
@@ -1417,21 +1424,21 @@ onView($('#productsGrid .pcard'),()=>{});   // ies: the push + badge are CSS, ke
     // press and drag out a selection box
     await flyTo(s0); if(!alive()) return;
     fly.getAnimations().forEach(a=>a.cancel()); fly.style.transform=`translate(${s0[0]}px,${s0[1]}px)`;   // hand the cursor over from WAAPI to the drag loop
-    fly.classList.add('press'); play('tick'); const sel=document.createElement('i'); sel.className='tp-sel'; st.append(sel);
+    fly.classList.add('press'); if(tpLoud) play('tick'); const sel=document.createElement('i'); sel.className='tp-sel'; st.append(sel);
     const box=(x,y)=>{ sel.style.left=Math.min(s0[0],x)+'px'; sel.style.top=Math.min(s0[1],y)+'px'; sel.style.width=Math.abs(x-s0[0])+'px'; sel.style.height=Math.abs(y-s0[1])+'px' };
     box(...s0); const t0=performance.now(), D=800, ease=t=>1-Math.pow(1-t,3);
     await new Promise(res=>{ (function step(now){ if(!alive()){ res(); return } const e=ease(Math.min(1,(now-t0)/D)), x=s0[0]+(s1[0]-s0[0])*e, y=s0[1]+(s1[1]-s0[1])*e;
       fly.style.transform=`translate(${x}px,${y}px)`; box(x,y); if(e<1) requestAnimationFrame(step); else res() })(t0) });
     cur=s1;
-    fly.classList.remove('press'); play('tick'); if(!alive()){ sel.remove(); return }
+    fly.classList.remove('press'); if(tpLoud) play('tick'); if(!alive()){ sel.remove(); return }
     await sleep(650); sel.style.opacity=0; setTimeout(()=>sel.remove(),400);
     if(!alive()) return;
     await fly.animate([at(...cur),at(hx,hy,.8)],{duration:650,easing:'cubic-bezier(.3,1,.5,1)',fill:'forwards'}).finished.catch(()=>{});
     if(!alive()) return; fly.style.opacity=0; ch.style.opacity=1; ch.style.scale=1; await sleep(1200); if(alive()&&loop) scene(id) }
   function reset(){ run++; listening=false; st.classList.remove('listening','processing');
     fly.getAnimations().forEach(a=>a.cancel()); fly.style.opacity=0; fly.style.transform=''; $$('.tp-sel',st).forEach(e=>e.remove()); ch.style.opacity=1; ch.style.scale=1 }
-  if(matchMedia('(hover:hover)').matches){ card.addEventListener('pointerenter',()=>{ reset(); if(!reduced) scene(run) }); card.addEventListener('pointerleave',reset) }
-  onView(card,()=>{ reset(); scene(run,false) }) }
+  if(matchMedia('(hover:hover)').matches){ card.addEventListener('pointerenter',()=>{ reset(); tpLoud=realHover(); if(!reduced) scene(run) }); card.addEventListener('pointerleave',reset) }
+  onView(card,()=>{ reset(); tpLoud=true; scene(run,false) }) }
 
 /* ───── Contacts dropdown: hover like voiceos.com, tap on touch ───── */
 const cw=$('#cwrap'), cb=$('#ctaBtn'); let cT;

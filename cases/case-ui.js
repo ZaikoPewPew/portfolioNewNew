@@ -73,6 +73,14 @@
   audio.addEventListener('play', () => root.classList.add('playing'));
   audio.addEventListener('pause', () => root.classList.remove('playing'));
   audio.addEventListener('ended', () => { root.classList.remove('playing'); audio.currentTime = 0 });
+  // Only a click on Listen starts the voice-over. Headphones, media keys and the OS "Now Playing" widget send "play"
+  // to the last page that made sound — while the visitor was already on another page or tab — so ignore it in the background,
+  // and stop for good when the page is left (incl. the back/forward cache).
+  if ('mediaSession' in navigator){
+    navigator.mediaSession.setActionHandler('play', () => { if (document.visibilityState === 'visible') audio.play().catch(() => {}) });
+    navigator.mediaSession.setActionHandler('pause', () => audio.pause());
+  }
+  addEventListener('pagehide', () => audio.pause());
   $('#themeBtn').addEventListener('click', () => {
     const t = root.dataset.theme === 'dark' ? 'light' : 'dark';
     root.dataset.theme = t;
