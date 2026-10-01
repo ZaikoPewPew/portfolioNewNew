@@ -2,6 +2,7 @@
 //   #avaEyeL / #avaEyeR — whole eye, squashed for a blink
 //   .ava-iris inside each eye, clipped to the eye white, shifted to look at the cursor
 //   .ava-dash ×4 — the motion strokes around the head
+// The white sticker border (largest #FEFEFE path + its #CAC9C9 edge) is dropped and cut out of the black silhouette under it by a mask.
 // Path indices were picked by bounding box in lab/ava-inspect.html. Re-check them if the trace changes.
 // usage: node tools/avatar-svg.mjs <traced.svg> [out=assets/avatar.svg]
 import { readFileSync, writeFileSync } from 'node:fs';
@@ -22,13 +23,16 @@ const eye = (id, all, iris, white) => {
 };
 const eyes = [eye('avaEyeL', EYE_L, IRIS_L, WHITE_L), eye('avaEyeR', EYE_R, IRIS_R, WHITE_R)];
 const grouped = new Set([...EYE_L, ...EYE_R]);
+const border = paths.reduce((b, p, i) => p.includes('#FEFEFE') && p.length > paths[b].length ? i : b, paths.findIndex(p => p.includes('#FEFEFE')));
+const cut = paths[border].replace('fill="#FEFEFE"', 'fill="#000" stroke="#000" stroke-width="10"');   // stroke eats the silhouette's antialiased hairline
+const mask = `<mask id="avaCut" maskUnits="userSpaceOnUse" x="0" y="0" width="4000" height="4000"><rect width="4000" height="4000" fill="#fff"/>${cut}</mask>`;
 
-let body = '';
+let body = '', dashes = '';   // dashes sit over the border, so they go outside the mask
 paths.forEach((p, i) => {
   const e = eyes.find(e => e.first === i); if (e) { body += e.svg; return }
-  if (grouped.has(i)) return;
-  body += DASHES[i] ? `<g class="ava-dash" data-d="${DASHES[i]}">${p}</g>` : p;
+  if (grouped.has(i) || i === border || p.includes('#CAC9C9')) return;
+  if (DASHES[i]) dashes += `<g class="ava-dash" data-d="${DASHES[i]}">${p}</g>`; else body += p;
 });
-const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 930 772" width="930" height="772"><defs>${eyes.map(e => e.clip).join('')}</defs><g transform="scale(.25)">${body}</g></svg>\n`;
+const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 930 772" width="930" height="772"><defs>${eyes.map(e => e.clip).join('')}${mask}</defs><g transform="scale(.25)"><g mask="url(#avaCut)">${body}</g>${dashes}</g></svg>\n`;
 writeFileSync(out, svg);
 console.log(`${out}: ${paths.length} paths, ${(svg.length / 1024).toFixed(0)} KB`);
