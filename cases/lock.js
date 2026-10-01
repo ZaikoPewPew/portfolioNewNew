@@ -9,14 +9,7 @@
   };
   const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
   const payload = JSON.parse($('#payload').textContent);
-  const lock = $('#lock'), form = $('#lockForm'), pw = $('#pw'), err = $('#lockErr'), btn = $('#unlockBtn');
-
-  /* theme toggle — same key as the home page */
-  $('#themeBtn').addEventListener('click', () => {
-    const t = root.dataset.theme === 'dark' ? 'light' : 'dark';
-    root.dataset.theme = t;
-    try{ localStorage.setItem('theme', t) }catch{}
-  });
+  const lock = $('#lock'), form = $('#lockForm'), pw = $('#pw'), cells = form.querySelectorAll('span');
 
   async function deriveKey(pass){
     const base = await crypto.subtle.importKey('raw', new TextEncoder().encode(pass), 'PBKDF2', false, ['deriveKey']);
@@ -82,29 +75,35 @@
     setTimeout(() => lock.remove(), 600);
   }
 
-  form.addEventListener('submit', async e => {
-    e.preventDefault();
-    if (!pw.value) return;
-    btn.disabled = true; err.textContent = '';
+  /* one input drawn as 6 cells: a dot per digit, the next cell highlighted; the 6th digit checks the code */
+  function paint(){
+    const n = pw.value.length, focus = document.activeElement === pw;
+    cells.forEach((c, i) => { c.classList.toggle('on', i < n); c.classList.toggle('cur', focus && i === Math.min(n, cells.length - 1)) });
+  }
+  async function check(){
+    form.classList.add('busy'); pw.disabled = true;
     try{
       await open(pw.value);
       store.set('case-pass', pw.value);
       unlocked();
     }catch{
-      err.textContent = 'Wrong password';
-      form.classList.remove('shake'); void form.offsetWidth; form.classList.add('shake');
-      pw.select();
-    }finally{ btn.disabled = false }
-  });
-
-  if (!window.crypto || !crypto.subtle){
-    err.textContent = 'Open this page over https to view it';
-    btn.disabled = true;
-    return;
+      form.classList.remove('shake'); void form.offsetWidth; form.classList.add('shake', 'bad');
+      setTimeout(() => { form.classList.remove('bad'); pw.value = ''; paint(); pw.focus() }, 450);
+    }finally{ form.classList.remove('busy'); pw.disabled = false; pw.focus() }
   }
+  pw.addEventListener('input', () => {
+    pw.value = pw.value.replace(/\D/g, '').slice(0, cells.length);
+    paint();
+    if (pw.value.length === cells.length) check();
+  });
+  ['focus', 'blur', 'keyup', 'click'].forEach(t => pw.addEventListener(t, paint));
+  form.addEventListener('submit', e => e.preventDefault());
+  addEventListener('keydown', e => { if (e.key === 'Escape' && document.getElementById('lock')) $('#lockClose').click() });
+
+  if (!window.crypto || !crypto.subtle){ pw.disabled = true; return }
 
   root.classList.add('locked');
   const saved = store.get('case-pass');
-  if (saved){ lock.classList.add('quiet'); open(saved).then(unlocked, () => { lock.classList.remove('quiet'); pw.focus() }) }
-  else pw.focus();
+  if (saved){ lock.classList.add('quiet'); open(saved).then(unlocked, () => { lock.classList.remove('quiet'); pw.focus(); paint() }) }
+  else { pw.focus(); paint() }
 })();

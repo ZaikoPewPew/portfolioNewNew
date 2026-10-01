@@ -1,11 +1,12 @@
 /* Case page UI that runs once lock.js has decrypted the content:
-   contents (rail on wide screens, dock + sheet on narrow ones) with scroll-spy + reading progress,
-   the voice-over pill in the nav, and the image lightbox. */
+   contents (rail on wide screens, top bar + sheet on narrow ones) with scroll-spy + reading progress,
+   Listen + theme buttons top right, a mini player docked at the bottom, data blocks that play on scroll,
+   previous / next case links, and the image lightbox. */
 (() => {
   const $ = s => document.querySelector(s);
   const root = document.documentElement;
-  const audio = $('#voice'), wave = $('#wave'), list = $('#tocList');
-  const BARS = 22;
+  const audio = $('#voice'), track = $('#track'), list = $('#tocList');
+  const still = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
   let sections = [], links = [];
 
   /* ── contents ── */
@@ -19,74 +20,175 @@
       a.href = '#' + sec.id; a.textContent = title;
       a.addEventListener('click', e => {
         e.preventDefault();
-        sec.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
-        history.replaceState(null, '', a.href);
         setToc(false);
+        sec.scrollIntoView({ behavior: still() ? 'auto' : 'smooth' });
+        history.replaceState(null, '', a.href);
       });
       li.append(a); list.append(li);
       return a;
     });
   }
 
+  let lastY = scrollY;
   function update(){
+    const vh = innerHeight, y = scrollY;
+    // the top bar (narrow screens) slides away while reading down and comes back on any scroll up
+    if (Math.abs(y - lastY) > 4){ root.classList.toggle('bar-hide', y > lastY && y > 120); lastY = y }
+    const max = root.scrollHeight - vh;
+    root.style.setProperty('--p', (max > 0 ? Math.min(1, y / max) : 0).toFixed(4));
     if (!sections.length) return;
-    const vh = innerHeight;
-    let cur = 0;
-    sections.forEach((s, i) => { if (s.getBoundingClientRect().top < vh * .4) cur = i });
-    links.forEach((a, i) => a.classList.toggle('on', i === cur));
-    $('#dkTitle').textContent = links[cur].textContent;
 
-    const max = document.documentElement.scrollHeight - vh;
-    root.style.setProperty('--p', (max > 0 ? Math.min(1, scrollY / max) : 0).toFixed(4));
+    // reading line: 30% from the top, sliding down to the bottom edge during the last screen of scroll,
+    // so the short sections at the end get their turn instead of being skipped
+    const tail = Math.min(1, Math.max(0, 1 - (max - y) / vh));
+    const line = vh * (.3 + .7 * tail);
+    const tops = sections.map(s => s.getBoundingClientRect().top);
+    let cur = -1;
+    tops.forEach((t, i) => { if (t <= line) cur = i });
+    links.forEach((a, i) => a.classList.toggle('on', i === cur));
+    $('#barTitle').textContent = cur < 0 ? (document.querySelector('.c-hero h1')?.textContent || '') : links[cur].textContent;
+
+    // the progress line on the rail runs through the active item, proportionally to how far into its section we are
+    let tp = 0;
+    if (cur >= 0){
+      const end = cur + 1 < tops.length ? tops[cur + 1] : $('#case').getBoundingClientRect().bottom;
+      const f = Math.min(1, Math.max(0, (line - tops[cur]) / Math.max(1, end - tops[cur])));
+      tp = links[cur].offsetTop + f * links[cur].offsetHeight;
+    }
+    list.style.setProperty('--tp', tp.toFixed(1) + 'px');
   }
 
   function setToc(open){
     root.classList.toggle('toc-open', open);
-    ['#dkSec', '#dkList'].forEach(s => $(s).setAttribute('aria-expanded', open));
+    $('#barSec').setAttribute('aria-expanded', open);
   }
-  const toggleToc = () => setToc(!root.classList.contains('toc-open'));
-  $('#dkSec').addEventListener('click', toggleToc);
-  $('#dkList').addEventListener('click', toggleToc);
-  document.addEventListener('click', e => { if (root.classList.contains('toc-open') && !e.target.closest('#toc,#dock')) setToc(false) });
+  $('#barSec').addEventListener('click', () => setToc(!root.classList.contains('toc-open')));
+  document.addEventListener('click', e => { if (root.classList.contains('toc-open') && !e.target.closest('#toc,#bar')) setToc(false) });
 
-  /* ── voice-over pill ── */
-  // a fixed, speech-like silhouette — the real waveform isn't known until the audio is decoded
-  for (let i = 0; i < BARS; i++){
-    const h = .25 + .75 * Math.abs(Math.sin(i * 1.7) * Math.cos(i * .43 + 1) * .9 + Math.sin(i * .21) * .25);
-    const b = document.createElement('i'); b.style.setProperty('--h', Math.min(1, h).toFixed(2)); wave.append(b);
-  }
-  const bars = [...wave.children];
   const fmt = t => !isFinite(t) ? '0:00' : Math.floor(t / 60) + ':' + String(Math.floor(t % 60)).padStart(2, '0');
+
+  /* ── top-right tools: Listen opens the mini player; theme toggle shares the key with the home page ── */
+  $('#listen').addEventListener('click', () => {
+    if (!hasVoice()) return;
+    if (!root.classList.contains('pl-open')){ root.classList.add('pl-open'); audio.play().catch(() => {}) }
+    else toggle();
+  });
+  $('#themeBtn').addEventListener('click', () => {
+    const t = root.dataset.theme === 'dark' ? 'light' : 'dark';
+    root.dataset.theme = t;
+    try { localStorage.setItem('theme', t) } catch {}
+  });
+
+  /* ── mini player ── */
   const hasVoice = () => !root.classList.contains('no-voice');
   const toggle = () => { if (hasVoice()) audio.paused ? audio.play().catch(() => {}) : audio.pause() };
+  const SPEEDS = [1, 1.25, 1.5, 2];
 
   function paint(){
     const f = audio.duration ? audio.currentTime / audio.duration : 0;
-    bars.forEach((b, i) => b.classList.toggle('on', i / BARS < f));
-    wave.setAttribute('aria-valuenow', Math.round(f * 100));
-    wave.setAttribute('aria-valuetext', fmt(audio.currentTime) + ' of ' + fmt(audio.duration));
+    track.style.setProperty('--pp', f.toFixed(4));
+    track.setAttribute('aria-valuenow', Math.round(f * 100));
+    track.setAttribute('aria-valuetext', fmt(audio.currentTime) + ' of ' + fmt(audio.duration));
+    $('#plTime').textContent = fmt(audio.duration ? audio.duration - audio.currentTime : 0);
   }
   audio.addEventListener('timeupdate', paint);
   audio.addEventListener('loadedmetadata', paint);
   audio.addEventListener('play', () => root.classList.add('playing'));
   audio.addEventListener('pause', () => root.classList.remove('playing'));
   audio.addEventListener('ended', () => root.classList.remove('playing'));
-  document.querySelectorAll('[data-play]').forEach(b => b.addEventListener('click', toggle));
+  $('.pl-btn').addEventListener('click', toggle);
+  $('#plClose').addEventListener('click', () => { audio.pause(); root.classList.remove('pl-open') });
+  $('#plSpeed').addEventListener('click', e => {
+    audio.playbackRate = SPEEDS[(SPEEDS.indexOf(audio.playbackRate) + 1) % SPEEDS.length];
+    e.currentTarget.textContent = audio.playbackRate + '×';
+  });
 
   const seek = x => {
     if (!hasVoice() || !audio.duration) return;
-    const r = wave.getBoundingClientRect();
+    const r = track.getBoundingClientRect();
     audio.currentTime = Math.min(1, Math.max(0, (x - r.left) / r.width)) * audio.duration;
     paint();
   };
-  wave.addEventListener('pointerdown', e => { seek(e.clientX); wave.setPointerCapture(e.pointerId) });
-  wave.addEventListener('pointermove', e => { if (wave.hasPointerCapture(e.pointerId)) seek(e.clientX) });
-  wave.addEventListener('keydown', e => {
+  track.addEventListener('pointerdown', e => { seek(e.clientX); track.setPointerCapture(e.pointerId) });
+  track.addEventListener('pointermove', e => { if (track.hasPointerCapture(e.pointerId)) seek(e.clientX) });
+  track.addEventListener('keydown', e => {
     if (!hasVoice()) return;
     if (e.key === 'ArrowRight') audio.currentTime += 5;
     else if (e.key === 'ArrowLeft') audio.currentTime -= 5;
     else if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); toggle() }
   });
+
+  /* ── data blocks: play once when scrolled into view ── */
+  // "−50%", "+1,840", "2.4M", "~1 mo" → prefix, number, suffix; the number counts up from 0
+  function countUp(el, dur = 1200){
+    const m = el.textContent.match(/^(\D*?)(\d[\d,]*(?:\.\d+)?)(.*)$/s);
+    if (!m) return;
+    const [, pre, num, post] = m, to = parseFloat(num.replace(/,/g, '')), dec = (num.split('.')[1] || '').length, comma = num.includes(',');
+    const out = v => pre + (comma ? v.toLocaleString('en-US', { minimumFractionDigits: dec, maximumFractionDigits: dec }) : v.toFixed(dec)) + post;
+    el.textContent = out(0);
+    el._play = () => {
+      const t0 = performance.now();
+      const step = now => {
+        const k = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - k, 3);
+        el.textContent = out(k < 1 ? to * e : to);
+        if (k < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    };
+  }
+
+  // <div class="c-shift" data-from="9" data-to="3"><span>label</span></div>
+  function buildShift(el){
+    const from = +el.dataset.from, to = +el.dataset.to, label = el.querySelector('span');
+    const num = document.createElement('div'), row = document.createElement('div');
+    num.className = 'sh-num'; row.className = 'sh-row';
+    num.innerHTML = `<b><s>${from} →</s> <em>${from}</em></b>`;
+    if (label) num.append(label);
+    for (let i = 0; i < Math.max(from, to); i++){
+      const s = document.createElement('i');
+      if (i >= to) s.classList.add('gone');
+      s.style.setProperty('--d', ((Math.max(from, to) - 1 - i) * .07).toFixed(2) + 's');
+      row.append(s);
+    }
+    el.replaceChildren(num, row);
+    el._play = () => {
+      const n = num.querySelector('em'), steps = Math.abs(from - to), dir = Math.sign(to - from);
+      for (let k = 1; k <= steps; k++) setTimeout(() => { n.textContent = from + dir * k }, k * 70 + 150);
+      setTimeout(() => el.classList.add('done'), steps * 70 + 700);
+    };
+  }
+
+  function dataBlocks(main){
+    const blocks = [...main.querySelectorAll('.c-stats,.c-nums,.c-bars,.c-shift,.c-cols,.c-company dl')];
+    main.querySelectorAll('.c-shift').forEach(buildShift);
+    // numbers that count up: stat values, big numbers in .c-nums, values in the company card
+    const nums = el => [...el.querySelectorAll(el.closest('.c-company') ? 'dd' : ':scope > div > b, dt')];
+    if (still() || !('IntersectionObserver' in window)){
+      blocks.forEach(b => b.classList.add('in', 'done'));
+      main.querySelectorAll('.c-shift em').forEach(n => { n.textContent = n.closest('.c-shift').dataset.to });
+      return;
+    }
+    blocks.forEach(b => { if (!b.matches('.c-shift,.c-bars')) nums(b).forEach(n => countUp(n)) });
+    const io = new IntersectionObserver(es => es.forEach(e => {
+      if (!e.isIntersecting) return;
+      const b = e.target;
+      io.unobserve(b);
+      b.classList.add('in');
+      if (b._play) b._play();
+      nums(b).forEach(n => n._play && n._play());
+    }), { rootMargin: '0px 0px -6% 0px' });
+    blocks.forEach(b => io.observe(b));
+  }
+
+  /* ── previous / next case, cyclic, from cases.js ── */
+  function buildNext(){
+    const all = window.CASES || [], i = all.findIndex(c => c.slug === root.dataset.case), nav = $('#next');
+    if (i < 0 || all.length < 2) return;
+    const card = (c, dir) => `<a href="${c.slug}.html"><span class="nx-dir" aria-label="${dir === 'prev' ? 'Previous case' : 'Next case'}"><svg aria-hidden="true"><use href="#i-${dir === 'prev' ? 'left' : 'right'}"/></svg></span>
+      <strong>${c.title}</strong><span class="c-chips">${c.tags.map(t => `<span>${t}</span>`).join('')}</span></a>`;
+    nav.innerHTML = card(all[(i - 1 + all.length) % all.length], 'prev') + card(all[(i + 1) % all.length], 'next');
+    nav.hidden = false;
+  }
 
   /* ── lightbox: click an image to open it; click again (or the zoom button) for real size ── */
   const lb = $('#lb'), lbImg = $('#lbImg');
@@ -141,16 +243,28 @@
     } else if (e.key === 'Escape') setToc(false);
   });
 
+  /* ── footer: copy the email, like on the home page ── */
+  const toast = $('#toast'); let tt;
+  document.querySelectorAll('[data-mail]').forEach(b => b.addEventListener('click', async e => {
+    const m = e.currentTarget.dataset.mail;
+    try { await navigator.clipboard.writeText(m); toast.textContent = 'Email copied' } catch { location.href = 'mailto:' + m; return }
+    toast.classList.add('show'); clearTimeout(tt); tt = setTimeout(() => toast.classList.remove('show'), 1600);
+  }));
+
   /* ── wiring ── */
   document.addEventListener('case:ready', e => {
-    if (!e.detail.voice){ root.classList.add('no-voice'); $('#player').title = 'Voice-over is coming soon' }
-    buildToc(e.detail.main);
+    const main = e.detail.main;
+    if (!e.detail.voice) root.classList.add('no-voice');
+    if (!e.detail.voice) $('#listen').title = 'Voice-over is coming soon';
+    buildToc(main);
+    dataBlocks(main);
+    buildNext();
     addEventListener('scroll', update, { passive: true });
     addEventListener('resize', update);
     update();
   });
   document.addEventListener('case:voice', e => {
-    if (e.detail){ audio.src = e.detail; root.classList.remove('no-voice'); $('#player').removeAttribute('title') }
+    if (e.detail){ audio.src = e.detail; root.classList.remove('no-voice'); $('#listen').removeAttribute('title') }
     else root.classList.add('no-voice');
   });
 })();

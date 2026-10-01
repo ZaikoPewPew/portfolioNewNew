@@ -5,7 +5,7 @@
   Blocks are independent: copy, reorder or delete any of them. Comments are stripped on build.
 -->
 
-<!-- HERO: mono chips (company · dates · topics), title, one-sentence summary -->
+<!-- HERO: grey chips (company, dates, topics), title, one-sentence summary -->
 <header class="c-hero">
   <div class="c-meta">
     <span>Company</span><span>2024</span><span>Topic</span><span>Platform</span>
@@ -14,7 +14,8 @@
   <p class="c-lead">One or two sentences: what changed and the headline result.</p>
 </header>
 
-<!-- VOICE-OVER (optional): one audio file, shown in the "Listen" player. Without it the player says "coming soon".
+<!-- Read time and the Listen button are added under the hero automatically.
+     VOICE-OVER (optional): one audio file for the Listen button + mini player. Without it Listen is dimmed ("coming soon").
      mp3 / m4a; it is encrypted like the images. -->
 <!-- <audio class="c-voice" src="audio/voice.m4a"></audio> -->
 
@@ -25,14 +26,15 @@
   <div><b>2×</b><span>what this number means</span></div>
 </div>
 
-<!-- COMPANY CARD: logo + one line + a couple of numbers -->
+<!-- COMPANY: logo + one line, links to the product under them, then numbers (MAU, Rating) -->
 <section class="c-sec">
   <h2 class="c-label">About</h2>
   <div class="c-body">
     <div class="c-company">
       <img src="img/logo.webp" alt="Company logo">
       <p>Who the company is, in one sentence.</p>
-      <dl><div><dt>MAU</dt><dd>1M</dd></div><div><dt>Rating</dt><dd>4.8</dd></div></dl>
+      <div class="c-links"><a href="https://apps.apple.com/…" target="_blank" rel="noopener">App Store<svg aria-hidden="true"><use href="#i-out"/></svg></a><a href="https://play.google.com/…" target="_blank" rel="noopener">Google Play<svg aria-hidden="true"><use href="#i-out"/></svg></a><a href="https://…" target="_blank" rel="noopener">Website<svg aria-hidden="true"><use href="#i-out"/></svg></a></div>
+      <div class="c-co-row"><dl><div><dt>MAU</dt><dd>1M</dd></div><div><dt>Rating</dt><dd>4.8</dd></div></dl></div>
     </div>
   </div>
 </section>
@@ -88,17 +90,29 @@
   </div>
 </section>
 
+<!-- BEFORE → AFTER: N shapes collapse to M and the number counts down when scrolled into view.
+     data-shape="dot" draws circles instead of screens. Use real numbers only. -->
+<div class="c-shift" data-from="9" data-to="3"><span>screens from the home page to a ticket</span></div>
+
+<!-- COLUMNS: vertical bars that grow on scroll; --max = the tallest value; .acc = highlighted column -->
+<div class="c-cols" style="--max:17">
+  <div style="--v:8"><b>+8%</b><span>first period</span></div>
+  <div class="acc" style="--v:17"><b>+17%</b><span>later</span></div>
+</div>
+
+<!-- Numbers in .c-stats, .c-nums and the company card count up from 0 when they scroll into view. -->
+
 <!-- NUMBERS IN TWO COLUMNS: research scope, validation etc. -->
 <section class="c-sec">
   <h2 class="c-label">Validation</h2>
   <div class="c-body">
     <div class="c-duo">
       <div>
-        <h3>Quantitative</h3>
+        <h3 class="c-chips"><span>Quantitative</span><span>Tool</span></h3>
         <dl class="c-nums"><div><dt>1,000+</dt><dd>label</dd></div><div><dt>143</dt><dd>label</dd></div></dl>
       </div>
       <div>
-        <h3>Qualitative</h3>
+        <h3 class="c-chips"><span>Qualitative</span></h3>
         <dl class="c-nums"><div><dt>10</dt><dd>label</dd></div><div><dt>5</dt><dd>label</dd></div></dl>
       </div>
     </div>

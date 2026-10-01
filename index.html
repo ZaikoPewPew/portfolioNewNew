@@ -5,6 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Vladislav Kurguzov</title>
 <meta name="description" content="Vladislav Kurguzov — Senior Product Designer at Alfa-Bank. Fintech, design systems, mobile apps and my own products.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://krgzv.com/">
+<meta property="og:title" content="Vladislav Kurguzov — Senior Product Designer">
+<meta property="og:description" content="Fintech, design systems, mobile apps and my own products.">
+<meta property="og:image" content="https://krgzv.com/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpolygon fill='%23E23336' points='12,0 13.99,7.2 20.49,3.51 16.8,10.01 24,12 16.8,13.99 20.49,20.49 13.99,16.8 12,24 10.01,16.8 3.51,20.49 7.2,13.99 0,12 7.2,10.01 3.51,3.51 10.01,7.2'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -307,6 +315,9 @@ section.sec{padding-top:var(--gap)}
 :root[data-theme="dark"] .ptile.tt-tile{-webkit-mask:linear-gradient(#000 72%,transparent);mask:linear-gradient(#000 72%,transparent)}
 .slide.far{opacity:0;pointer-events:none}
 .slide:not(.top) .ov{opacity:0!important}
+/* NDA lock badge in the top-right corner of every case card */
+.lock{position:absolute;z-index:6;top:clamp(18px,3.4vw,28px);right:clamp(18px,3.4vw,28px);width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--bg);color:var(--ink-2)}
+.lock svg{width:16px;height:16px}
 /* Figma «Case / State=On»: text slides in, phone moves down 100px → 231px */
 .device{position:absolute;left:50%;top:16.7%;width:42.4%;translate:-50% 0;transition:top .8s var(--spring)}
 .device > img{width:100%;pointer-events:none}
@@ -390,7 +401,7 @@ section.sec{padding-top:var(--gap)}
   .ies-note{position:absolute;left:50%;top:16px;width:max-content;max-width:calc(100% - 32px);box-sizing:border-box;display:flex;gap:10px;align-items:center;padding:8px 20px 8px 8px;border-radius:999px;
     background:rgba(255,255,255,.55);-webkit-backdrop-filter:blur(18px) saturate(180%);backdrop-filter:blur(18px) saturate(180%);box-shadow:inset 0 1px 1px #fff9,0 8px 24px -10px rgba(0,0,0,.25);
     color:#111827;opacity:0;translate:-50% -130%;transition:translate .7s var(--spring),opacity .4s var(--ease)}
-  .ies-ic{flex:none;width:34px;height:34px;border-radius:50%;background:url(assets/product-ies.png) 57.19% 35.84%/449.7% auto no-repeat}
+  .ies-ic{flex:none;width:34px;height:34px;border-radius:50%;background:url(assets/product-ies.webp) 57.19% 35.84%/449.7% auto no-repeat}
   .ies-note > div{min-width:0;display:flex;flex-direction:column;gap:2px}
   .ies-t{font-size:12px;line-height:1.2;color:#374151} .ies-t small{margin-left:4px;color:#6B7280;font-size:11px}
   .ies-m{font-size:13px;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -551,7 +562,7 @@ section.sec{padding-top:var(--gap)}
 
 /* ═══════════ Wall of Love ═══════════ */
 .love-stage{position:relative}
-.love-rail{position:relative;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;overscroll-behavior-x:contain;cursor:grab;padding:6px 0;-webkit-mask:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);mask:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)}
+.love-rail{position:relative;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;overscroll-behavior-x:contain;cursor:grab;padding:6px 0 36px;margin-bottom:-30px;-webkit-mask:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);mask:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)}
 .love-rail::-webkit-scrollbar{display:none}
 .love-rail.drag{cursor:grabbing}
 .love-rail,.love-rail *{-webkit-user-select:none;user-select:none}
@@ -602,6 +613,8 @@ footer.wrap{margin-top:var(--gap)}
 .rv.in{opacity:1;translate:0 0;filter:none}
 .toast{position:fixed;bottom:28px;left:50%;transform:translate(-50%,20px) scale(.9);opacity:0;z-index:70;padding:12px 20px;border-radius:999px;background:var(--cta);color:var(--cta-ink);font-size:15px;font-weight:400;transition:opacity .3s var(--ease),transform .5s var(--bounce);pointer-events:none}
 .toast.show{opacity:1;transform:translate(-50%,0) scale(1)}
+/* Glass blur only where something sits underneath (nav, menus, play over thumbnails) — static tiles on a plain bg don't need it */
+.dots,.rbtn,.ptile,.bento>div,.cbox,.love-card,.gb,.gb:hover{-webkit-backdrop-filter:none;backdrop-filter:none}
 @media (prefers-reduced-motion:reduce){.pt{animation:burst-still 1.4s ease-out var(--bd,0s) forwards!important;transform:translate3d(calc(-50% + var(--bx)),calc(-50% + var(--by)),0) scale(var(--bs))}.js-boot main .statement,.js-boot main .otw,.js-boot main .after,.js-boot footer{opacity:1;translate:0 0;filter:none}*,*::before,*::after{animation:none!important;transition-duration:.01ms!important}.rv,.fan .ph{opacity:1;translate:0 0;filter:none}.statement .x{color:var(--ink)}.statement .acc .x{color:var(--red)}}
 </style>
 </head>
@@ -616,6 +629,7 @@ footer.wrap{margin-top:var(--gap)}
   <symbol id="i-send" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"/><path d="m21.854 2.147-10.94 10.939"/></symbol>
   <symbol id="i-linkedin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></symbol>
   <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="11" x="4" y="11" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
   <symbol id="i-arrow-ur" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></symbol>
   <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></symbol>
   <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></symbol>
@@ -650,7 +664,7 @@ footer.wrap{margin-top:var(--gap)}
         <filter id="nav-lens" x="0" y="0" width="100%" height="100%" filterUnits="objectBoundingBox" primitiveUnits="userSpaceOnUse" color-interpolation-filters="sRGB"></filter>
       </svg>
       <div class="nav-content">
-        <a href="#top" class="logo" data-snd="click" aria-label="Vladislav Kurguzov — home"><span class="star"><svg><use href="#star"/></svg></span></a>
+        <a href="./" class="logo" data-snd="click" aria-label="Vladislav Kurguzov — home"><span class="star"><svg><use href="#star"/></svg></span></a>
         <div class="nav-links" id="links">
           <a href="#deck">cases</a>
           <a href="#fan">about</a>
@@ -669,9 +683,10 @@ footer.wrap{margin-top:var(--gap)}
           <div class="cwrap" id="cwrap">
             <button class="nav-cta" id="ctaBtn" aria-haspopup="true" aria-expanded="false" aria-controls="cmenu"><span class="star"><svg><use href="#star"/></svg></span>contacts<svg class="chev" aria-hidden="true"><use href="#i-chev-d"/></svg></button>
             <div class="cmenu" id="cmenu" role="menu">
-              <a role="menuitem" href="https://www.linkedin.com/in/kvneasy/" target="_blank" rel="noopener"><b>LinkedIn</b><small>Experience, cases and articles</small></a>
-              <a role="menuitem" href="https://t.me/ezzzz12345" target="_blank" rel="noopener"><b>Telegram</b><small>@ezzzz12345 · the fastest way</small></a>
-              <a role="menuitem" href="mailto:kvneasyy@gmail.com"><b>Email</b><small>kvneasyy@gmail.com</small></a>
+              <a role="menuitem" href="https://t.me/ezzzz12345" target="_blank" rel="noopener"><b>Telegram</b><small>Replies within 20 minutes</small></a>
+              <a role="menuitem" href="https://www.linkedin.com/in/kvneasy/" target="_blank" rel="noopener"><b>LinkedIn</b><small>Replies within a day</small></a>
+              <a role="menuitem" href="mailto:kvneasyy@gmail.com"><b>Email</b><small>Replies within a week</small></a>
+              <a role="menuitem" href="assets/cv.pdf" target="_blank" rel="noopener"><b>CV</b><small>Just the CV</small></a>
             </div>
           </div>
         </div>
@@ -683,8 +698,8 @@ footer.wrap{margin-top:var(--gap)}
       <a href="#productsGrid">products <span class="mono">03</span></a>
       <a href="#conceptsGrid">concepts <span class="mono">04</span></a>
       <div class="m-sep"></div>
-      <a href="https://www.linkedin.com/in/kvneasy/" target="_blank" rel="noopener">LinkedIn <span class="mono">↗</span></a>
       <a href="https://t.me/ezzzz12345" target="_blank" rel="noopener">Telegram <span class="mono">↗</span></a>
+      <a href="https://www.linkedin.com/in/kvneasy/" target="_blank" rel="noopener">LinkedIn <span class="mono">↗</span></a>
       <a href="mailto:kvneasyy@gmail.com">Email <span class="mono">↗</span></a>
     </div>
   </div>
@@ -697,7 +712,7 @@ footer.wrap{margin-top:var(--gap)}
       <img src="assets/avatar.svg" width="182" height="151" alt="Vlad’s avatar sticker" draggable="false">
       <span class="ava-say" aria-hidden="true"><span>Hey 👋</span><span>Nice to meet you</span></span>
     </div>
-    <p class="statement lit-text">I’m Vlad — a product designer and builder crafting digital experiences for <em class="acc">millions</em> worldwide</p>
+    <p class="statement lit-text">I’m Vlad — Senior Product Designer at Alfa-Bank, crafting digital experiences for <em class="acc">millions</em></p>
     <div class="otw">
       <div class="gb-wrap">
         <button class="gb" id="otwBtn" type="button" data-burst><span><i class="live" aria-hidden="true"></i>Almaty <span id="almTime"></span></span></button>
@@ -709,18 +724,22 @@ footer.wrap{margin-top:var(--gap)}
       <div class="deck" id="deck">
         <div class="deck-in">
           <a class="slide" href="cases/qr.html" data-snd="click">
+            <span class="lock" title="Password-protected (NDA)" aria-label="Password-protected"><svg><use href="#i-lock"/></svg></span>
             <div class="ov"><h3>Paying for public transport with a QR code</h3><div class="pills"><span>−20 s per payment</span><span>+17% in app</span></div></div>
-            <div class="device"><img src="assets/case-qr.png" alt="QR-code transport payment screen" draggable="false"></div>
+            <div class="device"><img src="assets/case-qr.webp" alt="QR-code transport payment screen" draggable="false"></div>
           </a>
-          <a class="slide" href="https://app.notion.com/p/95f7e7550e514386ad8ea1d7a96afa36" target="_blank" rel="noopener" data-snd="click">
+          <a class="slide" href="cases/balance.html" data-snd="click">
+            <span class="lock" title="Password-protected (NDA)" aria-label="Password-protected"><svg><use href="#i-lock"/></svg></span>
             <div class="ov"><h3>Mobile balance home screen redesign</h3><div class="pills"><span>+5% balance payments</span><span>+1 840 bonus accounts</span></div></div>
             <div class="device"><div class="phone"><div class="bal"><small>Mobile balance</small>2 450 ₸</div><div class="chips"><i></i><i></i><i></i><i></i></div><div class="ln m"></div><div class="ln s"></div><div class="ln m"></div></div></div>
           </a>
-          <a class="slide" id="calSlide" href="https://app.notion.com/p/iOS-app-in-a-month-3e1b9cf57cab44099e841d2302db89c4" target="_blank" rel="noopener" data-snd="click">
+          <a class="slide" id="calSlide" href="cases/ios.html" data-snd="click">
+            <span class="lock" title="Password-protected (NDA)" aria-label="Password-protected"><svg><use href="#i-lock"/></svg></span>
             <div class="ov"><h3>A native iOS app from scratch in one month</h3><div class="pills"><span>EdTech</span><span>31 days to App Store</span></div></div>
             <div class="device"><div class="phone"><div class="ln s"></div><div class="cal" id="cal"></div><div class="ln m"></div></div></div>
           </a>
-          <a class="slide" href="https://app.notion.com/p/DesOps-Design-system-41805605a0a245909c309b846b53a6f9" target="_blank" rel="noopener" data-snd="click">
+          <a class="slide" href="cases/desops.html" data-snd="click">
+            <span class="lock" title="Password-protected (NDA)" aria-label="Password-protected"><svg><use href="#i-lock"/></svg></span>
             <div class="ov"><h3>DesOps process &amp; design system</h3><div class="pills"><span>DesOps</span><span>Design system</span></div></div>
             <div class="device"><div class="phone"><div class="ds">
               <div><span class="sw" style="background:var(--red)"></span><span class="ln s"></span></div>
@@ -746,11 +765,11 @@ footer.wrap{margin-top:var(--gap)}
     <p class="statement lit-text">Always down for traveling, dancing <em class="acc">the lezginka</em>, and deep-diving into history</p>
     <div class="wrap after">
       <div class="fan" id="fan">
-        <span class="ph p1" style="--ring:url(assets/photo-1-ring.png);--rim:url(assets/photo-1-rim.png)"><img src="assets/photo-1.png" alt="Ivy-covered alley" loading="lazy"></span>
-        <span class="ph p5" style="--ring:url(assets/photo-5-ring.png);--rim:url(assets/photo-5-rim.png)"><img src="assets/photo-5.png" alt="Old stone stairs" loading="lazy"></span>
-        <span class="ph p2" style="--ring:url(assets/photo-2-ring.png);--rim:url(assets/photo-2-rim.png)"><img src="assets/photo-2.png" alt="Universal Studios globe" loading="lazy"></span>
-        <span class="ph p4" style="--ring:url(assets/photo-4-ring.png);--rim:url(assets/photo-4-rim.png)"><img src="assets/photo-4.png" alt="Hogwarts castle and a street lamp" loading="lazy"></span>
-        <span class="ph p3" style="--shape:url(assets/photo-3.png);--ring:url(assets/photo-3-ring.png);--rim:url(assets/photo-3-rim.png)"><img src="assets/photo-3.png" alt="Vlad with friends at Hogwarts" loading="lazy"><video src="assets/photo-3.mp4" poster="assets/photo-3-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video></span>
+        <span class="ph p1" style="--ring:url(assets/photo-1-ring.png);--rim:url(assets/photo-1-rim.png)"><img src="assets/photo-1.webp" alt="Ivy-covered alley" loading="lazy"></span>
+        <span class="ph p5" style="--ring:url(assets/photo-5-ring.png);--rim:url(assets/photo-5-rim.png)"><img src="assets/photo-5.webp" alt="Old stone stairs" loading="lazy"></span>
+        <span class="ph p2" style="--ring:url(assets/photo-2-ring.png);--rim:url(assets/photo-2-rim.png)"><img src="assets/photo-2.webp" alt="Universal Studios globe" loading="lazy"></span>
+        <span class="ph p4" style="--ring:url(assets/photo-4-ring.png);--rim:url(assets/photo-4-rim.png)"><img src="assets/photo-4.webp" alt="Hogwarts castle and a street lamp" loading="lazy"></span>
+        <span class="ph p3" style="--shape:url(assets/photo-3.webp);--ring:url(assets/photo-3-ring.png);--rim:url(assets/photo-3-rim.png)"><img src="assets/photo-3.webp" alt="Vlad with friends at Hogwarts" loading="lazy"><video src="assets/photo-3.mp4" poster="assets/photo-3-poster.jpg" muted loop playsinline preload="auto" aria-hidden="true"></video></span>
       </div>
     </div>
   </section>
@@ -761,7 +780,7 @@ footer.wrap{margin-top:var(--gap)}
     <div class="wrap after">
       <div class="pgrid" id="productsGrid">
         <a class="pcard rv" href="https://t.me/ies_app" target="_blank" rel="noopener" data-snd="click">
-          <div class="ptile light"><img src="assets/product-ies.png" alt="Иэс app icon on an iPhone home screen">
+          <div class="ptile light"><img src="assets/product-ies.webp" alt="Иэс app icon on an iPhone home screen">
             <div class="pui ies-ui" aria-hidden="true">
               <div class="ies-note"><i class="ies-ic"></i><div><span class="ies-t">ies <small>now</small></span><span class="ies-m">🔥 7-day streak — keep it up!</span></div></div>
               <i class="ies-badge">1</i>
@@ -887,6 +906,7 @@ footer.wrap{margin-top:var(--gap)}
         <a href="https://www.linkedin.com/in/kvneasy/" target="_blank" rel="noopener">LinkedIn</a>
         <a href="https://t.me/ezzzz12345" target="_blank" rel="noopener">Telegram</a>
         <a href="https://www.youtube.com/@DesignLeadd" target="_blank" rel="noopener">YouTube</a>
+        <a href="assets/cv.pdf" target="_blank" rel="noopener">CV</a>
         <button id="copyMail" data-mail="kvneasyy@gmail.com">kvneasyy@gmail.com</button>
       </div>
     </div>
@@ -1165,6 +1185,8 @@ const dup=set.replace(/<article /g,'<article aria-hidden="true" '); $('#loveTrac
   addEventListener('pointermove',e=>{ if(!drag) return; rail.scrollLeft=sl-(e.clientX-sx) });
   addEventListener('pointerup',()=>{ if(!drag) return; drag=false; rail.classList.remove('drag'); hold(2500) });
   rail.addEventListener('dragstart',e=>e.preventDefault()); }
+/* ───── Photo video: plays from the start once the fan is on screen, pauses off-screen ───── */
+{ const v=$('.ph video'); new IntersectionObserver(([e])=>{ if(e.isIntersecting) v.play().catch(()=>{}); else v.pause() },{threshold:.25}).observe(v) }
 $('#loveFaces').innerHTML=TESTIMONIALS.slice(0,4).map(t=>face(t)).join('');
 
 /* ───── Case visuals: 31-day calendar fills up ───── */
@@ -1217,7 +1239,7 @@ cc.addEventListener('pointerleave',()=>{ clearInterval(ct); $$('i.on',cal).forEa
     cap.replaceChildren(); tile.classList.remove('traveling'); void tile.offsetWidth; tile.classList.add('traveling'); start=performance.now(); sky.jump();
     later(arrive,TRAVEL); const d=yd(target[0]);
     later(()=>cards.forEach((k,i)=>later(()=>scramble(k,SETTLE[i],d[i]),i*48+ri(0,160))),150) }
-  function arrive(){ timers.forEach(clearTimeout); timers=[]; yd(target[0]).forEach((d,i)=>lockIn(cards[i],d)); traveling=false; caption(`${target[1]} · ${target[2]}`) }
+  function arrive(){ timers.forEach(clearTimeout); timers=[]; yd(target[0]).forEach((d,i)=>lockIn(cards[i],d)); traveling=false; caption(`${target[1]} — ${target[2]}`) }
   yd(new Date().getFullYear()).forEach((d,i)=>set(cards[i],d)); caption('Hover to travel through time',true);
   if(matchMedia('(hover:hover)').matches) card.addEventListener('pointerenter',()=>{ if(!reduced) launch() });
   // sky: twinkling stars that streak out from the centre while travelling

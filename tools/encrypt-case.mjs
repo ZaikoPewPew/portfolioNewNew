@@ -93,5 +93,11 @@ for (const [tag, el, src] of [...html.matchAll(/<(img|audio)\b[^>]*?\ssrc="([^"]
 const { iv, ct } = await seal(enc.encode(html));
 const payload = JSON.stringify({ v: 1, iter: ITER, salt: b64(salt), iv: b64(iv), ct: b64(ct) });
 const shell = await readFile(join(ROOT, 'tools/case-shell.html'), 'utf8');
-await writeFile(join(ROOT, 'cases', `${slug}.html`), shell.replace('{{PAYLOAD}}', payload));
+// shared assets get ?v=<content hash> so browsers pick up style / script changes instead of serving a cached copy
+let page = shell.replace('{{SLUG}}', slug).replace('{{PAYLOAD}}', payload);
+for (const f of ['case.css', 'cases.js', 'case-ui.js', 'lock.js']) {
+  const v = createHash('sha256').update(await readFile(join(ROOT, 'cases', f))).digest('hex').slice(0, 8);
+  page = page.replace(new RegExp(`(href|src)="${f.replace('.', '\\.')}"`), `$1="${f}?v=${v}"`);
+}
+await writeFile(join(ROOT, 'cases', `${slug}.html`), page);
 console.log(`cases/${slug}.html  ·  ${(ct.length / 1024).toFixed(1)} KB text  ·  ${n} media files → cases/${slug}/`);
