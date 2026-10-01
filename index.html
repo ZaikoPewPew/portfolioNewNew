@@ -336,10 +336,10 @@ section.sec{padding-top:var(--gap)}
   .slide.top:hover .ov{opacity:1;translate:0 0}
 }
 @media (hover:none){ .slide.top .device{top:38.5%} .slide.top .ov{opacity:1;translate:0 0} }
-/* phones: a wider, taller card — lock centred above the title, pills wrap, the phone sits lower and crops at the bottom; neighbours peek ~8px at the edges */
+/* phones: a wider, taller card — lock centred above the title, pills wrap, the phone sits lower and crops at the bottom; neighbours sit 12px away and peek ~12px at the edges */
 @media (max-width:560px){
   .deck-in{width:calc(100vw - 48px);aspect-ratio:3/4}
-  .slide{transform:translateX(calc(var(--d) * (86% + 72px))) translateZ(calc(var(--ad) * -200px)) rotateY(calc(var(--d) * -30deg))}
+  .slide{transform:translateX(calc(var(--d) * (105.3% + 4px))) translateZ(calc(var(--ad) * -200px)) rotateY(calc(var(--d) * -30deg))}   /* solved for a 12px gap to the neighbours on any phone width (perspective included) */
   .lock{top:16px;right:auto;left:50%;translate:-50% 0}
   .ov{top:68px;height:calc(52% - 68px);padding:0 20px}
   .ov h3{font-size:20px;line-height:1.25}
