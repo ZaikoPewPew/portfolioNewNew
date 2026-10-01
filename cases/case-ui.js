@@ -69,7 +69,7 @@
   /* ── top-right tools: Listen opens the mini player; theme toggle shares the key with the home page ── */
   $('#listen').addEventListener('click', () => {
     if (!hasVoice()) return;
-    if (!root.classList.contains('pl-open')){ root.classList.add('pl-open'); audio.play().catch(() => {}) }
+    if (!root.classList.contains('pl-open')){ fly(true); audio.play().catch(() => {}) }
     else toggle();
   });
   $('#themeBtn').addEventListener('click', () => {
@@ -81,7 +81,33 @@
   /* ── mini player ── */
   const hasVoice = () => !root.classList.contains('no-voice');
   const toggle = () => { if (hasVoice()) audio.paused ? audio.play().catch(() => {}) : audio.pause() };
-  const SPEEDS = [1, 1.25, 1.5, 2];
+  const SPEEDS = [1, 1.5, 2];
+  const player = $('#player'), listen = $('#listen');
+
+  /* Listen → player: the glass circle drops from the top-right corner to the bottom centre along an arc
+     (x eases out, y eases in), then stretches into the pill and the controls fade in. Closing plays it backwards. */
+  let flying = null;
+  function fly(open){
+    if (flying) flying.forEach(a => a.cancel());
+    root.classList.add('pl-open');
+    if (still()){ if (!open) root.classList.remove('pl-open'); return }
+    root.classList.add('pl-fly');
+    const b = listen.getBoundingClientRect(), f = player.getBoundingClientRect();
+    const px = v => v + 'px', mid = .58, spring = 'cubic-bezier(.34,1.2,.5,1)';
+    const x = [{ left: px(b.left), width: px(b.width), translate: '0 0', easing: 'cubic-bezier(.2,.7,.3,1)' },
+               { offset: mid, left: px(f.left + (f.width - b.width) / 2), width: px(b.width), translate: '0 0', easing: spring },
+               { left: px(f.left), width: px(f.width), translate: '0 0' }];
+    const y = [{ top: px(b.top), height: px(b.height), easing: 'cubic-bezier(.55,0,.8,.5)' },
+               { offset: mid, top: px(f.top + (f.height - b.height) / 2), height: px(b.height), easing: spring },
+               { top: px(f.top), height: px(f.height) }];
+    const o = { duration: 820, direction: open ? 'normal' : 'reverse', fill: 'both' };
+    flying = [player.animate(x, o), player.animate(y, o)];
+    flying[0].finished.then(() => {
+      flying.forEach(a => a.cancel()); flying = null;
+      root.classList.remove('pl-fly');
+      if (!open) root.classList.remove('pl-open');
+    }, () => {});
+  }
 
   function paint(){
     const f = audio.duration ? audio.currentTime / audio.duration : 0;
@@ -96,10 +122,10 @@
   audio.addEventListener('pause', () => root.classList.remove('playing'));
   audio.addEventListener('ended', () => root.classList.remove('playing'));
   $('.pl-btn').addEventListener('click', toggle);
-  $('#plClose').addEventListener('click', () => { audio.pause(); root.classList.remove('pl-open') });
+  $('#plClose').addEventListener('click', () => { audio.pause(); fly(false) });
   $('#plSpeed').addEventListener('click', e => {
     audio.playbackRate = SPEEDS[(SPEEDS.indexOf(audio.playbackRate) + 1) % SPEEDS.length];
-    e.currentTarget.textContent = audio.playbackRate + '×';
+    e.currentTarget.textContent = 'x' + audio.playbackRate;
   });
 
   const seek = x => {
