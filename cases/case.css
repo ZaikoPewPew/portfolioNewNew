@@ -3,7 +3,7 @@
   --font:"Styrene A LC","Styrene A","Styrene A Web",-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text",system-ui,sans-serif;
   --ease:cubic-bezier(.25,1,.5,1);
   --spring:cubic-bezier(.34,1.28,.42,1);
-  --gutter:clamp(20px,4vw,32px); --col:720px; --rail:200px; --bar:56px;
+  --gutter:clamp(20px,4vw,32px); --col:720px; --rail:200px; --bar:64px;
   --gap:clamp(32px,4vw,44px);      /* between blocks */
   --gap-sec:clamp(80px,10vw,128px); /* before a new section */
   --pad:clamp(24px,3vw,32px);      /* inside cards */
@@ -38,7 +38,7 @@
 @property --angle-2{syntax:"<angle>";inherits:false;initial-value:-45deg}
 
 *{box-sizing:border-box;margin:0;padding:0}
-html{-webkit-text-size-adjust:100%;overflow-x:clip}
+html{-webkit-text-size-adjust:100%;overflow-x:clip;touch-action:manipulation}   /* no double-tap zoom on quick taps */
 body{font-family:var(--font);background:var(--bg);color:var(--ink);font-size:19px;line-height:1.7;letter-spacing:-.011em;
   -webkit-font-smoothing:antialiased;overflow-x:clip}
 a{color:inherit;text-decoration:none}
@@ -326,16 +326,16 @@ html.locked .c-bar,html.locked .c-tools,html.locked .c-page{visibility:hidden}
   .c-main{padding-top:calc(var(--bar) + 28px)}
   .c-sec{scroll-margin-top:calc(var(--bar) + 16px)}
 
-  .c-bar{position:fixed;z-index:30;top:0;left:0;right:0;display:flex;align-items:center;gap:4px;height:var(--bar);padding:0 8px;background:var(--bg);border-bottom:1px solid var(--line);
+  .c-bar{position:fixed;z-index:30;top:0;left:0;right:0;display:flex;align-items:center;gap:4px;height:var(--bar);padding:12px;background:var(--bg);border-bottom:1px solid var(--line);
     transition:translate .35s var(--ease)}
   .c-bar::after{content:"";position:absolute;left:0;bottom:-1px;height:2px;width:calc(var(--p,0) * 100%);background:var(--red)}
   .bar-hide:not(.toc-open) .c-bar{translate:0 -100%}
-  .c-tools{top:8px;right:12px;gap:6px}
+  .c-tools{top:12px;right:12px;gap:6px}
   .c-tool{width:40px;height:40px}
-  .bar-hide:not(.toc-open) .c-tools{translate:0 -64px}
+  .bar-hide:not(.toc-open) .c-tools{translate:0 -76px}
   .c-bar{padding-right:108px}
-  .c-bar .c-back{flex:none;justify-content:center;width:44px;height:44px;border-radius:50%}
-  .c-bar .c-back:hover{background:var(--panel)}
+  .c-bar .c-back{flex:none;justify-content:center;width:40px;height:40px;border-radius:50%;color:var(--ink)}   /* glass, like Listen / theme */
+  .c-bar .c-back svg{position:relative;z-index:1}
   .bar-sec{flex:1;min-width:0;display:flex;align-items:center;gap:6px;height:44px;padding:0 10px;border-radius:12px;font-size:15px;color:var(--ink)}
   .bar-sec span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .bar-sec svg{flex:none;width:16px;height:16px;color:var(--ink-3);transition:rotate .3s var(--ease)}
