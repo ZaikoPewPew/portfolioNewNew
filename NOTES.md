@@ -6,7 +6,7 @@
   (Hello [company] / Let's work together → statements + case carousel → photo fan → own products → concepts bento → community carousel → footer).
 - Nav: VoiceOS-style liquid-glass notch (own implementation: backdrop blur + SVG displacement `filter` with chromatic split, notch clip-path, rim/bevel SVG, collapses on scroll). Refraction works in Chromium only.
 - Light / dark theme toggle (saved in localStorage). No other theme variants.
-- Font: Styrene A LC (installed locally; needs woff2 + license for publishing). Mono: DM Mono.
+- Font: Styrene A LC Regular self-hosted as `assets/fonts/styrene-a-lc-regular.woff2` (@font-face in every page / case.css; desktop licence only — Vlad accepted the risk 2026-10-01). Mono: DM Mono.
 - Sounds: synthesized with WebAudio (tick / click / flip / pop). Can be swapped for Soundly files.
 - Hero «Hello [company]» removed (2026-09-30) — page starts with the «I'm Vlad» statement; `?to=` greeting no longer exists.
 - Under the statement: «Open to work» glass pill (CSS recipe copied from voiceos.com «Download for Mac» `.glassmorphic-button`, green live dot). Click fires the burst (chips / emoji / speech bubbles) that used to live on the Alfa logo.
