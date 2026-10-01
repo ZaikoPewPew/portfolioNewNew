@@ -289,7 +289,7 @@
     update();
   });
   document.addEventListener('case:voice', e => {
-    if (e.detail){ audio.src = e.detail; root.classList.remove('no-voice'); $('#listen').removeAttribute('title') }
+    if (e.detail){ audio.src = e.detail; root.classList.remove('no-voice'); root.classList.add('has-voice'); $('#listen').removeAttribute('title') }
     else root.classList.add('no-voice');
   });
 })();

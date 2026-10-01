@@ -277,6 +277,25 @@ a.glass:active,button.glass:active{transform:scale(.94);transition-duration:80ms
 .pl-speed:hover,.pl-x:hover{background:color-mix(in srgb,var(--ink) 8%,transparent);color:var(--ink)}
 .pl-x svg{width:16px;height:16px}
 .pl-open .frow{padding-bottom:120px}
+/* desktop: no flight — the player takes Listen's place next to the theme button. Paused it is a short pill
+   (play + time left); playing, it stretches left with the track and speed, stopping short of the case column */
+@media (min-width:1280px){
+  :root{--tools-r:max(var(--gutter),calc((100vw - var(--col)) / 2 - clamp(40px,4vw,72px) - var(--rail)))}
+  .has-voice #listen{display:none}
+  :root:not(.has-voice) .c-player{display:none}
+  .c-player{--h:44px;--p:4px;--g:6px;gap:0;top:28px;bottom:auto;left:auto;right:calc(var(--tools-r) + 52px);translate:none;width:auto;
+    opacity:1;visibility:visible;transition:none}
+  .c-player>*+*{margin-left:var(--g)}
+  .pl-time{min-width:32px;padding-right:8px;text-align:right}
+  .pl-x{display:none}
+  .pl-track,.pl-speed{transition:width .5s var(--spring),min-width .5s var(--spring),margin .5s var(--spring),padding .5s var(--spring),opacity .3s var(--ease)}
+  .pl-track{flex:none;width:clamp(56px,(100vw - var(--col)) / 2 - var(--tools-r) - 52px - 148px,160px)}
+  .pl-speed{min-width:44px;padding:0 6px}
+  .pl-time{transition:padding .5s var(--spring)}
+  :root:not(.playing) .pl-track,:root:not(.playing) .pl-speed{width:0;min-width:0;margin-left:0;padding:0;opacity:0;pointer-events:none}
+  .playing .pl-time{padding-right:0}
+}
+
 
 /* ───────────── Lightbox ───────────── */
 .lb{position:fixed;inset:0;z-index:40;display:grid;place-items:center;overflow:auto;overscroll-behavior:contain;background:color-mix(in srgb,var(--bg) 97%,transparent);
