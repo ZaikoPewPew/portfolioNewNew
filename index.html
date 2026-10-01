@@ -616,6 +616,19 @@ footer.wrap{margin-top:var(--gap)}
 .fl a,.fl button{position:relative;transition:color .2s}
 .fl a:hover,.fl button:hover,.frow .me:hover{color:var(--red)}
 .fl .lab{color:var(--ink-3)}
+.fmenu{display:none}
+@media (min-width:821px){   /* desktop: link columns above the dotted line; phones keep the plain contacts row */
+  .fmenu{display:block;padding-bottom:56px;font-size:14px;line-height:14px}
+  .fmenu > .star{display:block;width:24px;height:24px;margin-bottom:56px;color:var(--red);transition:transform .6s var(--ease)}
+  .fmenu > .star svg{width:100%;height:100%;fill:currentColor}
+  .fmenu:hover > .star{transform:rotate(180deg)}
+  .fcols{display:grid;grid-template-columns:repeat(4,minmax(0,224px));gap:24px}
+  .fcol{display:flex;flex-direction:column;align-items:flex-start;gap:20px}
+  .fcol b{font-weight:400;color:var(--ink)}
+  .fcol a{color:var(--ink-3);transition:color .2s}
+  .fcol a:hover{color:var(--red)}
+  .fl .m-only{display:none}
+}
 @media (max-width:640px){   /* phones: everything centred — contacts on top, the email on its own line, © last */
   .frow{flex-direction:column-reverse;align-items:center;gap:20px;padding:32px 0 40px;text-align:center}
   .fl{justify-content:center;gap:8px 20px;line-height:24px}
@@ -916,6 +929,15 @@ footer.wrap{margin-top:var(--gap)}
 
   <!-- ═══════════ FOOTER ═══════════ -->
   <footer class="wrap" id="contact">
+    <div class="fmenu">
+      <span class="star"><svg><use href="#star"/></svg></span>
+      <div class="fcols">
+        <div class="fcol"><b>Site</b><a href="#deck">cases</a><a href="#fan">about</a><a href="#conceptsGrid">concepts</a></div>
+        <div class="fcol"><b>Products</b><a href="#productsGrid">tiffy</a><a href="https://obratka.net/" target="_blank" rel="noopener">obratka</a><a href="https://t.me/ies_app" target="_blank" rel="noopener">ies — noxchiin mott</a></div>
+        <div class="fcol"><b>Articles</b><a href="https://medium.com/" target="_blank" rel="noopener">medium</a><a href="https://vc.ru/design/1258164-design-whiteboard-challenge-lichnyi-opyt-kratko-i-po-delu" target="_blank" rel="noopener">vc</a><a href="https://habr.com/" target="_blank" rel="noopener">habr</a></div>
+        <div class="fcol"><b>Blog</b><a href="https://www.youtube.com/@DesignLeadd" target="_blank" rel="noopener">YouTube</a><a href="https://t.me/dsgn_thinking" target="_blank" rel="noopener">Telegram</a></div>
+      </div>
+    </div>
     <div class="dotline"></div>
     <div class="frow">
       <a href="#top" class="me" data-snd="click"><span class="star"><svg><use href="#star"/></svg></span>krgzv.com © 2026</a>
@@ -923,8 +945,8 @@ footer.wrap{margin-top:var(--gap)}
         <span class="lab">Contacts:</span>
         <a href="https://www.linkedin.com/in/kvneasy/" target="_blank" rel="noopener">LinkedIn</a>
         <a href="https://t.me/ezzzz12345" target="_blank" rel="noopener">Telegram</a>
-        <a href="https://www.youtube.com/@DesignLeadd" target="_blank" rel="noopener">YouTube</a>
-        <a href="assets/cv.pdf" target="_blank" rel="noopener">CV</a>
+        <a class="m-only" href="https://www.youtube.com/@DesignLeadd" target="_blank" rel="noopener">YouTube</a>
+        <a class="m-only" href="assets/cv.pdf" target="_blank" rel="noopener">CV</a>
         <button id="copyMail" data-mail="kvneasyy@gmail.com">kvneasyy@gmail.com</button>
       </div>
     </div>
