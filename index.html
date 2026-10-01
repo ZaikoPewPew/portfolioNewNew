@@ -33,7 +33,7 @@
   --spring:cubic-bezier(.34,1.28,.42,1);
   --bounce:cubic-bezier(.175,.885,.32,2.2);
   --r:60px; --r-md:32px;
-  --gutter:clamp(16px,2.5vw,32px); --maxw:1216px; --gap:clamp(120px,20vw,250px);
+  --gutter:clamp(16px,2.5vw,32px); --maxw:1216px; --gap:clamp(120px,min(20vw,24vh),250px);
 
   --bg:#FFFFFF; --panel:#F0F2F6; --panel-2:#E3E6EC; --card:#FFFFFF;
   --ink:#111827; --ink-2:#6B7280; --ink-3:#A5A8AC; --ink-4:#D5D8DD; --line:rgba(17,24,39,.08);
@@ -256,15 +256,14 @@ img{display:block;max-width:100%}
 .statement .x{color:var(--ink-3);transition:color .25s var(--ease)}
 .statement .x.lit{color:var(--ink)}
 .statement .acc .x.lit{color:var(--red)}
-/* every block is separated by 250px on desktop */
+/* blocks are 250px apart on tall screens, less on short laptop windows (24vh) and narrow ones (20vw) */
 section.sec{padding-top:var(--gap)}
 .after{margin-top:var(--gap)}
 
 /* ═══════════ Case coverflow (3D) ═══════════ */
 #work{overflow-x:clip}   /* side cards must not widen the mobile layout viewport */
-#work.sec{padding-top:250px}   /* first block on the page: a flat 250px from the top, nav overlaps it */
+#work.sec{padding-top:clamp(110px,calc(70px + (100vh - 520px) * .4),250px)}   /* first screen: the ~450px intro sits a bit above the middle of the space under the 70px nav, never lower than 250px */
 @media (max-width:640px){ #work.sec{padding-top:162px} }   /* phones: avatar sits 120px below the 70px nav */
-@media (min-width:900px){ #work .after{margin-top:250px} }   /* Almaty pill → cases: a flat 250px on desktop, not the scaling --gap */
 .hero-ava{position:relative;width:182px;margin:0 auto 40px;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
 /* the <img> is swapped for the inline svg by JS, so its parts can move; float uses `translate`, the hover tilt uses `transform` */
 .hero-ava>:is(img,svg){display:block;width:100%;height:auto;-webkit-user-drag:none;transition:transform .6s var(--spring);animation:ava-float 5.5s ease-in-out infinite}
@@ -611,7 +610,7 @@ section.sec{padding-top:var(--gap)}
 /* ═══════════ Footer ═══════════ */
 footer.wrap{margin-top:var(--gap)}
 @media (min-width:821px){
-  footer.wrap{margin-top:178px}   /* 150px of air: the "100+ other colleagues" line hangs 28px below the love section */
+  footer.wrap{margin-top:calc(var(--gap) - 72px)}   /* the "100+ other colleagues" line hangs 28px below the love section, so the air is --gap minus 100px */
   .frow .me .star{display:none}
 }
 .dotline{height:2px;background:radial-gradient(circle,var(--dot) 1px,transparent 1.2px) 0 0/9.6px 2px repeat-x}
