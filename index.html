@@ -948,7 +948,7 @@ function applyFx(){ const next=FX.includes(fxForced)?fxForced:FX[Math.max(...Obj
 fxVote.hw=matchMedia('(prefers-reduced-transparency: reduce)').matches||navigator.connection?.saveData?2
   :(navigator.hardwareConcurrency||8)<=4||(navigator.deviceMemory||8)<=4?1:0;
 applyFx();
-navigator.getBattery?.().then(b=>{ const upd=()=>{ fxVote.batt=b.charging?0:b.level<=.2?2:b.level<=.5?1:0; applyFx() };
+navigator.getBattery?.().then(b=>{ const upd=()=>{ fxVote.batt=b.charging||b.level>.2?0:1; applyFx() };
   upd(); b.addEventListener('levelchange',upd); b.addEventListener('chargingchange',upd) }).catch(()=>{});
 // frame-rate probe: on load and whenever scrolling starts; under ~45fps steps one tier down (never back up, so it doesn't flap)
 { let probing=false;
