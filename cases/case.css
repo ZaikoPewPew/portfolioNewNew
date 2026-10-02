@@ -231,12 +231,15 @@ a.glass:active,button.glass:active{transform:scale(.94);transition-duration:80ms
 .c-table :is(th,td):last-child{padding-right:0;color:var(--ink)}
 .c-table tbody tr:last-child td{padding-bottom:0}
 
-/* before / after slider: the "after" image is clipped at --x; drag the handle or use ← → */
+/* before / after slider: each image sits on its own layer, clipped to its side of the line at --x, so a transparent
+   "after" never shows "before" through it; --ba-pad shrinks the images inside the box (12.5% each side = 75% size) */
 .c-ba{position:relative}
-.ba-box{--x:50%;position:relative;overflow:hidden;border-radius:14px;background:var(--panel);touch-action:pan-y;user-select:none;cursor:ew-resize}
-.ba-box img{width:100%;height:auto;opacity:0;transition:opacity .6s var(--ease);pointer-events:none}
-.ba-box img.in{opacity:1}
-.ba-box img+img{position:absolute;inset:0;height:100%;object-fit:contain;clip-path:inset(0 0 0 var(--x))}
+.ba-box{--x:50%;--ba-pad:12.5%;position:relative;overflow:hidden;border-radius:14px;background:var(--panel);touch-action:pan-y;user-select:none;cursor:ew-resize}
+.ba-layer{padding:var(--ba-pad);clip-path:inset(0 calc(100% - var(--x)) 0 0)}
+.ba-layer+.ba-layer{position:absolute;inset:0;clip-path:inset(0 0 0 var(--x))}
+.ba-layer img{width:100%;height:auto;opacity:0;transition:opacity .6s var(--ease);pointer-events:none}
+.ba-layer+.ba-layer img{height:100%;object-fit:contain}
+.ba-layer img.in{opacity:1}
 .ba-line{position:absolute;top:0;bottom:0;left:var(--x);width:2px;margin-left:-1px;background:var(--red);pointer-events:none}
 .ba-knob{position:absolute;top:50%;left:var(--x);width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--ink);pointer-events:none}
 .ba-knob svg{position:relative;z-index:1;width:14px;height:14px;margin:0 -1px}

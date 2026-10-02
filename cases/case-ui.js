@@ -153,6 +153,7 @@
   function buildBA(fig){
     const box = fig.querySelector('.ba-box');
     if (!box) return;
+    box.querySelectorAll(':scope > img').forEach(img => { const l = document.createElement('div'); l.className = 'ba-layer'; img.replaceWith(l); l.append(img) });
     box.insertAdjacentHTML('beforeend', `<span class="ba-tag l">before</span><span class="ba-tag r">after</span><i class="ba-line"></i>
       <span class="ba-knob glass"><svg aria-hidden="true"><use href="#i-left"/></svg><svg aria-hidden="true"><use href="#i-right"/></svg></span>
       <input type="range" min="0" max="100" step="0.5" value="50" aria-label="Before / after">`);
