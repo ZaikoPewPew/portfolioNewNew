@@ -164,6 +164,7 @@
       const b = e.target;
       io.unobserve(b);
       b.classList.add('in');
+      if (b.matches('.c-time')) setTimeout(() => b.classList.add('done'), 2600);   // after the run, theme switches shouldn't replay the fades
       if (b._play) b._play();
       nums(b).forEach(n => n._play && n._play());
     }), { rootMargin: '0px 0px -6% 0px' });
@@ -179,6 +180,25 @@
       <span class="ba-knob glass"><svg aria-hidden="true"><use href="#i-left"/></svg><svg aria-hidden="true"><use href="#i-right"/></svg></span>
       <input type="range" min="0" max="100" step="0.5" value="50" aria-label="Before / after">`);
     const input = box.querySelector('input'), [l, r] = box.querySelectorAll('.ba-tag');
+    // the knob and tags take their tone from the picture under them, not from the page theme
+    const imgs = [...box.querySelectorAll('.ba-layer img')];
+    const tone = () => {
+      if (!imgs.every(i => i.complete && i.naturalWidth)) return;
+      try {
+        const c = document.createElement('canvas'), w = c.width = 64, h = c.height = 64, g = c.getContext('2d', { willReadFrequently: true });
+        g.fillStyle = getComputedStyle(box).backgroundColor; g.fillRect(0, 0, w, h);
+        imgs.forEach((im, k) => g.drawImage(im, k * im.naturalWidth / 2, 0, im.naturalWidth / 2, im.naturalHeight, k * w / 2, 0, w / 2, h));   // left half of "before", right half of "after"
+        const px = g.getImageData(0, 0, w, h).data;
+        let sum = 0;
+        for (let i = 0; i < px.length; i += 4) sum += .2126 * px[i] + .7152 * px[i + 1] + .0722 * px[i + 2];
+        const light = sum / (px.length / 4) > 140;
+        box.classList.toggle('on-light', light); box.classList.toggle('on-dark', !light);
+      } catch {}
+    };
+    imgs.forEach(i => i.addEventListener('load', tone));
+    new MutationObserver(tone).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
+    matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change', () => setTimeout(tone, 50));
+    tone();
     const set = v => {
       box.style.setProperty('--x', v + '%');
       l.style.opacity = v < 18 ? 0 : 1; r.style.opacity = v > 82 ? 0 : 1;   // a tag hides once its side is almost gone

@@ -147,13 +147,13 @@ a.glass:active,button.glass:active{transform:scale(.94);transition-duration:80ms
 /* figures — click to open full view */
 .c-fig{position:relative}
 .c-fig img{width:100%;height:auto;border-radius:14px;border:1px solid var(--panel);background:var(--panel);opacity:0;cursor:zoom-in;transition:opacity .6s var(--ease)}
-.c-fig img.in{opacity:1}
+.c-fig img.in{opacity:1;background:none}   /* the grey fill is only a loading placeholder — transparent PNGs stay transparent */
 .c-fig img.broken{opacity:1;min-height:120px;cursor:default}
 .c-fig figcaption{margin:16px auto 0;max-width:560px;text-align:center;font-size:14px;line-height:1.45;color:var(--ink-3)}
 .c-gallery{display:flex;flex-direction:column;gap:16px}
 /* video: muted loop, plays only while on screen */
 .c-fig video{display:block;width:100%;height:auto;border-radius:14px;border:1px solid var(--panel);background:var(--panel);opacity:0;transition:opacity .6s var(--ease)}
-.c-fig video.in{opacity:1}
+.c-fig video.in{opacity:1;background:none}
 /* phone screens side by side, kept small — the lightbox shows them full size */
 .c-pair{display:grid;grid-template-columns:repeat(2,minmax(0,260px));justify-content:center;gap:16px}
 .c-pair figcaption{grid-column:1/-1;margin:0 auto;max-width:560px;text-align:center;font-size:14px;line-height:1.45;color:var(--ink-3)}
@@ -230,19 +230,22 @@ a.glass:active,button.glass:active{transform:scale(.94);transition-duration:80ms
 .dt-grid i{width:100%;max-width:22px;aspect-ratio:1;border-radius:50%;border:1.5px solid var(--ink-5);transition:background-color .35s,border-color .35s,transform .5s var(--spring)}
 .c-dots.in .dt-grid i.hit{background:var(--red);border-color:var(--red);transform:scale(1.08);transition-delay:var(--d,0s)}
 
-/* timeline: the line grows down as it scrolls into view, points light up in order; .acc = a key moment */
-.c-time{list-style:none;position:relative;display:flex;flex-direction:column;gap:22px;padding-left:28px}
-.c-time::before,.c-time::after{content:"";position:absolute;left:5px;top:8px;width:2px;border-radius:2px}
-.c-time::before{bottom:8px;background:var(--line)}
-.c-time::after{height:0;background:var(--red);transition:height 1.6s var(--ease)}
-.c-time.in::after{height:calc(100% - 16px)}
-.c-time li{position:relative;display:grid;grid-template-columns:132px minmax(0,1fr);gap:4px 20px;opacity:.35;transition:opacity .5s var(--ease) var(--d,0s)}
-.c-time li::before{content:"";position:absolute;left:-28px;top:7px;width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid var(--ink-5);transition:background-color .4s var(--d,0s),border-color .4s var(--d,0s)}
+/* timeline: date above its text in one column; the red line grows once, points light up in order.
+   .done (set after the animation) drops the transitions, so switching the theme doesn't replay delayed fades */
+.c-time{list-style:none;position:relative;display:flex;flex-direction:column;gap:24px;padding-left:32px}
+.c-time::before,.c-time::after{content:"";position:absolute;left:5px;top:6px;width:2px;border-radius:2px}
+.c-time::before{bottom:6px;background:var(--line)}
+.c-time::after{height:0;background:var(--red);transition:height 1.4s var(--ease)}
+.c-time.in::after{height:calc(100% - 12px)}
+.c-time li{position:relative;display:flex;flex-direction:column;gap:4px;opacity:.3;transition:opacity .5s var(--ease) var(--d,0s)}
+.c-time li::before{content:"";position:absolute;left:-32px;top:5px;box-sizing:border-box;width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid var(--ink-5);
+  transition:background-color .35s var(--d,0s),border-color .35s var(--d,0s)}
 .c-time.in li{opacity:1}
 .c-time.in li::before{border-color:var(--red)}
 .c-time.in li.acc::before{background:var(--red)}
-.c-time b{font-size:15px;line-height:1.5;color:var(--ink-3);font-variant-numeric:tabular-nums}
-.c-time span{font-size:16px;line-height:1.5;color:var(--ink-2)}
+.c-time.done::after,.c-time.done li,.c-time.done li::before{transition:none}
+.c-time b{font-size:14px;line-height:1.5;color:var(--ink-3);font-variant-numeric:tabular-nums}
+.c-time span{font-size:17px;line-height:1.5;color:var(--ink-2);text-wrap:pretty}
 .c-time li.acc span{color:var(--ink)}
 
 /* calculation chain: steps rise in one after another, numbers count up; <i> = operator between steps */
@@ -276,7 +279,7 @@ a.glass:active,button.glass:active{transform:scale(.94);transition-duration:80ms
 /* before / after slider: each image sits on its own layer, clipped to its side of the line at --x, so a transparent
    "after" never shows "before" through it; --ba-pad shrinks the images inside the box (12.5% each side = 75% size) */
 .c-ba{position:relative}
-.ba-box{--x:50%;--ba-pad:12.5%;position:relative;overflow:hidden;border-radius:14px;background:var(--panel);touch-action:pan-y;user-select:none;cursor:ew-resize}
+.ba-box{--x:50%;--ba-pad:12.5%;position:relative;overflow:hidden;border-radius:14px;border:1px solid var(--panel);background:var(--panel);touch-action:pan-y;user-select:none;cursor:ew-resize}
 .ba-layer{padding:var(--ba-pad);clip-path:inset(0 calc(100% - var(--x)) 0 0)}
 .ba-layer+.ba-layer{position:absolute;inset:0;clip-path:inset(0 0 0 var(--x))}
 .ba-layer img{width:100%;height:auto;opacity:0;transition:opacity .6s var(--ease);pointer-events:none}
@@ -287,6 +290,15 @@ a.glass:active,button.glass:active{transform:scale(.94);transition-duration:80ms
 .ba-knob svg{position:relative;z-index:1;width:14px;height:14px;margin:0 -1px}
 .ba-tag{position:absolute;top:16px;z-index:1;display:inline-flex;align-items:center;height:36px;padding:0 14px;border-radius:99px;background:var(--bg);font-size:14px;line-height:1;color:var(--ink-2);pointer-events:none;transition:opacity .25s}
 .ba-tag.l{left:16px}.ba-tag.r{right:16px}
+/* case-ui.js samples the images and sets .on-light / .on-dark on the box */
+.ba-box.on-light{--gb-fill:linear-gradient(-75deg,#e6f5ff14,#f0faff33,#e6f5ff14);--gb-bevel:inset 0 2px 2px #0000000d,inset 0 -2px 2px #ffffff80;--gb-drop:0 4px 2px -2px #0003;
+  --gb-glow:inset 0 0 1.6px 4px #d2ebff40;--gb-rim-a:#143c7880;--gb-rim-b:#96c8ff1a;--gb-rim-base:linear-gradient(180deg,#dcf0ff80,#f0faff80);--gb-rim-line:#dcf0ff80;--gb-sheen:#ffffff80}
+.ba-box.on-dark{--gb-fill:linear-gradient(-75deg,#ffffff06,#ffffff14 50%,#ffffff06);--gb-bevel:inset 0 1px 1px #ffffff1a,inset 0 -2px 2px #00000059;--gb-drop:0 4px 2px -2px #000000b3;
+  --gb-glow:inset 0 0 1.6px 4px #ffffff05;--gb-rim-a:#ffffff40;--gb-rim-b:#ffffff08;--gb-rim-base:linear-gradient(180deg,#ffffff12,#ffffff05);--gb-rim-line:#ffffff0d;--gb-sheen:#ffffff14}
+.ba-box.on-light .ba-knob{color:#111827}
+.ba-box.on-dark .ba-knob{color:#fff}
+.ba-box.on-light .ba-tag{background:#fff;color:#374151}
+.ba-box.on-dark .ba-tag{background:#0B0D12;color:#D1D5DB}
 .ba-box input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:ew-resize}
 .ba-box:has(input:focus-visible) .ba-knob{outline:2px solid var(--red);outline-offset:3px}
 .c-ba figcaption{margin:16px auto 0;max-width:560px;text-align:center;font-size:14px;line-height:1.45;color:var(--ink-3)}
@@ -417,7 +429,6 @@ html.locked .c-bar,html.locked .c-tools,html.locked .c-page{visibility:hidden}
   .c-cols{height:260px;gap:8px 12px}
   .c-quote{padding-left:20px}
   .c-dots{grid-template-columns:1fr;gap:20px}
-  .c-time li{grid-template-columns:1fr;gap:2px}
   .c-calc>i{display:none}   /* phones: steps wrap into rows, operators would dangle */
   .c-calc>div{flex-basis:40%}
   .c-table{font-size:15px}
