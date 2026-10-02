@@ -127,9 +127,30 @@
     };
   }
 
+  // <div class="c-dots" data-total="50" data-hit="15"><span>label</span></div>
+  function buildDots(el){
+    const total = +el.dataset.total, hit = +el.dataset.hit, label = el.querySelector('span');
+    const num = document.createElement('div'), grid = document.createElement('div');
+    num.className = 'sh-num'; grid.className = 'dt-grid';
+    num.innerHTML = `<b>${hit} <s>of ${total}</s></b>`;
+    if (label) num.append(label);
+    // spread the hits evenly with a little jitter, so it reads like real calls rather than a filled bar; same layout every time
+    const picks = new Set();
+    for (let k = 0; k < hit; k++) picks.add(Math.min(total - 1, Math.floor((k + .5) * total / hit + Math.sin(k * 12.9898) * 1.4)));
+    let order = 0;
+    for (let i = 0; i < total; i++){
+      const d = document.createElement('i');
+      if (picks.has(i)){ d.className = 'hit'; d.style.setProperty('--d', (order++ * .07 + .2).toFixed(2) + 's') }
+      grid.append(d);
+    }
+    el.replaceChildren(num, grid);
+  }
+
   function dataBlocks(main){
-    const blocks = [...main.querySelectorAll('.c-stats,.c-nums,.c-bars,.c-shift,.c-cols,.c-calc,.c-company dl')];
+    const blocks = [...main.querySelectorAll('.c-stats,.c-nums,.c-bars,.c-shift,.c-cols,.c-calc,.c-dots,.c-time,.c-company dl')];
     main.querySelectorAll('.c-shift').forEach(buildShift);
+    main.querySelectorAll('.c-dots').forEach(buildDots);
+    main.querySelectorAll('.c-time li').forEach((li, i) => li.style.setProperty('--d', (i * .2).toFixed(2) + 's'));
     // numbers that count up: stat values, big numbers in .c-nums, values in the company card
     const nums = el => [...el.querySelectorAll(el.closest('.c-company') ? 'dd' : ':scope > div > b, dt')];
     if (still() || !('IntersectionObserver' in window)){
@@ -137,7 +158,7 @@
       main.querySelectorAll('.c-shift em').forEach(n => { n.textContent = n.closest('.c-shift').dataset.to });
       return;
     }
-    blocks.forEach(b => { if (!b.matches('.c-shift,.c-bars')) nums(b).forEach(n => countUp(n)) });
+    blocks.forEach(b => { if (!b.matches('.c-shift,.c-bars,.c-dots,.c-time')) nums(b).forEach(n => countUp(n)) });
     const io = new IntersectionObserver(es => es.forEach(e => {
       if (!e.isIntersecting) return;
       const b = e.target;

@@ -224,6 +224,27 @@ a.glass:active,button.glass:active{transform:scale(.94);transition-duration:80ms
 .c-cols b{margin-top:10px;font-size:clamp(24px,2.6vw,30px);line-height:1;letter-spacing:-.03em;color:var(--ink)}
 .c-cols span{font-size:14px;line-height:1.35;color:var(--ink-3)}
 
+/* dot share: N of M — a grid of dots where the "hit" ones light up red one by one; the share counts up on the left */
+.c-dots{display:grid;grid-template-columns:minmax(0,auto) minmax(0,1fr);align-items:center;gap:24px 40px}
+.dt-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:8px;justify-items:center}
+.dt-grid i{width:100%;max-width:22px;aspect-ratio:1;border-radius:50%;border:1.5px solid var(--ink-5);transition:background-color .35s,border-color .35s,transform .5s var(--spring)}
+.c-dots.in .dt-grid i.hit{background:var(--red);border-color:var(--red);transform:scale(1.08);transition-delay:var(--d,0s)}
+
+/* timeline: the line grows down as it scrolls into view, points light up in order; .acc = a key moment */
+.c-time{list-style:none;position:relative;display:flex;flex-direction:column;gap:22px;padding-left:28px}
+.c-time::before,.c-time::after{content:"";position:absolute;left:5px;top:8px;width:2px;border-radius:2px}
+.c-time::before{bottom:8px;background:var(--line)}
+.c-time::after{height:0;background:var(--red);transition:height 1.6s var(--ease)}
+.c-time.in::after{height:calc(100% - 16px)}
+.c-time li{position:relative;display:grid;grid-template-columns:132px minmax(0,1fr);gap:4px 20px;opacity:.35;transition:opacity .5s var(--ease) var(--d,0s)}
+.c-time li::before{content:"";position:absolute;left:-28px;top:7px;width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid var(--ink-5);transition:background-color .4s var(--d,0s),border-color .4s var(--d,0s)}
+.c-time.in li{opacity:1}
+.c-time.in li::before{border-color:var(--red)}
+.c-time.in li.acc::before{background:var(--red)}
+.c-time b{font-size:15px;line-height:1.5;color:var(--ink-3);font-variant-numeric:tabular-nums}
+.c-time span{font-size:16px;line-height:1.5;color:var(--ink-2)}
+.c-time li.acc span{color:var(--ink)}
+
 /* calculation chain: steps rise in one after another, numbers count up; <i> = operator between steps */
 .c-calc{display:flex;flex-wrap:wrap;align-items:center;gap:16px 14px}
 .c-calc>div{flex:1 1 120px;display:flex;flex-direction:column;gap:8px;opacity:0;translate:0 10px;transition:opacity .6s var(--ease),translate .7s var(--ease)}
@@ -395,6 +416,8 @@ html.locked .c-bar,html.locked .c-tools,html.locked .c-page{visibility:hidden}
   .sh-row i{width:20px;height:36px}
   .c-cols{height:260px;gap:8px 12px}
   .c-quote{padding-left:20px}
+  .c-dots{grid-template-columns:1fr;gap:20px}
+  .c-time li{grid-template-columns:1fr;gap:2px}
   .c-calc>i{display:none}   /* phones: steps wrap into rows, operators would dangle */
   .c-calc>div{flex-basis:40%}
   .c-table{font-size:15px}

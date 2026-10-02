@@ -132,4 +132,5 @@ Source: slides from the demo of the Site Development & Primary Sales Platform Di
 - Reviews: only the 3 real quotes from colleagues. Never write reviews on Vlad's behalf.
 - DesOps (Home Credit) case hidden like iOS: removed from the carousel and `cases/cases.js`, page still exists.
 - Line-up now: terminals, support, plugin, QR (balance hidden too, page still exists). Calculator case to come after its release.
-- 2026-10-02: plugin case «What it saves» — estimate at ₽250K/month (≈₽1,560/h; Habr Career avg 219K, senior 280K, Alfa senior vacancy from ~249K): one assembly ≈ ₽1,000–1,500; 10–30 layouts/week × 40 min = 7–20 h/week ≈ 330–1,000 h ≈ ₽0.5–1.6M a year. New block `.c-calc` (chain of steps, result line in red).
+- 2026-10-02: plugin case «What it saves» — estimate at ₽250K/month (≈₽1,560/h; Habr Career avg 219K, senior 280K, Alfa senior vacancy from ~249K): one assembly ≈ ₽1,000–1,500; 10–30 layouts/week × 40 min = 7–20 h/week ≈ 330–1,000 h ≈ ₽0.5–1.6M (shown as $6–19K at ~₽83/$, $12–18 per assembly) a year. New block `.c-calc` (chain of steps, result line in red).
+- 2026-10-02: new blocks `.c-dots` (support: 15 of 50 call-backs) and `.c-time` (terminals: 2024 research → Q2 2026 CR1, before Results). Timeline dates = only what Vlad confirmed; «2025 renders» is inferred (between early 2025 and the Q1 2026 release).
