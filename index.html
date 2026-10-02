@@ -359,6 +359,9 @@ section.sec{padding-top:var(--gap)}
 /* Figma «Case / State=On»: text slides in, phone moves down 100px → 231px */
 .device{position:absolute;left:50%;top:16.7%;width:42.4%;translate:-50% 0;transition:top .8s var(--spring)}
 .device > img{width:100%;pointer-events:none}
+.device.device-wide{width:78%;top:30%}   /* a wide UI panel instead of a phone */
+@media (hover:hover){ .slide.top:hover .device.device-wide{top:52%} }
+@media (hover:none){ .slide.top .device.device-wide{top:52%} }
 .ov{position:absolute;left:0;right:0;top:8.3%;height:30.2%;display:flex;flex-direction:column;align-items:center;padding:0 8%;text-align:center;  /* runs down to the phone (38.5%) */
   opacity:0;translate:0 -24px;transition:opacity .45s var(--ease),translate .8s var(--spring)}
 .ov h3{max-width:385px;font-size:clamp(18px,2.2vw,24px);font-weight:400;line-height:1.2;letter-spacing:-.01em;color:var(--ink);text-wrap:balance}
@@ -801,30 +804,15 @@ footer.wrap{margin-top:var(--gap)}
             <div class="ov"><h3>When 30% of sales leads are support calls</h3><div class="pills"><span>Alfa-Bank</span><span>rolling out</span></div></div>
             <div class="device"><img src="assets/case-support.webp" alt="Support number with a QR code to call" draggable="false"></div>
           </a>
+          <a class="slide" href="cases/plugin.html" data-snd="click">
+            <span class="lock" title="Password-protected (NDA)" aria-label="Password-protected"><svg><use href="#i-lock"/></svg></span>
+            <div class="ov"><h3>One designer, one plugin, every designer on the site</h3><div class="pills"><span>30+ designers</span><span>AI</span></div></div>
+            <div class="device device-wide"><img src="assets/case-plugin.webp" alt="The plugin panel" draggable="false"></div>
+          </a>
           <a class="slide" href="cases/qr.html" data-snd="click">
             <span class="lock" title="Password-protected (NDA)" aria-label="Password-protected"><svg><use href="#i-lock"/></svg></span>
             <div class="ov"><h3>Paying for public transport with a QR code</h3><div class="pills"><span>−20 s per payment</span><span>+17% in app</span></div></div>
             <div class="device"><img src="assets/case-qr.webp" alt="QR-code transport payment screen" draggable="false"></div>
-          </a>
-          <a class="slide" href="cases/balance.html" data-snd="click">
-            <span class="lock" title="Password-protected (NDA)" aria-label="Password-protected"><svg><use href="#i-lock"/></svg></span>
-            <div class="ov"><h3>Mobile balance home screen redesign</h3><div class="pills"><span>+5% balance payments</span><span>+1 840 bonus accounts</span></div></div>
-            <div class="device"><div class="phone"><div class="bal"><small>Mobile balance</small>2 450 ₸</div><div class="chips"><i></i><i></i><i></i><i></i></div><div class="ln m"></div><div class="ln s"></div><div class="ln m"></div></div></div>
-          </a>
-          <a class="slide" id="calSlide" href="cases/ios.html" data-snd="click">
-            <span class="lock" title="Password-protected (NDA)" aria-label="Password-protected"><svg><use href="#i-lock"/></svg></span>
-            <div class="ov"><h3>A native iOS app from scratch in one month</h3><div class="pills"><span>EdTech</span><span>app ready in 31 days</span></div></div>
-            <div class="device"><div class="phone"><div class="ln s"></div><div class="cal" id="cal"></div><div class="ln m"></div></div></div>
-          </a>
-          <a class="slide" href="cases/desops.html" data-snd="click">
-            <span class="lock" title="Password-protected (NDA)" aria-label="Password-protected"><svg><use href="#i-lock"/></svg></span>
-            <div class="ov"><h3>DesOps process &amp; design system</h3><div class="pills"><span>DesOps</span><span>Design system</span></div></div>
-            <div class="device"><div class="phone"><div class="ds">
-              <div><span class="sw" style="background:var(--red)"></span><span class="ln s"></span></div>
-              <div><span class="tgl"></span><span class="ln m"></span></div>
-              <div><span class="bt"></span><span class="ln s"></span></div>
-              <div><span class="sw" style="background:var(--ink)"></span><span class="ln m"></span></div>
-            </div><div class="ln m"></div><div class="ln s"></div></div></div>
           </a>
         </div>
       </div>
@@ -1309,10 +1297,12 @@ const dup=set.replace(/<article /g,'<article aria-hidden="true" '); $('#loveTrac
 { const v=$('.ph video'); new IntersectionObserver(([e])=>{ if(e.isIntersecting) v.play().catch(()=>{}); else v.pause() },{threshold:.25}).observe(v) }
 
 /* ───── Case visuals: 31-day calendar fills up ───── */
-const cal=$('#cal'); for(let d=1;d<=35;d++){ const i=document.createElement('i'); if(d<=31) i.dataset.d=d; else i.style.visibility='hidden'; cal.appendChild(i) }
-const cc=$('#calSlide'); let ct;
+/* (the iOS case card is hidden for now — this only runs if it's back in the deck) */
+const cal=$('#cal'), cc=$('#calSlide');
+if(cal && cc){ for(let d=1;d<=35;d++){ const i=document.createElement('i'); if(d<=31) i.dataset.d=d; else i.style.visibility='hidden'; cal.appendChild(i) }
+let ct;
 cc.addEventListener('pointerenter',()=>{ let d=0; const loud=realHover(); clearInterval(ct); ct=setInterval(()=>{ const el=$(`i[data-d="${++d}"]`,cal); if(!el){ clearInterval(ct); return } el.classList.add('on'); if(loud && d%3===0) play('tick') },28) });
-cc.addEventListener('pointerleave',()=>{ clearInterval(ct); $$('i.on',cal).forEach(i=>i.classList.remove('on')) });
+cc.addEventListener('pointerleave',()=>{ clearInterval(ct); $$('i.on',cal).forEach(i=>i.classList.remove('on')) }); }
 
 /* ───── Product tiles on touch: no hover, so each tile plays its animation once, the first time it scrolls into view ───── */
 const touch=!matchMedia('(hover:hover)').matches;
