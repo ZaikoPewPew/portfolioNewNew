@@ -630,6 +630,7 @@ section.sec{padding-top:var(--gap)}
 .love-faces{display:flex}
 .love-faces .face{width:40px;height:40px;font-size:13px;margin-left:-12px;border-color:var(--bg)}
 .love-faces .face:first-child{margin-left:0}
+/* the faces in «Work with me» are all Vlad — assets/me/1-4.webp, 120px face crops */
 /* hover: avatars hop one after another, like a wave */
 .love-btn:hover .face{animation:hop .6s var(--ease) 1 both}
 .love-btn:hover .face:nth-child(2){animation-delay:.09s}
@@ -643,7 +644,7 @@ section.sec{padding-top:var(--gap)}
 /* ═══════════ Footer ═══════════ */
 footer.wrap{margin-top:var(--gap)}
 @media (min-width:821px){
-  footer.wrap{margin-top:calc(var(--gap) - 72px)}   /* the "100+ other colleagues" line hangs 28px below the love section, so the air is --gap minus 100px */
+  footer.wrap{margin-top:calc(var(--gap) - 72px)}   /* the line under «Work with me» hangs 28px below the love section, so the air is --gap minus 100px */
   .frow .me .star{display:none}
 }
 .dotline{height:2px;background:radial-gradient(circle,var(--dot) 1px,transparent 1.2px) 0 0/9.6px 2px repeat-x}
@@ -958,8 +959,8 @@ footer.wrap{margin-top:var(--gap)}
     <div class="after love-stage">
       <div class="love-rail" id="loveRail" aria-label="Testimonials"><div class="love-track" id="loveTrack"></div></div>
       <div class="love-cta rv">
-        <div class="gb-wrap"><button class="gb love-btn" type="button" data-burst data-open-contacts><span><span class="love-faces" id="loveFaces"></span>Work with me</span></button><div class="gb-shadow" aria-hidden="true"></div><span class="burst" aria-hidden="true"></span></div>
-        <p>and 100+ other colleagues</p>
+        <div class="gb-wrap"><button class="gb love-btn" type="button" data-burst data-open-contacts><span><span class="love-faces" aria-hidden="true"><span class="face"><img src="assets/me/1.webp" alt=""></span><span class="face"><img src="assets/me/2.webp" alt=""></span><span class="face"><img src="assets/me/3.webp" alt=""></span><span class="face"><img src="assets/me/4.webp" alt=""></span></span>Work with me</span></button><div class="gb-shadow" aria-hidden="true"></div><span class="burst" aria-hidden="true"></span></div>
+        <p>slide into my DMs — let’s cook</p>
       </div>
     </div>
   </section>
@@ -1297,7 +1298,6 @@ const dup=set.replace(/<article /g,'<article aria-hidden="true" '); $('#loveTrac
   $$('.hero-ava,#otwBtn').forEach(el=>io.observe(el)) }
 /* ───── Photo video: plays from the start once the fan is on screen, pauses off-screen ───── */
 { const v=$('.ph video'); new IntersectionObserver(([e])=>{ if(e.isIntersecting) v.play().catch(()=>{}); else v.pause() },{threshold:.25}).observe(v) }
-$('#loveFaces').innerHTML=TESTIMONIALS.slice(0,4).map(t=>face(t)).join('');
 
 /* ───── Case visuals: 31-day calendar fills up ───── */
 const cal=$('#cal'); for(let d=1;d<=35;d++){ const i=document.createElement('i'); if(d<=31) i.dataset.d=d; else i.style.visibility='hidden'; cal.appendChild(i) }
