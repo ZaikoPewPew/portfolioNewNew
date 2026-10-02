@@ -27,7 +27,7 @@ jobs:
       - name: Collect the site
         run: |
           mkdir _site
-          cp -r index.html 404.html robots.txt sitemap.xml favicon.ico favicon.svg apple-touch-icon.png assets cases _site/
+          cp -r index.html 404.html robots.txt sitemap.xml llms.txt favicon.ico favicon.svg apple-touch-icon.png assets cases _site/
           rm -rf _site/cases/_src
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3

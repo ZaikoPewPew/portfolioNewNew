@@ -14,6 +14,7 @@
   --bg:#FFFFFF; --panel:#F0F2F6; --panel-2:#E4E7EC;
   --ink:#111827; --ink-2:#374151; --ink-3:#6B7280; --ink-4:#9CA3AF; --ink-5:#D1D5DB; --line:#E5E7EB;
   --red:#E23336; --scrim:rgba(17,24,39,.32); --dot:#9FA4AB;
+  --foil-1:#BCC2CB; --foil-2:#DDE1E7; --foil-3:#F6F7F9; --foil-grain:rgba(17,24,39,.16);   /* scratch-off cover over NDA data */
   color-scheme:light;
   /* glass material for the back button — same recipe as the pills on the home page */
   --gb-fill:linear-gradient(-75deg,#e6f5ff14,#f0faff33,#e6f5ff14);
@@ -27,6 +28,7 @@
   --bg:#0B0D12; --panel:#151922; --panel-2:#1F2430;
   --ink:#F3F4F6; --ink-2:#D1D5DB; --ink-3:#9CA3AF; --ink-4:#6B7280; --ink-5:#374151; --line:#1F242D;
   --scrim:rgba(0,0,0,.55); --dot:#3A3A40;
+  --foil-1:#2B303B; --foil-2:#3C4250; --foil-3:#566070; --foil-grain:rgba(0,0,0,.4);
   color-scheme:dark;
   --gb-fill:linear-gradient(-75deg,#ffffff06,#ffffff14 50%,#ffffff06);
   --gb-bevel:inset 0 1px 1px #ffffff1a,inset 0 -2px 2px #00000059;
@@ -123,6 +125,7 @@ a.glass:active,button.glass:active{transform:scale(.94);transition-duration:80ms
 
 /* ───────────── Hero ───────────── */
 .c-hero h1{margin-top:var(--hero-gap);font-size:clamp(36px,4.8vw,56px);line-height:1.08;letter-spacing:-.035em;text-wrap:balance}
+.c-hero .c-links{margin-top:32px}
 .c-lead{margin-top:24px;font-size:clamp(19px,1.8vw,22px);line-height:1.5;color:var(--ink-2);text-wrap:pretty}
 
 /* ───────────── Article blocks ───────────── */
@@ -381,6 +384,33 @@ html.locked .c-bar,html.locked .c-tools,html.locked .c-page{visibility:hidden}
 .lock-hint a{color:var(--ink);text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--ink-5)}
 .shake{animation:shake .45s cubic-bezier(.36,.07,.19,.97) both}
 @keyframes shake{10%,90%{transform:translateX(-2px)}20%,80%{transform:translateX(4px)}30%,50%,70%{transform:translateX(-8px)}40%,60%{transform:translateX(8px)}}
+
+/* ───────────── NDA data in an open case: a scratch-off foil, the password asked on click ───────────── */
+/* the foil itself is drawn on a <canvas> by lock.js (silver gradient + grain), so it can be scratched away */
+.nda{position:relative;overflow:hidden;cursor:pointer;background:var(--foil-2);-webkit-tap-highlight-color:transparent}
+.nda canvas,.nda-rev>canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;border-radius:inherit}
+span.nda{display:inline-block;width:calc(var(--len) * .6em);height:1.15em;vertical-align:-.22em;border-radius:6px}
+.nda-block{display:block;width:100%;min-height:200px;border-radius:14px}
+.nda-block[style*="aspect-ratio"]{min-height:0}
+/* a light sweeps across on hover, like tilting a ticket */
+.nda::after{content:"";position:absolute;z-index:1;inset:0 auto 0 0;width:60%;translate:-120% 0;pointer-events:none;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.6) 50%,transparent)}
+:root[data-theme="dark"] .nda::after{background:linear-gradient(100deg,transparent,rgba(255,255,255,.16) 50%,transparent)}
+@media (hover:hover){ .nda:hover::after{translate:220% 0;transition:translate .9s var(--ease)} }
+.nda:focus-visible{outline:2px solid var(--red);outline-offset:3px}
+.nda-lock{position:absolute;z-index:2;left:50%;top:50%;translate:-50% -50%;display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--bg);color:var(--ink-2)}
+.nda-lock svg{width:18px;height:18px}
+/* while the foil is scratched off, the real content already sits under it */
+.nda-rev{position:relative;display:block;border-radius:14px}
+span.nda-rev{display:inline-block;border-radius:6px}
+.nda-rev>canvas{z-index:3;transition:opacity .25s var(--ease)}
+
+/* the same password cells as a modal over an open case */
+.lock.modal{align-content:center;gap:24px;background:color-mix(in srgb,var(--bg) 70%,transparent);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);opacity:0;visibility:hidden}
+.lock.modal.show{opacity:1;visibility:visible}
+.lock.modal .lock-code{animation:none;transform:translateY(8px)}
+.lock.modal.show .lock-code{transform:none}
+.lock-title{font-size:17px;line-height:1.4;color:var(--ink);text-align:center;transition:translate .3s var(--ease)}
 
 /* ───────────── Tablet & mobile: top bar + contents sheet instead of the rail ───────────── */
 @media (max-width:1279px){

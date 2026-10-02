@@ -1,0 +1,49 @@
+# Vladislav Kurguzov
+
+> Senior product designer with 5+ years. I find the real problem, untangle the chaos and make the process work. Fintech, AI tools, design systems, DesignOps. I design and also write the code for my own tools.
+
+- Site: https://krgzv.net/
+- Based in Almaty, Kazakhstan; works remotely
+
+## What I do
+
+- Product design for large consumer and business products: web and mobile, research to release
+- Untangling stuck decisions between business, brand and users, then shipping the fix
+- DesignOps: Figma plugins and widgets, design systems, team processes
+- AI in design work: knowledge bases that let an LLM build pages from a design system
+- Prototyping and front-end code (I build my own Figma plugins and side products)
+
+## Experience
+
+- Alfa-Bank — Senior Product Designer, website (merchant acquiring, DesignOps, AI track), 2024 – now
+- red_mad_robot (Central Asia) — Product Designer / DesignOps, design system for Home Credit Bank Business, 2024
+- Zimran — Product Designer, EdTech, 2023 – 2024
+- Kcell / activ — Product Designer, mobile app for 1.5M+ monthly users, 2022 – 2023
+- Alfa-Bank Kazakhstan — Product Designer, 2021 – 2022
+
+## Case studies
+
+- [Ending a two-year stand-off over how terminals look](https://krgzv.net/cases/terminals.html): business wanted photos, brand guidelines banned them; I unblocked it with hyper-real 3D, then turned a block refresh into a terminal showcase with a comparison table and a 30-second quiz. Applications started by visitors grew +38% in the quarter after release; research issues with choosing a terminal went from 3 to 0.
+- [When 30% of sales leads are support calls](https://krgzv.net/cases/support.html): existing clients used the new-client form to reach support; I routed them to the right line before and inside the form and went after the root cause. Password-protected.
+- [One designer, one plugin, every designer on the site](https://krgzv.net/cases/plugin.html): a Figma plugin I designed and coded solo; one click instead of 40–60 minutes of image assembly, used by all 30+ site designers, plus AI page generation from a knowledge base I designed. Password-protected.
+- [Paying for public transport with a QR code](https://krgzv.net/cases/qr.html): field research on buses, the flow cut from 9 screens to 3, 20 seconds faster per payment, +17% riders paying in the app. Password-protected.
+
+## Side products
+
+- [ies](https://t.me/ies_app): a Telegram mini app for learning Chechen
+- [obratka](https://obratka.net/): honest feedback on your designs
+- [time travel](https://zaikopewpew.github.io/time-travel/web/): a small browser game
+- tippy: a macOS AI buddy that explains things while you work
+
+## Community
+
+- YouTube: https://www.youtube.com/@DesignLeadd — talks on portfolios, hiring, UX research and metrics
+- Telegram channel: https://t.me/dsgn_thinking
+- Talks at meetups and podcasts, building in public
+
+## Contact
+
+- Email: kvneasyy@gmail.com
+- Telegram: https://t.me/ezzzz12345
+- LinkedIn: https://www.linkedin.com/in/kvneasy/
+- CV (PDF): https://drive.google.com/file/d/1my4PuK5nmtYblFCPzaZSvwsXG5zIFDX8/view
