@@ -68,6 +68,7 @@ html.locked body{overflow:hidden}
 .c-main>*+*{margin-top:var(--gap)}
 .c-main>.c-hero+*{margin-top:clamp(48px,6vw,64px)}
 .c-main>*+.c-sec{margin-top:var(--gap-sec)}
+.c-main>.c-note+*{margin-top:24px}   /* a lead-in sits right on top of its screen */
 .c-main:empty{min-height:100vh}
 
 /* back link */
