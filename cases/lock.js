@@ -148,12 +148,14 @@
       scope.querySelectorAll('video:not([data-enc])').forEach(v => v.readyState >= 2 ? shown(v) : v.addEventListener('loadeddata', () => shown(v), { once:true }));
     };
     media(main);
+    const voice = main.querySelector('audio[data-enc]');   // encrypted like the NDA data: it reads them aloud
+    voice?.remove();
     reveal(main);
     $('#foot').hidden = false;
-    document.dispatchEvent(new CustomEvent('case:ready', { detail:{ main, voice:false } }));
+    document.dispatchEvent(new CustomEvent('case:ready', { detail:{ main, voice:!!voice } }));
 
     const foils = [...main.querySelectorAll('.nda')];
-    if (!foils.length) return;
+    if (!foils.length && !voice) return;
     title.hidden = false;
     lock.classList.add('modal');
     lock.setAttribute('aria-label', 'Password for the hidden data');
@@ -164,6 +166,11 @@
     const hide = () => { lock.classList.remove('show'); pw.blur(); opener?.isConnected && opener.focus({ preventScroll:true }) };
     $('#lockClose').addEventListener('click', e => { e.preventDefault(); hide() });
     lock.addEventListener('click', e => { if (e.target === lock) hide() });
+    // Listen before the code: the modal instead of the player (captured before case-ui.js sees the click)
+    if (voice) document.addEventListener('click', e => {
+      if (got || !e.target.closest('#listen')) return;
+      e.stopPropagation(); show($('#listen'));
+    }, true);
     foils.forEach(f => {
       f.addEventListener('click', () => show(f));
       f.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); show(f) } });
@@ -241,6 +248,7 @@
     done = () => { hide(); place(true) };
 
     function place(animate){
+      if (voice) loadVoice(voice, got.key);
       got.html.forEach((html, i) => {
         const host = main.querySelector(`[data-nda="${i}"]`);
         if (!host) return;

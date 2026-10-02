@@ -407,7 +407,8 @@ span.nda-rev{display:inline-block;border-radius:6px}
 
 /* the same password cells as a modal over an open case */
 .lock.modal{align-content:center;gap:24px;background:color-mix(in srgb,var(--bg) 70%,transparent);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);opacity:0;visibility:hidden}
-.lock.modal.show{opacity:1;visibility:visible}
+.lock.modal:not(.show){pointer-events:none}   /* while it fades out it must not catch clicks */
+.lock.modal.show{opacity:1;visibility:visible;transition:opacity .4s var(--ease),visibility 0s}   /* visible at once, so the code field can take focus */
 .lock.modal .lock-code{animation:none;transform:translateY(8px)}
 .lock.modal.show .lock-code{transform:none}
 .lock-title{font-size:17px;line-height:1.4;color:var(--ink);text-align:center;transition:translate .3s var(--ease)}

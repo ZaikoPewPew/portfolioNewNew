@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex">
+
 <title>When 30% of sales leads are support calls — Vladislav Kurguzov</title>
 <meta name="description" content="Case study: Alfa-Bank merchant acquiring — intercepting support requests before the sales form, keeping the focus on a phone call, and chasing the root cause.">
 <meta property="og:type" content="article">
@@ -31,7 +31,7 @@
     var tc = document.querySelector('meta[name="theme-color"]'), sync = function(){ tc.content = h.dataset.theme === 'dark' ? '#0B0D12' : '#FFFFFF' };
     sync(); new MutationObserver(sync).observe(h, { attributes: true, attributeFilter: ['data-theme'] }); })();
 </script>
-<link rel="stylesheet" href="case.css?v=ea413011">
+<link rel="stylesheet" href="case.css?v=89d745f4">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -67,7 +67,121 @@
       <ol id="tocList"></ol>
     </nav>
   </aside>
-  <main class="c-main" id="case" aria-live="polite"></main>
+  <main class="c-main" id="case" aria-live="polite"><header class="c-hero">
+  <div class="c-meta">
+    <span>Senior Product Designer</span><span>Alfa-Bank</span><span>Sep 2026</span><span>Merchant acquiring</span><span>Rolling out</span>
+  </div>
+  <h1>When 30% of sales leads are support calls</h1>
+  <p class="c-lead">The application form for new acquiring clients kept filling up with existing clients looking for help. I intercepted them twice on the way to the form, held the line on giving them a phone number rather than more options — and went looking for why they come at all.</p>
+</header>
+
+<div class="c-stats">
+  <div><b>30%</b><span>of applications from the new-client form were existing clients looking for support</span></div>
+  <div><b>2</b><span>ways to reach the right line before and inside the form, rolling out to 100% of traffic</span></div>
+</div>
+
+<figure class="c-ba">
+  <div class="ba-box" style="--ba-pad:0px">
+    <img loading="lazy" decoding="async" src="support/e0bb1ac83bc19711.webp" width="1600" height="1373" alt="The old form: three steps and a phone field with Call me and Fill in online">
+    <img loading="lazy" decoding="async" src="support/e123ae9a49ade4e8.webp" width="1600" height="1373" alt="The new form with two tabs, Connect and Support 24/7, showing numbers and QR codes for Moscow and the regions">
+  </div>
+  <figcaption>Before: a phone field — the obvious way to reach a human, whoever you are. After: a choice between connecting and support</figcaption>
+</figure>
+
+<section class="c-sec">
+  <h2 class="c-label">About</h2>
+  <div class="c-body">
+    <div class="c-company">
+      <img loading="lazy" decoding="async" src="support/946060cdbad36910.webp" width="95" height="96" alt="Alfa-Bank logo">
+      <p>Russia's largest private bank. I work on merchant acquiring — card payments for small and medium businesses — on the bank's website.</p>
+      <div class="c-links"><a href="https://alfabank.ru/sme/payservice/acquiring/" target="_blank" rel="noopener">Acquiring page<svg aria-hidden="true"><use href="#i-out"/></svg></a></div>
+      <div class="c-co-row"><dl><div><dt>Site MAU</dt><dd>22M+</dd></div><div><dt>New acquiring clients, Jan – Sep 2026</dt><dd><span class="nda" data-nda="0" role="button" tabindex="0" aria-label="hidden data, enter the password to see it" style="--len:6"></span></dd></div></dl></div>
+    </div>
+  </div>
+</section>
+
+<section class="c-sec">
+  <h2 class="c-label">Problem</h2>
+  <div class="c-body">
+    <p>The business came to us after a meeting with the call centre. Of every 50 call-backs to applications from the acquiring form, 15 weren't from new clients at all — 30%.</p>
+    <div class="c-dots" data-total="50" data-hit="15"><span>call-backs were existing clients looking for support</span></div>
+    <p class="c-big">Existing clients left their number to reach <em>support</em>. A sales agent called back about connecting — and could neither help them nor transfer the call: there's no way to switch to the support line.</p>
+    <p>Every one of those calls is wasted time for the call centre and a frustrated client. And they came from all three main acquiring pages — whatever was on the page, the form worked as a trigger to “leave a number and someone will help”.</p>
+  </div>
+</section>
+
+<section class="c-sec">
+  <h2 class="c-label">My role</h2>
+  <div class="c-body">
+    <p>Senior Product Designer on merchant acquiring at the bank's website. A one-sprint task in September 2026. Both hypotheses below are mine, and I defended them to the business. I also went after the root cause outside our product and handed my findings to the teams that own it.</p>
+  </div>
+</section>
+
+<section class="c-sec">
+  <h2 class="c-label">Reframe</h2>
+  <div class="c-body">
+    <p class="c-big">A client who comes to the form for help hasn't made a mistake. They're <em>looking for a way to reach the bank</em>, and the form is the most visible one.</p>
+    <p>The bank already has two separate lines — one for connecting, one for support. The channel exists; it just isn't visible at the moment people look for it. So the job isn't to block the form, but to show the right line before they reach it — and once more if they do.</p>
+  </div>
+</section>
+
+<section class="c-sec">
+  <h2 class="c-label">Decision 1: catch them at the top</h2>
+  <div class="c-body">
+    <p>On an earlier task, heatmaps showed that people click the benefit tiles in the main banner — even though across the site those tiles aren't clickable. People read them as buttons, so we'd started using that: the fourth tile already opens the tariff quiz.</p>
+    <p>The third tile already said “Support 24/7”, but it was just a label. I gave it substance: now it opens a window with both support numbers, for Moscow and for the regions, plus QR codes to call straight from a phone. Some of the people looking for help get it in the first screen, before they ever scroll to the form.</p>
+  </div>
+</section>
+
+<figure class="c-fig"><img loading="lazy" decoding="async" src="support/31a73ba5e38d5f80.webp" width="1600" height="1093" alt="The acquiring page banner with four benefit tiles; the Support 24/7 tile opens a window with numbers and QR codes"><figcaption>The Support 24/7 tile in the banner now opens the numbers</figcaption></figure>
+
+<section class="c-sec">
+  <h2 class="c-label">Decision 2: a choice in the form</h2>
+  <div class="c-body">
+    <p>For those who still head for the form, it now opens with two tabs: Connect and Support 24/7. The support tab shows the two numbers of our dedicated lines and QR codes I added so people can scan and call in a second.</p>
+    <p>The risk is scaring off new clients. A client / not a client tab switch is already used in many forms across the site, so the pattern is familiar and the Connect tab works exactly as before.</p>
+  </div>
+</section>
+
+<section class="c-sec">
+  <h2 class="c-label">The argument: one door, not three</h2>
+  <div class="c-body">
+    <p>The business wanted to add links to the knowledge base and the Telegram bot to the support tab. Their logic: the more options, the better.</p>
+    <p class="c-big">Mine: the more options, the higher the cognitive load — and the easier it is to just leave a number in the form <em>again</em>.</p>
+    <p>We already knew the problem was calls. These people want a human voice, not to search for an answer or write to a bot. For the first iteration it's right to hit exactly that point and measure it cleanly. The business agreed: the support tab has phone numbers only.</p>
+  </div>
+</section>
+
+<section class="c-sec">
+  <h2 class="c-label">The root cause I couldn't sell</h2>
+  <div class="c-body">
+    <p>The form treats the symptom. Nobody actually knew <em>why</em> existing clients come to a sales page for help, so that's where I started.</p>
+    <ul class="c-list">
+      <li><em>The welcome email.</em> It's the first touchpoint that explains the basics and lists the support numbers. If clients end up in our form, it probably isn't working — or gets lost</li>
+      <li><em>The internet bank.</em> It isn't quite clear there how to reach support</li>
+    </ul>
+    <p>Both are hard to check from where I sit: email engagement — whether people come back to the email and how often — and the internet bank belong to other teams and another business line. I asked the business to dig up the email metrics and passed my internet bank hypotheses to the designer there, so they can revisit their side.</p>
+    <p>I also drafted a welcome page: everything about your acquiring in one place, with the tariff, next steps and support. I couldn't sell it — the business couldn't estimate its effect, and the integrations make it expensive to build for now.</p>
+  </div>
+</section>
+
+<figure class="c-fig" data-nda="1"><div class="nda nda-block" role="button" tabindex="0" aria-label="hidden data, enter the password to see it" style="aspect-ratio:1600/1010"><span class="nda-lock" aria-hidden="true"><svg><use href="#i-lock"/></svg></span></div><figcaption>The welcome page draft and the email it would build on</figcaption></figure>
+
+<section class="c-sec">
+  <h2 class="c-label">Status</h2>
+  <div class="c-body">
+    <p>Both changes are rolling out to 100% of traffic — not as an A/B test. The share of support requests is measured the same way as the 30% baseline: through the call centre's monthly statistics. To tell the two changes apart, the support window in the banner and the support tab in the form are tracked as separate events. And CR1 has to hold.</p>
+  </div>
+</section>
+
+<section class="c-sec">
+  <h2 class="c-label">What I took from it</h2>
+  <div class="c-body">
+    <p>Misdirected leads aren't a user error. They're a signal that the right channel isn't visible when people look for it.</p>
+    <p>Another door isn't always help. When someone wants to call, the best experience is letting them call.</p>
+    <p>And the welcome page taught me to come with numbers, not just an idea: next time I'll first estimate how many calls it would take off the call centre — that's the language the decision is made in.</p>
+  </div>
+</section></main>
 </div>
 
 <nav class="glass c-next" id="next" aria-label="More cases" hidden></nav>
@@ -103,6 +217,7 @@
 
 <div class="lock" id="lock" role="dialog" aria-modal="true" aria-label="Password">
   <a class="glass lock-x" id="lockClose" href="../index.html#deck" aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></a>
+  <p class="lock-title" id="lockTitle" hidden>this data is password-protected</p>
   <form class="lock-code" id="lockForm" autocomplete="off">
     <input id="pw" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="6" aria-label="Password" autocomplete="one-time-code" spellcheck="false">
     <span class="glass"><i></i></span><span class="glass"><i></i></span><span class="glass"><i></i></span><span class="glass"><i></i></span><span class="glass"><i></i></span><span class="glass"><i></i></span>
@@ -110,10 +225,10 @@
   <p class="lock-hint">need the password? ask me on <a href="https://t.me/ezzzz12345" target="_blank" rel="noopener">telegram</a> or <a href="https://www.linkedin.com/in/kvneasy/" target="_blank" rel="noopener">linkedin</a></p>
 </div>
 
-<script type="application/json" id="payload">{"v":1,"iter":310000,"salt":"cE57JwZoaQOj17chNaYOWg==","iv":"j3vF4aCXf+AjN3kr","ct":"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"}</script>
+<script type="application/json" id="payload">{"v":2,"mode":"open","iter":310000,"salt":"2KXyo6dS/WO+t8PownCnrA==","frags":[{"iv":"IPuqeSE92uq/ae5s","ct":"0tH0lIg5pYl1pJXOZbuPuJaChKXPxjP0lYqut0r1LM6L0q0="},{"iv":"nvLM1v3b0jxEQHe/","ct":"7+FLYIrDR0DYIoMPKPOzdIpHus3WQ++mafPJ+6PWUVsStR6nwJ/pOY05OQKoGv0qywUEX4R27jqYiZKcGB6TFHyea5Q034lo+PAFrZjaqRvvHAv6tJbDnPqMNbMRq+uKvXQAV/7vbD6ggj3kyBmbtYxzl7KoT/2v4iLSVAuysg+38LHmcSbid8H4gBjmHtaIQn216AL1AMog3sg4fWiIxWMnnedHYzJnsEOfQxD6bACw6vVaWucPHsZin7RtyOxV8qdvp3SCFZT8xKB4HC/0khqmMArWT/aobdNRf3tMeiQvvis8nfESEc70gjiqghXbNq8YQWctVzrPqcyvFz1GDK4FwW39QYwtgaaDjycjOgCfQuA82mrvzRHoHT9orkGynszCcLP41sWH0IwlZzRjOw00jnlKhm1SRfdFpBBNknbTowrDXlZvSLaF0+NblDWIrptlOMorSg=="}]}</script>
 <script src="cases.js?v=f6f7e6a9"></script>
 <script src="case-ui.js?v=ce3df22f"></script>
-<script src="lock.js?v=f9cbbb6b"></script>
+<script src="lock.js?v=09c999c2"></script>
 <script src="../assets/haptic.js?v=2"></script>
 </body>
 </html>

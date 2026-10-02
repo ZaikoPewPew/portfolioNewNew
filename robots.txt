@@ -1,4 +1,4 @@
-# Cases stay crawlable so link previews (LinkedIn, Telegram) can read their OG tags; closed cases carry noindex, open ones (terminals) are indexed.
+# Cases stay crawlable so link previews (LinkedIn, Telegram) can read their OG tags; closed cases carry noindex, open ones are indexed.
 User-agent: *
 Disallow: /lab/
 Disallow: /portfolio/

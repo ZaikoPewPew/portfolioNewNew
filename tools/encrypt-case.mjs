@@ -147,7 +147,10 @@ async function placeholder(f, i){
 const b64s = async data => { const { iv, ct } = await seal(enc.encode(data)); return { iv: b64(iv), ct: b64(ct) }; };
 let payload, content = '';
 if (isOpen) {
-  const { str, frags } = extract(html);
+  let { str, frags } = extract(html);
+  // the voice-over reads the whole case aloud, hidden numbers included — so it stays encrypted, the Listen button asks for the code
+  const voice = str.match(/<audio\b[^>]*class="c-voice"[^>]*>/);
+  if (voice) str = str.replace(voice[0], await media(voice[0], true));
   content = await media(str, false);
   const sealed = [];
   for (const [i, f] of frags.entries()) {

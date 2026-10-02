@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex">
+
 <title>One designer, one plugin, every designer on the site — Vladislav Kurguzov</title>
 <meta name="description" content="Case study: a Figma plugin I designed and coded for Alfa-Bank's site team — an hour of image assembly in one click, and AI page generation from a knowledge base.">
 <meta property="og:type" content="article">
@@ -31,7 +31,7 @@
     var tc = document.querySelector('meta[name="theme-color"]'), sync = function(){ tc.content = h.dataset.theme === 'dark' ? '#0B0D12' : '#FFFFFF' };
     sync(); new MutationObserver(sync).observe(h, { attributes: true, attributeFilter: ['data-theme'] }); })();
 </script>
-<link rel="stylesheet" href="case.css?v=ea413011">
+<link rel="stylesheet" href="case.css?v=89d745f4">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -67,7 +67,201 @@
       <ol id="tocList"></ol>
     </nav>
   </aside>
-  <main class="c-main" id="case" aria-live="polite"></main>
+  <main class="c-main" id="case" aria-live="polite"><header class="c-hero">
+  <div class="c-meta">
+    <span>Senior Product Designer</span><span>Alfa-Bank</span><span>Aug 2026 – now</span><span>DesignOps</span><span>AI</span><span>Figma plugin</span>
+  </div>
+  <h1>One designer, one plugin, every designer on the site</h1>
+  <p class="c-lead">I designed and coded a Figma plugin that takes the most hated routine off the site's designers: an hour of assembling images turns into one click. Then I taught it to build pages with AI — from a knowledge base I designed so that the model makes decisions instead of guessing.</p>
+</header>
+
+<div class="c-stats">
+  <div><b>30+</b><span>designers use it — every designer on the site team</span></div>
+  <div><b>1 click</b><span>instead of 40–60 minutes assembling the images of a large layout</span></div>
+  <div><b>330–1,000 h</b><span>a year back to the team — my estimate, see below</span></div>
+</div>
+
+<figure class="c-fig"><img loading="lazy" decoding="async" src="plugin/f99ab4df768ba5ce.webp" width="1600" height="552" alt="The plugin panel: AI generation, layout, typography, lists, assembly, fitting, review and settings"><figcaption>One panel instead of a handful of separate plugins</figcaption></figure>
+
+<section class="c-sec">
+  <h2 class="c-label">About</h2>
+  <div class="c-body">
+    <div class="c-company">
+      <img loading="lazy" decoding="async" src="plugin/946060cdbad36910.webp" width="95" height="96" alt="Alfa-Bank logo">
+      <p>Russia's largest private bank. Its website is built by 30+ designers across product teams, on one design system and an in-house admin panel.</p>
+      <div class="c-co-row"><dl><div><dt>Site MAU</dt><dd>22M+</dd></div><div><dt>Visits a year</dt><dd><span class="nda" data-nda="0" role="button" tabindex="0" aria-label="hidden data, enter the password to see it" style="--len:4"></span></dd></div></dl></div>
+    </div>
+  </div>
+</section>
+
+<section class="c-sec">
+  <h2 class="c-label">Problem</h2>
+  <div class="c-body">
+    <p>Every page on the site is assembled in the bank's own admin panel, and every image in it has to come out of Figma first. That means pulling image masters into widget slots, laying them out, linking them back, and keeping the naming right before export.</p>
+    <p class="c-big">On a large layout that's <em>40 minutes to an hour</em> of pure routine — the part of the job every designer hates most, me included.</p>
+    <p>The second pain is “fitting”: a layout with image masters and detailed instructions for marketing, who draw the illustrations and drop them into the sections. The instructions have to be very detailed, because marketing doesn't work much in Figma.</p>
+  </div>
+</section>
+
+<section class="c-sec">
+  <h2 class="c-label">My role</h2>
+  <div class="c-body">
+    <p>Entirely my initiative — the ideas, the tasks and the solutions. I design the plugin and write its code myself; there's no team behind it.</p>
+    <p>It doesn't have a team's time either: I get about one day a week for it, and part of that often goes to business tasks. Before this I led the site's guidelines working group, describing and fixing the rules. Two months ago, with the leads' support, I started a vibe coding and AI track on the site, and I run it.</p>
+  </div>
+</section>
+
+<section class="c-sec">
+  <h2 class="c-label">One plugin, independent services</h2>
+  <div class="c-body">
+    <p>Instead of another single-purpose plugin I build one panel that will replace the ones we use today and work as an extra layer on top of Figma. Every service inside is written independently: changing or breaking one can't touch its neighbours.</p>
+    <table class="c-table">
+      <thead><tr><th>Service</th><th>What it does</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>Assembly</td><td>Exports, renames and lays out the images of a layout</td><td>In use</td></tr>
+        <tr><td>Fitting</td><td>The same, plus hints, sizes and comments for marketing</td><td>In use</td></tr>
+        <tr><td>Typographer</td><td>Fixes text to the bank's editorial policy in one click</td><td>In use</td></tr>
+        <tr><td>AI generation</td><td>Builds a page from a prompt using the knowledge base</td><td>Working, improving</td></tr>
+        <tr><td>Design checker</td><td>Finds mistakes in a layout and helps fix them</td><td>Planned</td></tr>
+        <tr><td>Design review</td><td>Compares production with the layout and finds mismatches</td><td>Planned</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="c-sec">
+  <h2 class="c-label">Assembly and fitting</h2>
+  <div class="c-body">
+    <p>Select a frame or a component, choose Assembly or Fitting, press Run. Meanwhile the plugin:</p>
+    <ul class="c-list">
+      <li>Detects whether it's a desktop or a mobile layout</li>
+      <li>Finds every image in the selection, skipping hidden ones</li>
+      <li>Creates a section named after the selected frame and puts the masters of all images inside, returning copies to where they came from</li>
+      <li>Keeps the naming and semantics of image frames — the admin panel reads them as they are</li>
+      <li>Orders images top to bottom, left to right, and keeps that order when they're exported</li>
+      <li>For fitting, adds hints for marketing, image sizes and a field for the designer's comments</li>
+    </ul>
+  </div>
+</section>
+
+<figure class="c-fig"><video src="plugin/f80ef79bfe57e852.mp4" width="1280" height="718" muted loop playsinline preload="auto" aria-label="Fitting and Assembly: select a layout, pick the mode, run — the plugin lays out image masters, hints and exportable images"></video><figcaption>Fitting, then Assembly: select a layout, pick the mode, press Run</figcaption></figure>
+
+<blockquote class="c-quote">
+  <p>This is amazing — your plugin did in 3 seconds what I'd been sitting on for an hour.</p>
+  <cite>Designer from another product team</cite>
+</blockquote>
+
+<section class="c-sec">
+  <h2 class="c-label">Typographer</h2>
+  <div class="c-body">
+    <p>The bank's editorial policy is built into the plugin: quotes, dashes, non-breaking spaces, currency, numbers, phones, links and 39 rules for product names. Select a layer, a group or a whole frame — and the text follows the rules, without anyone checking it by hand.</p>
+    <table class="c-table">
+      <thead><tr><th>As typed</th><th>After the Typographer</th></tr></thead>
+      <tbody>
+        <tr><td>100 рублей</td><td>100 ₽ — with a narrow non-breaking space</td></tr>
+        <tr><td>10 - 20</td><td>10–20 — an en dash for ranges</td></tr>
+        <tr><td>1000000</td><td>1 000 000 — digits grouped</td></tr>
+        <tr><td>"текст"</td><td>«текст» — Russian quotes</td></tr>
+        <tr><td>Альфа банк</td><td>Альфа-Банк — the official name</td></tr>
+      </tbody>
+    </table>
+    <p>The design decisions mattered more than the rules:</p>
+    <ul class="c-list">
+      <li><em>Two modes.</em> Check shows every fix before it's applied, highlighting the fragment itself rather than every special character; you can apply all, only typography, or one by one. Fix now applies everything and shows a summary</li>
+      <li><em>Knowing what not to automate.</em> Three rules depend on meaning — expanding “20 thousand”, the preposition in “100 ₽ / month”, masked card and phone numbers. The plugin finds them and leaves the decision to the editor in a separate block</li>
+      <li><em>Formatting survives.</em> Text is never rewritten as a whole: the plugin computes a minimal diff and fixes characters in place, so colours, weights, variables and links stay where they were</li>
+      <li><em>Teams can extend it.</em> Custom “as typed → as it should be” pairs are kept between runs; rules can depend on the component, like blog templates and accordions</li>
+    </ul>
+  </div>
+</section>
+
+<section class="c-sec">
+  <h2 class="c-label">AI page generation</h2>
+  <div class="c-body">
+    <p>The most ambitious part. It already builds a page from a prompt; there are mistakes, but not critical ones.</p>
+    <p class="c-big">The principle behind it: the model should <em>make decisions, not look for information</em>.</p>
+    <p>So instead of letting AI invent an interface from scratch, I designed a knowledge base that works the way an experienced product designer thinks. It's split into layers, each answering one question, and the model opens only the documents the current task needs:</p>
+    <ul class="c-list">
+      <li><em>Planning — what to build?</em> Page types with their business goal and scenario, patterns of page structure, ready-made presets</li>
+      <li><em>Registry — where is it?</em> A short index of everything, read first, so the model knows which documents to open</li>
+      <li><em>Knowledge — what to build it from?</em> The design system's widgets, team widgets for acquiring, cards, credit and investments, components and forms</li>
+      <li><em>Constraints — by which rules?</em> Layout, spacing, accessibility, widget order, and the editorial policy: tone of voice, headlines, button texts, banned wording</li>
+      <li><em>Reference — has this worked before?</em> Real pages of the product, with the reasons behind their choices</li>
+    </ul>
+    <p>The output is a build plan that the Figma builder turns into a page.</p>
+    <p>The base follows a few strict rules: every entity lives in one place only; new documents are created only from templates; entities have JSON schemas, so the base can later be validated automatically; common widgets come first, and team widgets are used only when a team is named explicitly. It isn't documentation — it's what the model uses to make design decisions.</p>
+  </div>
+</section>
+
+<figure class="c-fig"><video src="plugin/ba6de1512f065437.mp4" width="1280" height="776" muted loop playsinline preload="auto" aria-label="AI generation: the build plan runs widget by widget and the page appears in Figma"></video><figcaption>A test run at 2× speed: the build plan turns into a page in Figma, widget by widget. The design here is a throwaway test prompt — the point is the pipeline</figcaption></figure>
+
+<section class="c-sec">
+  <h2 class="c-label">Measuring a tool, not guessing</h2>
+  <div class="c-body">
+    <p>Before the plugin I built a native Figma widget for the team's layout info block: links and descriptions, the latest updates, the designers on a layout, and design checks in the right order, with the widget changing colour as checks pass. It replaced two fragile masters that kept needing support. More than 80 designers use it, including teams outside the site.</p>
+    <p>Then I measured it. I timed the same task in the old and the new version and scaled it up:</p>
+    <div class="c-cols" style="--max:68">
+      <div style="--v:68"><b>68 s</b><span>the task with the old masters</span></div>
+      <div class="acc" style="--v:39"><b>39 s</b><span>the same task with the widget</span></div>
+    </div>
+    <p>29 seconds a task × 30 designers × once a day is about 14 minutes a day, 1.2 hours a week — around <em>70 hours a year</em>, counting support. A rough estimate, but it turns “it feels faster” into a number a team lead can plan with. The plugin got the same treatment below.</p>
+  </div>
+</section>
+
+<section class="c-sec">
+  <h2 class="c-label">Rollout</h2>
+  <div class="c-body">
+    <p>Every designer on the site team — 30+ people — uses the plugin. I showed it at Alfa's monthly design meetup, with more than 300 designers online.</p>
+  </div>
+</section>
+
+<blockquote class="c-quote">
+  <p>Sounds great, I'm going to try it!</p>
+  <cite>Senior product designer</cite>
+</blockquote>
+
+<blockquote class="c-quote">
+  <p>An absolute bomb.</p>
+  <cite>Senior product designer</cite>
+</blockquote>
+
+<section class="c-sec">
+  <h2 class="c-label">What it saves</h2>
+  <div class="c-body">
+    <p>A rough estimate, on the same method as the widget. One large layout first:</p>
+    <div class="c-bars" style="--max:50">
+      <div style="--v:50"><span>Assembling the images by hand</span><b>40–60 min</b></div>
+      <div class="acc" style="--v:.6"><span>With the plugin</span><b>~3 s</b></div>
+    </div>
+    <p class="c-big">One assembly or fitting gives back about <em>$12–18</em> of a designer's time.</p>
+    <p>Then the team. 10 to 30 layouts go through design check every week, most of them large pages full of images. I take only the lower end — 40 minutes per layout — and an average product designer salary in large Russian banks and tech of about ₽250K a month — roughly $3,000, or $19 an hour at ~₽83 per dollar:</p>
+    <div class="c-calc">
+      <div><b>10–30</b><span>layouts a week</span></div><i>×</i>
+      <div><b>40 min</b><span>saved on each</span></div><i>=</i>
+      <div><b>7–20 h</b><span>a week</span></div><i>→</i>
+      <div><b>330–1,000 h</b><span>a year</span></div>
+      <div class="acc"><b>$6–19K</b><span>a year of designers' time</span></div>
+    </div>
+    <p>These are approximate numbers: real layouts vary, and banners save less than pages. The next step is to time real layouts and narrow the range — but even the lower bound is worth the one day a week it took to build.</p>
+  </div>
+</section>
+
+<section class="c-sec">
+  <h2 class="c-label">What's next</h2>
+  <div class="c-body">
+    <p>The first services took August and September 2026, and I keep building. The target is a full master plugin: AI generation, checks and review in one place, replacing the scattered plugins we use today.</p>
+    <p>Next up: the design checker and design review, presets and new page types in the knowledge base, and one design language for the whole panel — press a service, and a large screen opens with its controls and settings.</p>
+  </div>
+</section>
+
+<section class="c-sec">
+  <h2 class="c-label">What I took from it</h2>
+  <div class="c-body">
+    <p>The best tools come from your own pain. I automated exactly what I hated doing by hand — and it turned out everyone hated it too.</p>
+    <p>AI is useful when you give it knowledge and rules, not when you ask it to invent. Designing the knowledge base was a design task in itself.</p>
+    <p>And you don't need a team to move a team: one day a week and the right tools changed the daily work of 30+ designers.</p>
+  </div>
+</section></main>
 </div>
 
 <nav class="glass c-next" id="next" aria-label="More cases" hidden></nav>
@@ -103,6 +297,7 @@
 
 <div class="lock" id="lock" role="dialog" aria-modal="true" aria-label="Password">
   <a class="glass lock-x" id="lockClose" href="../index.html#deck" aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></a>
+  <p class="lock-title" id="lockTitle" hidden>this data is password-protected</p>
   <form class="lock-code" id="lockForm" autocomplete="off">
     <input id="pw" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="6" aria-label="Password" autocomplete="one-time-code" spellcheck="false">
     <span class="glass"><i></i></span><span class="glass"><i></i></span><span class="glass"><i></i></span><span class="glass"><i></i></span><span class="glass"><i></i></span><span class="glass"><i></i></span>
@@ -110,10 +305,10 @@
   <p class="lock-hint">need the password? ask me on <a href="https://t.me/ezzzz12345" target="_blank" rel="noopener">telegram</a> or <a href="https://www.linkedin.com/in/kvneasy/" target="_blank" rel="noopener">linkedin</a></p>
 </div>
 
-<script type="application/json" id="payload">{"v":1,"iter":310000,"salt":"8Hg64h/CeldIn2oZyft8dQ==","iv":"H6gkMNBZ7SEZjEQL","ct":"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"}</script>
+<script type="application/json" id="payload">{"v":2,"mode":"open","iter":310000,"salt":"Of3No4TO/1QX3chMONjVrA==","frags":[{"iv":"a3Y+cCbJLVYImoAI","ct":"hamVe5u+3yGoq6BVuL0RJr+UkGltIDzfcDBeYOFn2L9F"}]}</script>
 <script src="cases.js?v=f6f7e6a9"></script>
 <script src="case-ui.js?v=ce3df22f"></script>
-<script src="lock.js?v=f9cbbb6b"></script>
+<script src="lock.js?v=09c999c2"></script>
 <script src="../assets/haptic.js?v=2"></script>
 </body>
 </html>

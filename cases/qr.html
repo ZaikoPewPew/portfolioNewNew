@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex">
+
 <title>Paying for public transport with a QR code — Vladislav Kurguzov</title>
 <meta name="description" content="Case study: the payment flow cut from nine screens to three, 20 seconds faster per ride and 17% more riders paying in the app.">
 <meta property="og:type" content="article">
@@ -31,7 +31,7 @@
     var tc = document.querySelector('meta[name="theme-color"]'), sync = function(){ tc.content = h.dataset.theme === 'dark' ? '#0B0D12' : '#FFFFFF' };
     sync(); new MutationObserver(sync).observe(h, { attributes: true, attributeFilter: ['data-theme'] }); })();
 </script>
-<link rel="stylesheet" href="case.css?v=ea413011">
+<link rel="stylesheet" href="case.css?v=89d745f4">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -67,7 +67,185 @@
       <ol id="tocList"></ol>
     </nav>
   </aside>
-  <main class="c-main" id="case" aria-live="polite"></main>
+  <main class="c-main" id="case" aria-live="polite"><audio class="c-voice" data-enc="qr/dd346611ca0fd48b.bin" data-type="audio/mp4"></audio>
+
+<header class="c-hero">
+  <div class="c-meta">
+    <span>Product Designer</span><span>Kcell / activ</span><span>Aug – Oct 2022</span><span>Fintech</span><span>Mobile app</span>
+  </div>
+  <h1>Paying for public transport with a QR code</h1>
+  <p class="c-lead">Cut the payment flow from nine screens to three and 20 seconds from every ride. Once payments were back to baseline, a bonus campaign on top grew riders paying in our app by 17%.</p>
+</header>
+
+<div class="c-stats">
+  <div><b>9 → 3</b><span>screens from home to a ticket</span></div>
+  <div><b>−20 s</b><span>average time to pay</span></div>
+  <div><b>+17%</b><span>riders paying in the app, with a bonus campaign on top</span></div>
+</div>
+
+<section class="c-sec">
+  <h2 class="c-label">About</h2>
+  <div class="c-body">
+    <div class="c-company">
+      <img loading="lazy" decoding="async" src="qr/bb546bc1d721608d.webp" width="160" height="160" alt="Kcell logo">
+      <p>Kazakhstan's largest mobile operator, with 10.5M+ subscribers, part of the national telecom group Kazakhtelecom. activ is its consumer brand.</p>
+      <div class="c-links"><a href="https://apps.apple.com/kz/app/kcell/id915329046" target="_blank" rel="noopener">App Store<svg aria-hidden="true"><use href="#i-out"/></svg></a><a href="https://play.google.com/store/apps/details?id=com.kcell.mykcell" target="_blank" rel="noopener">Google Play<svg aria-hidden="true"><use href="#i-out"/></svg></a><a href="https://www.kcell.kz" target="_blank" rel="noopener">Website<svg aria-hidden="true"><use href="#i-out"/></svg></a></div>
+      <div class="c-co-row"><dl><div><dt>MAU</dt><dd>1.5M+</dd></div><div><dt>Rating</dt><dd>4.0</dd></div></dl></div>
+    </div>
+  </div>
+</section>
+
+<section class="c-sec">
+  <h2 class="c-label">Context</h2>
+  <div class="c-body">
+    <p>On public transport in Kazakhstan people can pay with cash, a transport card, SMS or a QR code. Cash costs more, SMS is awkward, and not everyone has a transport card.</p>
+    <p>The fastest options are a transport card or a QR payment: open a local app that supports it and pay. In our app that experience was far from smooth.</p>
+  </div>
+</section>
+
+<figure class="c-fig"><img loading="lazy" decoding="async" src="qr/89a2582e777b027e.webp" width="2400" height="971" alt="QR stickers on a bus and at a stop; a rider paying with a phone"></figure>
+
+<section class="c-sec">
+  <h2 class="c-label">Problem</h2>
+  <div class="c-body">
+    <p class="c-big">More than <span class="nda" data-nda="0" role="button" tabindex="0" aria-label="hidden data, enter the password to see it" style="--len:7"></span> people in Astana pay for transport with a QR code in our app. In two months successful payments fell by <em><span class="nda" data-nda="1" role="button" tabindex="0" aria-label="hidden data, enter the password to see it" style="--len:3"></span></em>, even after accounting for external factors.</p>
+    <p>Stakeholders asked us to find out why and gave us full support to fix the root cause.</p>
+  </div>
+</section>
+
+<section class="c-sec">
+  <h2 class="c-label">My role</h2>
+  <div class="c-body">
+    <p>Product Designer, end to end. Research team of three: two designers and a UX researcher; I was the only designer on the solution.</p>
+    <p>I audited the 9-screen flow and rode buses in Astana with riders to time real payments. Then I designed the new 3-screen flow on my own, from wireframes to the final prototype, and tested it with the researcher in an unmoderated study and field sessions. A crash we caught on the bus went straight to engineering and got prioritised.</p>
+  </div>
+</section>
+
+<section class="c-sec">
+  <h2 class="c-label">Goals</h2>
+  <div class="c-body">
+    <ul class="c-list">
+      <li>Bring back steady growth in successful transport payments</li>
+      <li>Find and remove the main blocker in the payment flow</li>
+      <li>Audit the current functionality and propose improvements</li>
+      <li>Run usability research with real users</li>
+      <li>Watch how people actually pay on public transport</li>
+    </ul>
+  </div>
+</section>
+
+<section class="c-sec">
+  <h2 class="c-label">UX audit</h2>
+  <div class="c-body">
+    <ul class="c-list">
+      <li><em>9 screens</em> from the home page to a paid ride</li>
+      <li>Backend-driven details that meant nothing to users</li>
+      <li>The same information repeated across screens</li>
+      <li>A timer whose purpose nobody understood</li>
+    </ul>
+  </div>
+</section>
+
+<figure class="c-fig"><img loading="lazy" decoding="async" src="qr/c579074a7814b491.webp" width="3200" height="623" alt="The old 9-screen payment flow"><figcaption>The old flow — 9 screens from home to ticket</figcaption></figure>
+
+<section class="c-sec">
+  <h2 class="c-label">Research</h2>
+  <div class="c-body">
+    <p>We rode buses in Astana with real users, watched them pay and timed every step.</p>
+  </div>
+</section>
+
+<div class="c-gallery">
+  <figure class="c-fig"><img loading="lazy" decoding="async" src="qr/b3b2c262b104e1fd.webp" width="2400" height="971" alt="The research team on a bus"></figure>
+  <figure class="c-fig"><img loading="lazy" decoding="async" src="qr/aaf2e8bab667e1c7.webp" width="2400" height="971" alt="Riders paying for the ride on their phones"></figure>
+  <figure class="c-fig"><img loading="lazy" decoding="async" src="qr/20ce61bfb911fe72.webp" width="2400" height="971" alt="Observing a rider during payment"></figure>
+</div>
+
+<section class="c-sec">
+  <h2 class="c-label">Usability findings</h2>
+  <div class="c-body">
+    <p class="c-big">An average payment took <em>55 seconds</em> — almost 4× slower than our main competitor. Some users could not finish the payment at all.</p>
+  </div>
+</section>
+
+<section class="c-sec">
+  <h2 class="c-label">Key insights</h2>
+  <div class="c-body">
+    <ul class="c-list">
+      <li>The timer is the transport operator's requirement against fare evasion — it can't be removed without breaking the contract</li>
+      <li>Manual entry is a fallback for when the QR won't scan — every bus has its own code — but on many buses the operator blocks it</li>
+      <li>In 95% of the payments we observed, people scanned the QR rather than typing the code</li>
+      <li>One user's app crashed mid-payment — we reported it straight away and engineering prioritised the fix</li>
+    </ul>
+  </div>
+</section>
+
+<section class="c-sec">
+  <h2 class="c-label">Field observations</h2>
+  <div class="c-body">
+    <p>How 166 riders paid during our field sessions:</p>
+    <div class="c-bars" style="--max:62">
+      <div style="--v:62"><span>Local transport card</span><b>62</b></div>
+      <div style="--v:57"><span>Kaspi app</span><b>57</b></div>
+      <div class="acc" style="--v:18"><span>Our app</span><b>18</b></div>
+      <div style="--v:2"><span>Beeline app</span><b>2</b></div>
+      <div class="bad" style="--v:27"><span>Failed to pay</span><b>27</b></div>
+    </div>
+  </div>
+</section>
+
+<section class="c-sec">
+  <h2 class="c-label">Solution</h2>
+  <div class="c-body">
+    <ul class="c-list">
+      <li>Three screens instead of nine: scan → confirm → ticket</li>
+      <li>Critical crashes fixed with a backend and frontend refactoring</li>
+      <li>Average time to get a ticket cut by 20 seconds</li>
+    </ul>
+    <div class="c-shift" data-from="9" data-to="3"><span>screens from the home page to a ticket</span></div>
+  </div>
+</section>
+
+<figure class="c-fig"><img loading="lazy" decoding="async" src="qr/c678d44e2f66b531.webp" width="2400" height="1350" alt="New flow: scan the QR, confirm the payment, get the ticket"></figure>
+
+<section class="c-sec">
+  <h2 class="c-label">Validation</h2>
+  <div class="c-body">
+    <div class="c-duo">
+      <div>
+        <h3>Quantitative<span>Fabuza</span></h3>
+        <dl class="c-nums">
+          <div><dt>1,000+</dt><dd>SMS invitations</dd></div>
+          <div><dt>2</dt><dd>language versions</dd></div>
+          <div><dt>143</dt><dd>responses</dd></div>
+          <div><dt>40</dt><dd>users completed tasks</dd></div>
+        </dl>
+      </div>
+      <div>
+        <h3>Qualitative</h3>
+        <dl class="c-nums">
+          <div><dt>10</dt><dd>active transport users</dd></div>
+          <div><dt>5</dt><dd>hypotheses tested</dd></div>
+          <div><dt>2</dt><dd>days of field research</dd></div>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<figure class="c-fig"><img loading="lazy" decoding="async" src="qr/a71c242781aea4de.webp" width="2400" height="1350" alt="Heatmaps of the home screen and the payment screen"><figcaption>Click heatmaps from the unmoderated test</figcaption></figure>
+
+<section class="c-sec">
+  <h2 class="c-label">Results</h2>
+  <div class="c-body">
+    <p>Within two months after the release, payments recovered to the baseline.</p>
+    <p>Once the flow was stable, the business launched a bonus campaign for transport payments. Riders paying in our app in Astana grew by 8%, and over the following months by <em>17%</em>.</p>
+    <div class="c-cols" style="--max:17">
+      <div style="--v:8"><b>+8%</b><span>riders paying in the app, first months of the campaign</span></div>
+      <div class="acc" style="--v:17"><b>+17%</b><span>over the following months</span></div>
+    </div>
+  </div>
+</section></main>
 </div>
 
 <nav class="glass c-next" id="next" aria-label="More cases" hidden></nav>
@@ -103,6 +281,7 @@
 
 <div class="lock" id="lock" role="dialog" aria-modal="true" aria-label="Password">
   <a class="glass lock-x" id="lockClose" href="../index.html#deck" aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></a>
+  <p class="lock-title" id="lockTitle" hidden>this data is password-protected</p>
   <form class="lock-code" id="lockForm" autocomplete="off">
     <input id="pw" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="6" aria-label="Password" autocomplete="one-time-code" spellcheck="false">
     <span class="glass"><i></i></span><span class="glass"><i></i></span><span class="glass"><i></i></span><span class="glass"><i></i></span><span class="glass"><i></i></span><span class="glass"><i></i></span>
@@ -110,10 +289,10 @@
   <p class="lock-hint">need the password? ask me on <a href="https://t.me/ezzzz12345" target="_blank" rel="noopener">telegram</a> or <a href="https://www.linkedin.com/in/kvneasy/" target="_blank" rel="noopener">linkedin</a></p>
 </div>
 
-<script type="application/json" id="payload">{"v":1,"iter":310000,"salt":"6tOluoMvKJN2iG8knHrYGQ==","iv":"+YFyDzDxHeDZfMX1","ct":"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"}</script>
+<script type="application/json" id="payload">{"v":2,"mode":"open","iter":310000,"salt":"YQnxSNox7eUH1Z1kCggZlA==","frags":[{"iv":"b4htxNzPtd7wM1iU","ct":"KOrr851PPLqgMLDNFEzBKS3esD+kl4Zjiehw5SNZ0r0qxKMz"},{"iv":"FDdhLme+xrgc5KH2","ct":"X4d42Qh/iaNScEMZV5XEnqXJT0qDGL8nX/zDzJ621I8="}]}</script>
 <script src="cases.js?v=f6f7e6a9"></script>
 <script src="case-ui.js?v=ce3df22f"></script>
-<script src="lock.js?v=f9cbbb6b"></script>
+<script src="lock.js?v=09c999c2"></script>
 <script src="../assets/haptic.js?v=2"></script>
 </body>
 </html>

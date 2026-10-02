@@ -8,17 +8,20 @@
   "support": {
     "title": "When 30% of sales leads are support calls",
     "description": "Case study: Alfa-Bank merchant acquiring — intercepting support requests before the sales form, keeping the focus on a phone call, and chasing the root cause.",
-    "og": "30% of applications were *support requests*"
+    "og": "30% of applications were *support requests*",
+    "mode": "open"
   },
   "plugin": {
     "title": "One designer, one plugin, every designer on the site",
     "description": "Case study: a Figma plugin I designed and coded for Alfa-Bank's site team — an hour of image assembly in one click, and AI page generation from a knowledge base.",
-    "og": "30+ designers, *an hour of routine → one click*"
+    "og": "30+ designers, *an hour of routine → one click*",
+    "mode": "open"
   },
   "qr": {
     "title": "Paying for public transport with a QR code",
     "description": "Case study: the payment flow cut from nine screens to three, 20 seconds faster per ride and 17% more riders paying in the app.",
-    "og": "9 → 3 screens, −20 s per ride, *+17% paying in app*"
+    "og": "9 → 3 screens, −20 s per ride, *+17% paying in app*",
+    "mode": "open"
   },
   "balance": {
     "title": "Mobile balance home screen redesign",
