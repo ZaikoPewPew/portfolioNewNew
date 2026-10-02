@@ -372,10 +372,10 @@ section.sec{padding-top:var(--gap)}
   .slide.top:hover .ov{opacity:1;translate:0 0}
 }
 @media (hover:none){ .slide.top .device{top:38.5%} .slide.top .ov{opacity:1;translate:0 0} }
-/* phones: a wider, taller card — lock centred above the title, pills wrap, the phone sits lower and crops at the bottom; neighbours sit 12px away and peek ~12px at the edges */
+/* phones: a wider, taller card (16px from the screen edges) — lock centred above the title, pills wrap, the phone sits lower and crops at the bottom; neighbours sit 8px away */
 @media (max-width:560px){
-  .deck-in{width:calc(100vw - 48px);aspect-ratio:3/4}
-  .slide{transform:translateX(calc(var(--d) * (105.3% + 4px))) translateZ(calc(var(--ad) * -200px)) rotateY(calc(var(--d) * -30deg))}   /* solved for a 12px gap to the neighbours on any phone width (perspective included) */
+  .deck-in{width:calc(100vw - 32px);aspect-ratio:3/4}
+  .slide{transform:translateX(calc(var(--d) * (105.45% - 1.6px))) translateZ(calc(var(--ad) * -200px)) rotateY(calc(var(--d) * -30deg))}   /* solved for an 8px gap to the neighbours on any phone width (perspective included) */
   .lock{top:16px;right:auto;left:50%;translate:-50% 0}
   .ov{top:68px;height:calc(52% - 68px);padding:0 20px}
   .ov h3{font-size:20px;line-height:1.25}
@@ -405,7 +405,7 @@ section.sec{padding-top:var(--gap)}
 .ds .tgl::after{content:"";position:absolute;right:2px;top:2px;width:14px;height:14px;border-radius:50%;background:#fff}
 .ds .bt{height:18px;border-radius:99px;background:var(--ink)}
 .case-ctrl{width:min(600px,78vw);margin:40px auto 0}
-@media (max-width:560px){ .case-ctrl{width:calc(100vw - 48px)} }
+@media (max-width:560px){ .case-ctrl{width:calc(100vw - 32px)} }
 
 /* ═══════════ Photo fan ═══════════ */
 .fan{position:relative;aspect-ratio:1216/594;max-width:var(--maxw);margin-inline:auto}
@@ -630,6 +630,14 @@ section.sec{padding-top:var(--gap)}
 .love-card:hover .love-in,.love-in:focus-visible{opacity:1;transform:none}
 .love-card .love-in.rbtn:active{transform:scale(.9)}
 @media (hover:none){.love-in.rbtn{opacity:1;transform:none}}
+/* phones: one card per screen, 16px from the edges, 8px apart; still drifts like a ticker, stops under a finger; no linkedin button */
+@media (max-width:560px){
+  .love-rail{cursor:auto;-webkit-mask:none;mask:none}
+  .love-track{gap:8px}
+  .love-card{width:calc(100vw - 32px);padding:20px}
+  .love-who{align-items:flex-start;margin-bottom:12px;padding-right:0}
+  .love-in.rbtn{display:none}
+}
 .love-cta{position:relative;display:flex;flex-direction:column;align-items:center;gap:14px;margin-top:48px}
 .love-cta p{font-size:14px;color:var(--ink-3)}
 .love-btn{height:60px}
@@ -1275,13 +1283,13 @@ const set=TESTIMONIALS.map(card).join('');
 const dup=set.replace(/<article /g,'<article aria-hidden="true" '); $('#loveTrack').innerHTML=set+dup+dup+dup;   // 4 copies → room to loop both ways
 { const rail=$('#loveRail'), track=$('#loveTrack'), cards=$$('.love-card',track), N=TESTIMONIALS.length;
   const setW=()=>cards[N].offsetLeft-cards[0].offsetLeft;
-  let hover=false, drag=false, idleUntil=0, visible=true, last=performance.now();
+  let hover=false, drag=false, touching=false, idleUntil=0, visible=true, last=performance.now();
   const hold=ms=>idleUntil=performance.now()+ms;
   let sx=0, sl=0, moved=false;
   function wrap(){ const w=setW(); let d=0; if(rail.scrollLeft<w*.5) d=w; else if(rail.scrollLeft>w*2.5) d=-w; if(d){ rail.scrollLeft+=d; sl+=d } }
   requestAnimationFrame(()=>{ rail.scrollLeft=setW() });
   function tick(t){ const dt=Math.min(64,t-last); last=t;
-    if(!reduced && visible && !hover && !drag && t>idleUntil){ rail.scrollLeft+=dt*.045; }   // ~45px/s
+    if(!reduced && visible && !hover && !drag && !touching && t>idleUntil){ rail.scrollLeft+=dt*.045; }   // ~45px/s
     wrap(); raf=visible&&!document.hidden?requestAnimationFrame(tick):0 }
   let raf=requestAnimationFrame(tick);
   const wake=()=>{ if(!raf&&visible&&!document.hidden){ last=performance.now(); raf=requestAnimationFrame(tick) } };
@@ -1289,7 +1297,8 @@ const dup=set.replace(/<article /g,'<article aria-hidden="true" '); $('#loveTrac
   // hover pause is for the mouse only: a finger also fires pointerenter, but mobile Safari often never sends the matching
   // pointerleave, so the rail used to freeze for good after the first touch
   rail.addEventListener('pointerenter',e=>{ if(e.pointerType==='mouse') hover=true }); rail.addEventListener('pointerleave',()=>hover=false);
-  rail.addEventListener('wheel',()=>hold(2500),{passive:true}); rail.addEventListener('touchstart',()=>hold(3000),{passive:true});
+  rail.addEventListener('wheel',()=>hold(2500),{passive:true}); rail.addEventListener('touchstart',()=>touching=true,{passive:true});   // a finger on the rail holds it as long as it stays there
+  const lift=()=>{ touching=false; hold(2500) }; rail.addEventListener('touchend',lift,{passive:true}); rail.addEventListener('touchcancel',lift,{passive:true});
   new IntersectionObserver(([e])=>{ visible=e.isIntersecting; wake() }).observe(rail);
   // drag with the mouse
   rail.addEventListener('pointerdown',e=>{ if(e.pointerType!=='mouse') return; e.preventDefault(); drag=true; moved=false; sx=e.clientX; sl=rail.scrollLeft; rail.classList.add('drag') });
