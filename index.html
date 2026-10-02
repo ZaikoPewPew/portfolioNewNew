@@ -625,12 +625,11 @@ section.sec{padding-top:var(--gap)}
 .love-who b{display:block;font-size:17px;line-height:1.2}
 .love-who small{display:block;margin-top:3px;font-size:14px;line-height:1.3;color:var(--ink-3)}
 .love-card p{font-size:16px;line-height:1.5;color:var(--ink)}
-.love-card.todo p{color:var(--ink-3)}
-.love-in{position:absolute;top:20px;right:20px;z-index:6;display:grid;place-items:center;width:36px;height:36px;border-radius:50%;color:var(--ink-3);opacity:0;transform:scale(.8);transition:opacity .25s var(--ease),transform .4s var(--spring),color .2s}
-.love-in svg{width:18px;height:18px}
+.love-in.rbtn{position:absolute;top:12px;right:12px;z-index:6;width:40px;height:40px;opacity:0;transform:scale(.8);transition:opacity .25s var(--ease),transform .4s var(--spring),box-shadow .4s var(--ease)}
+.love-in.rbtn svg{width:16px;height:16px}
 .love-card:hover .love-in,.love-in:focus-visible{opacity:1;transform:none}
-.love-in:hover{color:var(--ink)}
-@media (hover:none){.love-in{opacity:1;transform:none}}
+.love-card .love-in.rbtn:active{transform:scale(.9)}
+@media (hover:none){.love-in.rbtn{opacity:1;transform:none}}
 .love-cta{position:relative;display:flex;flex-direction:column;align-items:center;gap:14px;margin-top:48px}
 .love-cta p{font-size:14px;color:var(--ink-3)}
 .love-btn{height:60px}
@@ -1258,7 +1257,7 @@ measure(); addEventListener('resize',measure); addEventListener('load',measure);
    by the person before publishing, then remove draft:true.
    Replace the placeholders with real quotes (name, role, text). Keep todo:false for real ones. */
 const TESTIMONIALS=[
-  {name:'Islam Kaimbayev',role:'Lead Product Designer, Alatau City Bank Business',in:'https://www.linkedin.com/in/islam-kaimbayev-a09a41176/',text:'Vlad is a really strong designer who gets involved in how the company works and understands the finer points of the job. He always does more than is expected of him.'},
+  {name:'Islam Kaimbayev',role:'Lead Product Designer, Alatau City Bank Business',photo:'assets/testimonials/kaimbayev.jpg',in:'https://www.linkedin.com/in/islam-kaimbayev-a09a41176/',text:'Vlad is a really strong designer who gets involved in how the company works and understands the finer points of the job. He always does more than is expected of him.'},
   {name:'Alexandra Bartuli',role:'Design Lead, Alfa-Bank website',photo:'assets/testimonials/bartuli.jpg',in:'https://www.linkedin.com/in/alexandra-bartuli-9444ba383/',text:'Vlad turns messy briefs into clear, shippable flows. He asks the uncomfortable questions early, and the whole team moves faster because of it.',draft:true},
   {name:'Yuri Kian',role:'Design Lead, Alfa-Bank website',photo:'assets/testimonials/kian.jpg',in:'https://www.linkedin.com/in/yuri-kiyan-478917127/',text:'Rare mix of a strong visual eye and a real product mindset. His files are a pleasure to open — everything is named, structured and ready for dev.',draft:true},
   {name:'Asylkhan Nazir',role:'Design Director, Bereke Bank',photo:'assets/testimonials/nazir.jpg',in:'https://www.linkedin.com/in/nsylk/',text:'Vlad grew fast and never stopped sharing what he learned. He brings energy to any team and raises the bar for everyone around him.',draft:true},
@@ -1270,7 +1269,7 @@ const TESTIMONIALS=[
 ];
 const initials=n=>n.split(/\s+/).map(w=>w[0]).join('').slice(0,2).toUpperCase();
 const face=(t,cls='face')=>`<span class="${cls}" data-i="${initials(t.name)}">${t.photo?`<img src="${t.photo}" alt="" onerror="this.parentNode.textContent=this.parentNode.dataset.i">`:initials(t.name)}</span>`;
-const card=t=>`<article class="love-card${t.todo||t.draft?' todo':''}"><div class="love-who">${face(t)}<div><b>${t.name}</b><small>${t.role}</small></div></div><p>${t.text}</p>${t.in?`<a class="love-in" href="${t.in}" target="_blank" rel="noopener" aria-label="${t.name} on linkedin"><svg><use href="#i-linkedin"/></svg></a>`:''}</article>`;
+const card=t=>`<article class="love-card${t.todo||t.draft?' todo':''}"><div class="love-who">${face(t)}<div><b>${t.name}</b><small>${t.role}</small></div></div><p>${t.text}</p>${t.in?`<a class="rbtn love-in" href="${t.in}" target="_blank" rel="noopener" aria-label="${t.name} on linkedin"><svg><use href="#i-linkedin"/></svg></a>`:''}</article>`;
 const set=TESTIMONIALS.map(card).join('');
 const dup=set.replace(/<article /g,'<article aria-hidden="true" '); $('#loveTrack').innerHTML=set+dup+dup+dup;   // 4 copies → room to loop both ways
 { const rail=$('#loveRail'), track=$('#loveTrack'), cards=$$('.love-card',track), N=TESTIMONIALS.length;
