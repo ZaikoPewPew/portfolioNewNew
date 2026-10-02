@@ -29,7 +29,7 @@
 - "time travel" description in Figma was a placeholder (copy of obratka) — wrote "Flip-clock widget", verify.
 
 ## Data (from Notion export)
-- Vladislav Kurguzov, Sr. Product Designer at Alfa-Bank (MAU 10M+). 5 years. Pavlodar / Almaty.
+- Vladislav Kurguzov, Sr. Product Designer at Alfa-Bank (site MAU 22M+ — 22.4M peak, see Alfa-Bank raw data below; Notion said 10M+). 5 years. Pavlodar / Almaty.
 - Experience: Alfa-Bank (2024–now), red_mad_robot CA — PD/DesOps (2024), Zimran.io (2023–24), Kcell (2022–23), Alfa-Bank KZ (2021–22).
 - Cases (Notion links in index.html):
   - QR transport payment (2022): −50% flow steps, −20 s avg payment time, +17% users paying in app.
@@ -111,4 +111,4 @@ Source: slides from the demo of the Site Development & Primary Sales Platform Di
 - Forecast N2B for 2026: Retail 2,823,655, SMB 150,639, Corporate 4,452.
 - Share of acquired clients in the active base (АКБ), Aug 2026: Retail 37%, SMB 18%, Corporate 15% (of all new-client acquisition in the bank).
 - >50B ₽ profit per year Alfa-Bank earns from clients acquired via online sales and the site.
-- Note: the site headline says «MAU 10M+» — the site alone peaks at 22.4M monthly uniques, so this can go up.
+- Alfa-Bank MAU to use on the site: **22M+** (site alone, peak month). Goes into the company block of the Alfa cases (MAU / visits per year 419M).
