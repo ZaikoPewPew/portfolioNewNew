@@ -112,3 +112,9 @@ Source: slides from the demo of the Site Development & Primary Sales Platform Di
 - Share of acquired clients in the active base (АКБ), Aug 2026: Retail 37%, SMB 18%, Corporate 15% (of all new-client acquisition in the bank).
 - >50B ₽ profit per year Alfa-Bank earns from clients acquired via online sales and the site.
 - Alfa-Bank MAU to use on the site: **22M+** (site alone, peak month). Goes into the company block of the Alfa cases (MAU / visits per year 419M).
+
+## Terminals case (2026-10-02)
+- `cases/terminals.html` — Alfa-Bank merchant acquiring: 2-year business vs brand stand-off (real photos vs 3D guidelines) → hyper-real 3D → terminal showcase + comparison table + 30-second quiz. First card in the home carousel and first in `cases/cases.js`; home card image `assets/case-terminals.webp` (the new mPOS render).
+- Source: Notion «Терминалы: от двухлетнего спора к витрине» (Продуктовые кейсы) — Russian draft with open ❓ questions. `cases/_src/terminals/raw/` = originals from Notion, `img/` = webp.
+- Still missing: hard numbers (showcase traffic, CTR from the block, quiz completion → application, sales trend), 2026 research format / respondent count, quiz screens, team and exact dates. Stats row now uses 2+ yrs / 3 → 0 / 30 s.
+- New case blocks (in case.css / case-ui.js / case-template.html): `.c-quote` (user quote, red line, role in <cite>, no names), `.c-table` (row dividers only; phones hide the middle column), `.c-ba` before / after slider (drag or ← →, sways once on first view, tags «before» / «after»).

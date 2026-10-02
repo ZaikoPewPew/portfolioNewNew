@@ -149,6 +149,45 @@
     blocks.forEach(b => io.observe(b));
   }
 
+  /* ── before / after slider: <figure class="c-ba"><div class="ba-box"><img before><img after></div></figure> ── */
+  function buildBA(fig){
+    const box = fig.querySelector('.ba-box');
+    if (!box) return;
+    box.insertAdjacentHTML('beforeend', `<span class="ba-tag l">before</span><span class="ba-tag r">after</span><i class="ba-line"></i>
+      <span class="ba-knob glass"><svg aria-hidden="true"><use href="#i-left"/></svg><svg aria-hidden="true"><use href="#i-right"/></svg></span>
+      <input type="range" min="0" max="100" step="0.5" value="50" aria-label="Before / after">`);
+    const input = box.querySelector('input'), [l, r] = box.querySelectorAll('.ba-tag');
+    const set = v => {
+      box.style.setProperty('--x', v + '%');
+      l.style.opacity = v < 18 ? 0 : 1; r.style.opacity = v > 82 ? 0 : 1;   // a tag hides once its side is almost gone
+    };
+    input.addEventListener('input', () => set(+input.value));
+    // the range input sits on top: a press anywhere jumps the line there, dragging follows the pointer
+    box.addEventListener('pointerdown', e => {
+      const move = ev => { const b = box.getBoundingClientRect(); input.value = Math.min(100, Math.max(0, (ev.clientX - b.left) / b.width * 100)); set(+input.value) };
+      move(e);
+      if (e.pointerType === 'mouse') e.preventDefault();
+      const up = () => { removeEventListener('pointermove', move); removeEventListener('pointerup', up) };
+      addEventListener('pointermove', move); addEventListener('pointerup', up);
+    });
+    // a short hint the first time it comes into view: the line sways once so it reads as draggable
+    if (!still() && 'IntersectionObserver' in window){
+      const io = new IntersectionObserver(es => {
+        if (!es[0].isIntersecting) return;
+        io.disconnect();
+        const t0 = performance.now();
+        const step = now => {
+          if (input.value !== '50') return;   // the visitor already grabbed it
+          const k = Math.min(1, (now - t0) / 1400);
+          box.style.setProperty('--x', (50 + Math.sin(k * Math.PI * 2) * 14 * (1 - k)) + '%');
+          if (k < 1) requestAnimationFrame(step); else set(50);
+        };
+        setTimeout(() => requestAnimationFrame(step), 500);
+      }, { threshold: .6 });
+      io.observe(box);
+    }
+  }
+
   /* ── previous / next case, cyclic, from cases.js ── */
   function buildNext(){
     const all = window.CASES || [], i = all.findIndex(c => c.slug === root.dataset.case), nav = $('#next');
@@ -227,6 +266,7 @@
     if (!e.detail.voice) $('#listen').title = 'Voice-over is coming soon';
     buildToc(main);
     dataBlocks(main);
+    main.querySelectorAll('.c-ba').forEach(buildBA);
     buildNext();
     addEventListener('scroll', update, { passive: true });
     addEventListener('resize', update);
