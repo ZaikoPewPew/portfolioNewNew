@@ -224,6 +224,20 @@ a.glass:active,button.glass:active{transform:scale(.94);transition-duration:80ms
 .c-cols b{margin-top:10px;font-size:clamp(24px,2.6vw,30px);line-height:1;letter-spacing:-.03em;color:var(--ink)}
 .c-cols span{font-size:14px;line-height:1.35;color:var(--ink-3)}
 
+/* calculation chain: steps rise in one after another, numbers count up; <i> = operator between steps */
+.c-calc{display:flex;flex-wrap:wrap;align-items:center;gap:16px 14px}
+.c-calc>div{flex:1 1 120px;display:flex;flex-direction:column;gap:8px;opacity:0;translate:0 10px;transition:opacity .6s var(--ease),translate .7s var(--ease)}
+.c-calc>i{font-style:normal;font-size:22px;color:var(--ink-4);opacity:0;transition:opacity .5s var(--ease)}
+.c-calc b{font-size:clamp(24px,2.6vw,30px);line-height:1;letter-spacing:-.03em;color:var(--ink);font-variant-numeric:tabular-nums;white-space:nowrap}
+.c-calc span{font-size:14px;line-height:1.35;color:var(--ink-3)}
+.c-calc>.acc{flex-basis:100%;flex-direction:row;align-items:baseline;gap:16px;padding-top:20px;border-top:1px solid var(--line)}   /* the result gets its own line */
+.c-calc>.acc b{color:var(--red);font-size:clamp(32px,3.4vw,40px)}
+.c-calc.in>*{opacity:1;translate:0 0}
+.c-calc.in>:nth-child(2){transition-delay:.15s}.c-calc.in>:nth-child(3){transition-delay:.3s}.c-calc.in>:nth-child(4){transition-delay:.45s}
+.c-calc.in>:nth-child(5){transition-delay:.6s}.c-calc.in>:nth-child(6){transition-delay:.75s}.c-calc.in>:nth-child(7){transition-delay:.9s}
+.c-calc.in>:nth-child(8){transition-delay:1.05s}.c-calc.in>:nth-child(9){transition-delay:1.2s}
+.c-body>.c-calc{margin-top:8px}
+
 /* quote: a user's words — larger text, a red line on the left, who said it underneath */
 .c-quote{padding-left:28px;border-left:2px solid var(--red)}
 .c-quote p{font-size:clamp(21px,2.1vw,24px);line-height:1.45;letter-spacing:-.02em;color:var(--ink);text-wrap:pretty}
@@ -381,8 +395,10 @@ html.locked .c-bar,html.locked .c-tools,html.locked .c-page{visibility:hidden}
   .sh-row i{width:20px;height:36px}
   .c-cols{height:260px;gap:8px 12px}
   .c-quote{padding-left:20px}
+  .c-calc>i{display:none}   /* phones: steps wrap into rows, operators would dangle */
+  .c-calc>div{flex-basis:40%}
   .c-table{font-size:15px}
-  .c-table th:nth-child(2),.c-table td:nth-child(2){display:none}   /* phones: problem → outcome; the change is in the text above */
+  .c-table tr>:nth-child(2):not(:last-child){display:none}   /* phones: problem → outcome; the change is in the text above */
   /* prev / next: one compact row — arrow + two-line title, no chips */
   .c-next{border-radius:24px}
   .c-next a{gap:8px;padding:16px 18px}

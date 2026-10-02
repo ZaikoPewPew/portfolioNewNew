@@ -128,7 +128,7 @@
   }
 
   function dataBlocks(main){
-    const blocks = [...main.querySelectorAll('.c-stats,.c-nums,.c-bars,.c-shift,.c-cols,.c-company dl')];
+    const blocks = [...main.querySelectorAll('.c-stats,.c-nums,.c-bars,.c-shift,.c-cols,.c-calc,.c-company dl')];
     main.querySelectorAll('.c-shift').forEach(buildShift);
     // numbers that count up: stat values, big numbers in .c-nums, values in the company card
     const nums = el => [...el.querySelectorAll(el.closest('.c-company') ? 'dd' : ':scope > div > b, dt')];
