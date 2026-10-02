@@ -631,10 +631,13 @@ section.sec{padding-top:var(--gap)}
 .love-blob{position:absolute;left:50%;top:0;width:160px;height:80px;translate:-50% -100%;pointer-events:none;z-index:6}
 .love-blob>svg{position:absolute;inset:0;width:100%;height:100%;overflow:hidden}
 .love-blob .bf{fill:var(--blob-fill)}
-.love-blob .bs{fill:none;stroke:var(--blob-rim);stroke-width:1.2}
-.love-in{position:absolute;left:50%;bottom:0;width:40px;height:40px;margin:0 0 -20px -20px;display:grid;place-items:center;border-radius:50%;color:var(--ink);opacity:0;pointer-events:none}
+.love-blob .bs{fill:none;stroke:var(--blob-rim);stroke-width:1.5}
+/* the card's rim opens where the neck joins (--neck = neck width, set in JS), so the card and the drop read as one outline */
+.love-card::after{-webkit-mask:linear-gradient(#000 0 0) 50% 0/var(--neck,0px) var(--sl-bw) no-repeat,linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor,xor;
+  mask:linear-gradient(#000 0 0) 50% 0/var(--neck,0px) var(--sl-bw) no-repeat exclude,linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
+.love-in{position:absolute;left:50%;bottom:0;width:48px;height:48px;margin:0 0 -24px -24px;display:grid;place-items:center;border-radius:50%;color:var(--ink);opacity:0;pointer-events:none}
 .love-in.on{pointer-events:auto}
-.love-in svg{width:16px;height:16px}
+.love-in svg{width:19px;height:19px}
 .love-cta{position:relative;display:flex;flex-direction:column;align-items:center;gap:14px;margin-top:48px}
 .love-cta p{font-size:14px;color:var(--ink-3)}
 .love-btn{height:60px}
@@ -1268,7 +1271,7 @@ const TESTIMONIALS=[
   {name:'Asylkhan Nazir',role:'Design Director, Bereke Bank',photo:'assets/testimonials/nazir.jpg',in:'https://www.linkedin.com/in/nsylk/',text:'Vlad grew fast and never stopped sharing what he learned. He brings energy to any team and raises the bar for everyone around him.',draft:true},
   {name:'Denis Orekhov',role:'Product Owner, Alfa-Bank website',photo:'assets/testimonials/orekhov.jpg',text:'With Vlad, design stopped being a bottleneck. He speaks business, knows the metrics and defends decisions with data, not taste.',draft:true},
   {name:'Alexander Kozlovsky',role:'Frontend Tech Lead, Alfa-Bank website',photo:'assets/testimonials/kozlovsky.jpg',text:'Handoffs with Vlad just work. He thinks about states, edge cases and the design system before the first line of code is written.',draft:true},
-  {name:'Yerlan Alimzhanov',role:'ex CPO, Zimran',photo:'assets/testimonials/alimzhanov.jpg',in:'https://www.linkedin.com/in/yerlan-alimzhanov/',text:'Vlad is one of the strongest designers I’ve been lucky to work with, and he really thinks in business terms. In a short time he put our Figma in order, shipped features that raised LTV per user, and mentored younger designers on his own initiative.'},
+  {name:'Yerlan Alimzhanov',role:'ex CPO, Zimran',photo:'assets/testimonials/alimzhanov.jpg',in:'https://www.linkedin.com/in/yerlan-alimzhanov/',text:'One of the strongest designers I’ve worked with. Vlad thinks in business terms: he put our Figma in order and shipped features that grew LTV per user.'},
   {name:'Timur Seidalin',role:'Head of Design, Home Credit Bank',photo:'assets/testimonials/seidalin.jpg',in:'https://www.linkedin.com/in/seidalint/',text:'Vlad, we’re still running on your DesignOps. We’ve already brought the same approach to retail, and the processes have even made it into widgets.'},
   {name:'Nargiz Zhu',role:'Product Growth, Arcads AI',photo:'assets/testimonials/zhu.jpg',text:'Curious, fast and honest. Vlad tests ideas quickly, kills the weak ones without ego and doubles down on what really moves the numbers.',draft:true},
 ];
@@ -1301,19 +1304,20 @@ const dup=set.replace(/<article /g,'<article aria-hidden="true" '); $('#loveTrac
   addEventListener('pointerup',()=>{ if(!drag) return; drag=false; rail.classList.remove('drag'); hold(2500) });
   rail.addEventListener('click',e=>{ if(moved){ e.preventDefault(); e.stopPropagation(); moved=false } },true);   // a drag that ends on the linkedin icon isn't a click
   rail.addEventListener('dragstart',e=>e.preventDefault()); }
-/* ───── LinkedIn drop: circle of radius R0 whose centre sits d px above the card's top edge; while it's close, two fillet
-   circles (radius f, tangent to the edge and to the drop) form the neck. f shrinks as the gap grows, and once the neck's
-   waist closes the drop tears off; a spring drives d, so the overshoot on the way up snaps it off and the settle rejoins it ───── */
-{ const R0=20, REST=R0+12, GAP=26, FIL=22, K=260, C=16, canHover=matchMedia('(hover:hover)').matches;
+/* ───── LinkedIn drop: circle of radius R0 whose centre sits d px above the card's top edge, joined to it by a neck of two
+   fillet circles (radius f, tangent to the edge and to the drop); f shrinks as the drop rises. The spring is overdamped,
+   so it oozes out and back like honey and never tears off ───── */
+{ const R0=24, REST=R0+14, GAP=36, FIL=24, K=90, C=21, canHover=matchMedia('(hover:hover)').matches;
   function shape(d){
-    if(d<=-R0+.5) return '';
+    if(d<=-R0+.5) return ['',0];
     const f=FIL*Math.min(1,Math.max(0,1-(d-R0)/GAP)), dd=d-f, xf=Math.sqrt(Math.max(0,(R0+f)**2-dd**2));
-    if(f<1||xf-f<2) return `M${-R0},${-d}a${R0},${R0} 0 1 1 ${2*R0},0a${R0},${R0} 0 1 1 ${-2*R0},0Z`;
+    if(f<1||xf-f<2) return [`M${-R0},${-d}a${R0},${R0} 0 1 1 ${2*R0},0a${R0},${R0} 0 1 1 ${-2*R0},0Z`,0];
     const k=f/(R0+f), tx=-xf*(1-k), ty=-f-dd*k;
-    return `M${-xf},0A${f},${f} 0 0 0 ${tx},${ty}A${R0},${R0} 0 ${dd>0?1:0} 1 ${-tx},${ty}A${f},${f} 0 0 0 ${xf},0`;
+    return [`M${-xf},0A${f},${f} 0 0 0 ${tx},${ty}A${R0},${R0} 0 ${dd>0?1:0} 1 ${-tx},${ty}A${f},${f} 0 0 0 ${xf},0`,2*xf];
   }
-  function draw(s){ const p=shape(s.d);
-    s.bf.setAttribute('d',p&&p+'Z'); s.bs.setAttribute('d',p);   // the outline stays open along the card edge, so the rims meet without a seam
+  function draw(s){ const [p,w]=shape(s.d);
+    s.bf.setAttribute('d',p&&p+'Z'); s.bs.setAttribute('d',p);   // the outline stays open along the card edge…
+    s.card.style.setProperty('--neck',w+'px');                     // …and the card's rim opens just as wide there
     const o=Math.min(1,Math.max(0,s.d/REST)); s.a.style.translate=`0 ${-s.d}px`; s.a.style.opacity=o*o; s.a.classList.toggle('on',o>.6) }
   function step(s,t){ const dt=Math.min(.032,(t-s.t)/1000)||.016; s.t=t;
     s.v+=(K*(s.target-s.d)-C*s.v)*dt; s.d+=s.v*dt;
@@ -1321,7 +1325,7 @@ const dup=set.replace(/<article /g,'<article aria-hidden="true" '); $('#loveTrac
     draw(s); s.raf=requestAnimationFrame(t2=>step(s,t2)) }
   const go=(s,target)=>{ s.target=target; if(reduced){ s.d=target; draw(s); return } if(!s.raf){ s.t=performance.now(); s.raf=requestAnimationFrame(t=>step(s,t)) } };
   $$('#loveTrack .love-blob').forEach(b=>{ const card=b.closest('.love-card');
-    const s={bf:$('.bf',b),bs:$('.bs',b),a:$('.love-in',b),d:-R0-2,v:0,target:-R0-2,raf:0,t:0};
+    const s={card,bf:$('.bf',b),bs:$('.bs',b),a:$('.love-in',b),d:-R0-2,v:0,target:-R0-2,raf:0,t:0};
     if(!canHover){ s.d=REST; draw(s); return }
     draw(s);
     card.addEventListener('pointerenter',e=>{ if(e.pointerType==='mouse') go(s,REST) });
