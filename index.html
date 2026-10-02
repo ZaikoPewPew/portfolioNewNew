@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Vladislav Kurguzov</title>
+<title>Vladislav Kurguzov — Senior Product Designer</title>
 <meta name="description" content="Vladislav Kurguzov — Senior Product Designer at Alfa-Bank. Fintech, design systems, mobile apps and my own products.">
 <link rel="canonical" href="https://krgzv.net/">
 <meta property="og:type" content="website">
@@ -285,9 +285,10 @@ img{display:block;max-width:100%}
 /* ═══════════ Statements (scroll-lit text) ═══════════ */
 .statement{max-width:877px;margin:0 auto;padding:0 var(--gutter);text-align:center;font-size:clamp(26px,3.2vw,40px);font-weight:400;line-height:1.2;letter-spacing:-.02em;text-wrap:balance}
 .statement em{font-style:normal}
+.statement .nw{white-space:nowrap}
 .statement .x{color:var(--ink-3);transition:color .25s var(--ease)}
 .statement .x.lit{color:var(--ink)}
-.statement .acc .x.lit{color:var(--red)}
+.statement .acc .x.lit,.statement:not(.lit-text) .acc{color:var(--red)}
 /* blocks are 250px apart on tall screens, less on short laptop windows (24vh) and narrow ones (20vw) */
 section.sec{padding-top:var(--gap)}
 .after{margin-top:var(--gap)}
@@ -656,9 +657,8 @@ footer.wrap{margin-top:var(--gap)}
 .fmenu{display:none}
 @media (min-width:821px){   /* desktop: link columns above the dotted line; phones keep the plain contacts row */
   .fmenu{display:block;padding-bottom:56px;font-size:14px;line-height:14px}
-  .fmenu > .star{display:block;width:24px;height:24px;margin-bottom:56px;color:var(--red);transition:transform .6s var(--ease)}
+  .fmenu > .star{display:block;width:24px;height:24px;margin-bottom:56px;color:var(--red);transition:transform .8s var(--spring)}
   .fmenu > .star svg{width:100%;height:100%;fill:currentColor}
-  .fmenu:hover > .star{transform:rotate(180deg)}
   .fcols{display:grid;grid-template-columns:repeat(4,minmax(0,224px));gap:24px}
   .fcol{display:flex;flex-direction:column;align-items:flex-start;gap:20px}
   .fcol b{font-weight:400;color:var(--ink)}
@@ -732,7 +732,7 @@ footer.wrap{margin-top:var(--gap)}
         <filter id="nav-lens" x="0" y="0" width="100%" height="100%" filterUnits="objectBoundingBox" primitiveUnits="userSpaceOnUse" color-interpolation-filters="sRGB"></filter>
       </svg>
       <div class="nav-content">
-        <a href="./" class="logo" data-snd="click" aria-label="Vladislav Kurguzov — home"><span class="star"><svg><use href="#star"/></svg></span></a>
+        <a href="./" class="logo" data-snd="click" data-home aria-label="Vladislav Kurguzov — home"><span class="star"><svg><use href="#star"/></svg></span></a>
         <div class="nav-links" id="links">
           <a href="#deck">cases</a>
           <a href="#fan">about</a>
@@ -780,7 +780,7 @@ footer.wrap{margin-top:var(--gap)}
       <img src="assets/avatar.svg" width="182" height="151" alt="Vlad’s avatar sticker" draggable="false">
       <span class="ava-say" aria-hidden="true"><span>Hey 👋</span><span>Nice to meet you</span></span>
     </div>
-    <h1 class="statement lit-text">I’m Vlad — Senior Product Designer at Alfa-Bank, crafting digital experiences for <em class="acc">millions</em></h1>
+    <h1 class="statement">I’m Vlad — Senior Product Designer at <span class="nw">Alfa-Bank</span>, crafting digital experiences for <em class="acc">millions</em></h1>
     <div class="otw">
       <div class="gb-wrap">
         <button class="gb" id="otwBtn" type="button" data-burst><span><i class="live" aria-hidden="true"></i>Almaty<span class="otw-more"> / remote /</span> <span id="almTime"></span></span></button>
@@ -967,7 +967,7 @@ footer.wrap{margin-top:var(--gap)}
   <!-- ═══════════ FOOTER ═══════════ -->
   <footer class="wrap" id="contact">
     <div class="fmenu">
-      <span class="star"><svg><use href="#star"/></svg></span>
+      <a href="./" class="star" data-home aria-label="Vladislav Kurguzov — home"><svg><use href="#star"/></svg></a>
       <div class="fcols">
         <div class="fcol"><b>Communities</b><a href="https://t.me/devsigners" target="_blank" rel="noopener">devsigners</a><a href="https://t.me/+z5vj6YaMw_U4Yjky" target="_blank" rel="noopener">design science</a></div>
         <div class="fcol"><b>Products</b><a href="#productsGrid">tippy</a><a href="https://obratka.net/" target="_blank" rel="noopener">obratka</a><a href="https://t.me/ies_app" target="_blank" rel="noopener">ies — noxchiin mott</a></div>
@@ -1483,6 +1483,15 @@ document.addEventListener('keydown',e=>{ if(e.key==='Escape') setC(false) });
 // narrow screens hide the contacts dropdown, so "Work with me" opens the mobile menu (it holds the contacts) instead
 $$('[data-open-contacts]').forEach(b=>b.addEventListener('click',()=>{ if(cw.getClientRects().length) setC(true); else if(!mm.classList.contains('open')){ mm.classList.add('open','contacts-only'); play('pop') } }));
 $$('.cmenu a').forEach(a=>a.addEventListener('click',()=>setC(false)));
+
+/* ───── Logos: a full reload of the home page, from the top ───── */
+$$('[data-home]').forEach(a=>a.addEventListener('click',e=>{
+  if(e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||e.button) return;
+  e.preventDefault(); history.scrollRestoration='manual'; scrollTo({top:0,behavior:'instant'}); location.assign(a.href) }));
+
+/* ───── Footer star turns a step on every link hover ───── */
+{ const fs=$('.fmenu > .star'); let turn=0;
+  [fs,...$$('.fcol a')].forEach(a=>a.addEventListener('mouseenter',()=>{ turn+=90; fs.style.transform=`rotate(${turn}deg)` })); }
 
 /* ───── Copy email ───── */
 const toast=$('#toast'); let tt;
