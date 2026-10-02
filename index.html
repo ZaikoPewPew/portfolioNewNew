@@ -179,7 +179,7 @@ img{display:block;max-width:100%}
   .nav-content{gap:20px;padding-inline:36px}
 }
 
-#deck,#fan,#productsGrid,#conceptsGrid,#postsBox{scroll-margin-top:110px}
+#deck,#about,#fan,#productsGrid,#conceptsGrid,#postsBox{scroll-margin-top:110px}
 
 /* ═══════════ Round button (carousel controls) ═══════════ */
 .rbtn{--angle-1:-75deg;--angle-2:-45deg;--bw:1.5px;position:relative;isolation:isolate;width:56px;height:56px;border-radius:50%;display:grid;place-items:center;color:var(--ink);transition:transform .35s var(--bounce),box-shadow .4s var(--ease)}
@@ -618,7 +618,7 @@ section.sec{padding-top:var(--gap)}
 .love-rail,.love-rail *{-webkit-user-select:none;user-select:none}
 .love-track{display:flex;gap:20px;width:max-content}
 .love-card{position:relative;width:clamp(280px,30vw,400px);flex:none;padding:24px;border-radius:28px;transition:transform .5s var(--spring)}
-.love-who{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+.love-who{display:flex;align-items:center;gap:14px;margin-bottom:18px;padding-right:36px}   /* room for the linkedin icon */
 .face{position:relative;display:grid;place-items:center;flex:none;width:52px;height:52px;border-radius:50%;background:var(--panel);color:var(--ink-2);font-size:17px;border:2px solid var(--bg);overflow:hidden}
 .face img{width:100%;height:100%;object-fit:cover}
 .love-card .face{border:0}
@@ -626,6 +626,11 @@ section.sec{padding-top:var(--gap)}
 .love-who small{display:block;margin-top:3px;font-size:14px;line-height:1.3;color:var(--ink-3)}
 .love-card p{font-size:16px;line-height:1.5;color:var(--ink)}
 .love-card.todo p{color:var(--ink-3)}
+.love-in{position:absolute;top:20px;right:20px;z-index:6;display:grid;place-items:center;width:36px;height:36px;border-radius:50%;color:var(--ink-3);opacity:0;transform:scale(.8);transition:opacity .25s var(--ease),transform .4s var(--spring),color .2s}
+.love-in svg{width:18px;height:18px}
+.love-card:hover .love-in,.love-in:focus-visible{opacity:1;transform:none}
+.love-in:hover{color:var(--ink)}
+@media (hover:none){.love-in{opacity:1;transform:none}}
 .love-cta{position:relative;display:flex;flex-direction:column;align-items:center;gap:14px;margin-top:48px}
 .love-cta p{font-size:14px;color:var(--ink-3)}
 .love-btn{height:60px}
@@ -738,7 +743,7 @@ footer.wrap{margin-top:var(--gap)}
         <a href="./" class="logo" data-snd="click" data-home aria-label="Vladislav Kurguzov — home"><span class="star"><svg><use href="#star"/></svg></span></a>
         <div class="nav-links" id="links">
           <a href="#deck">cases</a>
-          <a href="#fan">about</a>
+          <a href="#about">about</a>
           <a href="#productsGrid">products</a>
           <a href="#conceptsGrid">concepts</a>
         </div>
@@ -765,7 +770,7 @@ footer.wrap{margin-top:var(--gap)}
     </div>
     <div class="m-menu" id="mMenu">
       <a href="#deck">cases <span class="mono">01</span></a>
-      <a href="#fan">about <span class="mono">02</span></a>
+      <a href="#about">about <span class="mono">02</span></a>
       <a href="#productsGrid">products <span class="mono">03</span></a>
       <a href="#conceptsGrid">concepts <span class="mono">04</span></a>
       <div class="m-sep"></div>
@@ -1253,25 +1258,26 @@ measure(); addEventListener('resize',measure); addEventListener('load',measure);
    by the person before publishing, then remove draft:true.
    Replace the placeholders with real quotes (name, role, text). Keep todo:false for real ones. */
 const TESTIMONIALS=[
-  {name:'Alexandra Bartuli',role:'Design Lead, Alfa-Bank website',photo:'assets/testimonials/bartuli.jpg',text:'Vlad turns messy briefs into clear, shippable flows. He asks the uncomfortable questions early, and the whole team moves faster because of it.',draft:true},
-  {name:'Yuri Kian',role:'Design Lead, Alfa-Bank website',photo:'assets/testimonials/kian.jpg',text:'Rare mix of a strong visual eye and a real product mindset. His files are a pleasure to open — everything is named, structured and ready for dev.',draft:true},
-  {name:'Asylkhan Nazir',role:'Design Director, Bereke Bank',photo:'assets/testimonials/nazir.jpg',text:'Vlad grew fast and never stopped sharing what he learned. He brings energy to any team and raises the bar for everyone around him.',draft:true},
+  {name:'Islam Kaimbayev',role:'Lead Product Designer, Alatau City Bank Business',in:'https://www.linkedin.com/in/islam-kaimbayev-a09a41176/',text:'Vlad is a really strong designer who gets involved in how the company works and understands the finer points of the job. He always does more than is expected of him.'},
+  {name:'Alexandra Bartuli',role:'Design Lead, Alfa-Bank website',photo:'assets/testimonials/bartuli.jpg',in:'https://www.linkedin.com/in/alexandra-bartuli-9444ba383/',text:'Vlad turns messy briefs into clear, shippable flows. He asks the uncomfortable questions early, and the whole team moves faster because of it.',draft:true},
+  {name:'Yuri Kian',role:'Design Lead, Alfa-Bank website',photo:'assets/testimonials/kian.jpg',in:'https://www.linkedin.com/in/yuri-kiyan-478917127/',text:'Rare mix of a strong visual eye and a real product mindset. His files are a pleasure to open — everything is named, structured and ready for dev.',draft:true},
+  {name:'Asylkhan Nazir',role:'Design Director, Bereke Bank',photo:'assets/testimonials/nazir.jpg',in:'https://www.linkedin.com/in/nsylk/',text:'Vlad grew fast and never stopped sharing what he learned. He brings energy to any team and raises the bar for everyone around him.',draft:true},
   {name:'Denis Orekhov',role:'Product Owner, Alfa-Bank website',photo:'assets/testimonials/orekhov.jpg',text:'With Vlad, design stopped being a bottleneck. He speaks business, knows the metrics and defends decisions with data, not taste.',draft:true},
   {name:'Alexander Kozlovsky',role:'Frontend Tech Lead, Alfa-Bank website',photo:'assets/testimonials/kozlovsky.jpg',text:'Handoffs with Vlad just work. He thinks about states, edge cases and the design system before the first line of code is written.',draft:true},
-  {name:'Yerlan Alimzhanov',role:'ex CPO, Zimran',photo:'assets/testimonials/alimzhanov.jpg',text:'We needed an iOS app in a month — Vlad made it happen without cutting corners on quality. Calm under pressure and always one step ahead.',draft:true},
-  {name:'Timur Seidalin',role:'Head of Design, Home Credit Bank',photo:'assets/testimonials/seidalin.jpg',text:'Vlad set up our DesignOps and a design system that people actually use. Processes got simpler, and the team finally speaks one language.',draft:true},
+  {name:'Yerlan Alimzhanov',role:'ex CPO, Zimran',photo:'assets/testimonials/alimzhanov.jpg',in:'https://www.linkedin.com/in/yerlan-alimzhanov/',text:'We needed an iOS app in a month — Vlad made it happen without cutting corners on quality. Calm under pressure and always one step ahead.',draft:true},
+  {name:'Timur Seidalin',role:'Head of Design, Home Credit Bank',photo:'assets/testimonials/seidalin.jpg',in:'https://www.linkedin.com/in/seidalint/',text:'Vlad set up our DesignOps and a design system that people actually use. Processes got simpler, and the team finally speaks one language.',draft:true},
   {name:'Nargiz Zhu',role:'Product Growth, Arcads AI',photo:'assets/testimonials/zhu.jpg',text:'Curious, fast and honest. Vlad tests ideas quickly, kills the weak ones without ego and doubles down on what really moves the numbers.',draft:true},
 ];
 const initials=n=>n.split(/\s+/).map(w=>w[0]).join('').slice(0,2).toUpperCase();
 const face=(t,cls='face')=>`<span class="${cls}" data-i="${initials(t.name)}">${t.photo?`<img src="${t.photo}" alt="" onerror="this.parentNode.textContent=this.parentNode.dataset.i">`:initials(t.name)}</span>`;
-const card=t=>`<article class="love-card${t.todo||t.draft?' todo':''}"><div class="love-who">${face(t)}<div><b>${t.name}</b><small>${t.role}</small></div></div><p>${t.text}</p></article>`;
+const card=t=>`<article class="love-card${t.todo||t.draft?' todo':''}"><div class="love-who">${face(t)}<div><b>${t.name}</b><small>${t.role}</small></div></div><p>${t.text}</p>${t.in?`<a class="love-in" href="${t.in}" target="_blank" rel="noopener" aria-label="${t.name} on linkedin"><svg><use href="#i-linkedin"/></svg></a>`:''}</article>`;
 const set=TESTIMONIALS.map(card).join('');
 const dup=set.replace(/<article /g,'<article aria-hidden="true" '); $('#loveTrack').innerHTML=set+dup+dup+dup;   // 4 copies → room to loop both ways
 { const rail=$('#loveRail'), track=$('#loveTrack'), cards=$$('.love-card',track), N=TESTIMONIALS.length;
   const setW=()=>cards[N].offsetLeft-cards[0].offsetLeft;
   let hover=false, drag=false, idleUntil=0, visible=true, last=performance.now();
   const hold=ms=>idleUntil=performance.now()+ms;
-  let sx=0, sl=0;
+  let sx=0, sl=0, moved=false;
   function wrap(){ const w=setW(); let d=0; if(rail.scrollLeft<w*.5) d=w; else if(rail.scrollLeft>w*2.5) d=-w; if(d){ rail.scrollLeft+=d; sl+=d } }
   requestAnimationFrame(()=>{ rail.scrollLeft=setW() });
   function tick(t){ const dt=Math.min(64,t-last); last=t;
@@ -1286,9 +1292,10 @@ const dup=set.replace(/<article /g,'<article aria-hidden="true" '); $('#loveTrac
   rail.addEventListener('wheel',()=>hold(2500),{passive:true}); rail.addEventListener('touchstart',()=>hold(3000),{passive:true});
   new IntersectionObserver(([e])=>{ visible=e.isIntersecting; wake() }).observe(rail);
   // drag with the mouse
-  rail.addEventListener('pointerdown',e=>{ if(e.pointerType!=='mouse') return; e.preventDefault(); drag=true; sx=e.clientX; sl=rail.scrollLeft; rail.classList.add('drag') });
-  addEventListener('pointermove',e=>{ if(!drag) return; rail.scrollLeft=sl-(e.clientX-sx) });
+  rail.addEventListener('pointerdown',e=>{ if(e.pointerType!=='mouse') return; e.preventDefault(); drag=true; moved=false; sx=e.clientX; sl=rail.scrollLeft; rail.classList.add('drag') });
+  addEventListener('pointermove',e=>{ if(!drag) return; if(Math.abs(e.clientX-sx)>4) moved=true; rail.scrollLeft=sl-(e.clientX-sx) });
   addEventListener('pointerup',()=>{ if(!drag) return; drag=false; rail.classList.remove('drag'); hold(2500) });
+  rail.addEventListener('click',e=>{ if(moved){ e.preventDefault(); e.stopPropagation(); moved=false } },true);   // a drag that ends on the linkedin icon isn't a click
   rail.addEventListener('dragstart',e=>e.preventDefault()); }
 /* ───── Infinite CSS loops (avatar float, live dot) stop while off screen ───── */
 { const io=new IntersectionObserver(es=>es.forEach(e=>e.target.classList.toggle('anim-off',!e.isIntersecting)));
