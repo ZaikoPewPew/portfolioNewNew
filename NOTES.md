@@ -102,3 +102,13 @@
 - After deploy: add the site to Google Search Console and Yandex Webmaster, submit the sitemap. Hosting not chosen yet — make sure lab/, portfolio/, tools/ aren't deployed at all.
 - 2026-10-02: tab title «Vladislav Kurguzov — Senior Product Designer»; the first statement (h1) is fully lit from the start (no word fill, the rise-in stays), «Alfa-Bank» never breaks at the hyphen; nav logo and footer star (`data-home`) do a full reload of the home page from the top (relative `./`, so it works on github.io and on the custom domain); footer star turns 90° on every hover of a footer link (spring). 404 subtitle 18px.
 - 2026-10-02: «Work with me» faces are Vlad's own photos (`assets/me/1-3.webp`, 120px face crops; the 4th was dropped) instead of the colleagues; line under it «slide into my DMs — let’s cook» (was «and 100+ other colleagues»).
+
+## Alfa-Bank cases — raw data (2026-10-02)
+Source: slides from the demo of the Site Development & Primary Sales Platform Directorate + Online Sales Department, 29.09.26.
+- Site unique users: 22.4M per month (max), 161M per calendar year (Russia's population is 146.12M).
+- Site visits: 43M per month (max), 419M per calendar year; ×2.6 visits per unique user.
+- New-to-bank clients acquired via online sales + site, 2024–2026: Retail 11M, SMB (ММБ) 0.5M, Corporate (СКБ) 12K.
+- Forecast N2B for 2026: Retail 2,823,655, SMB 150,639, Corporate 4,452.
+- Share of acquired clients in the active base (АКБ), Aug 2026: Retail 37%, SMB 18%, Corporate 15% (of all new-client acquisition in the bank).
+- >50B ₽ profit per year Alfa-Bank earns from clients acquired via online sales and the site.
+- Note: the site headline says «MAU 10M+» — the site alone peaks at 22.4M monthly uniques, so this can go up.
