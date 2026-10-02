@@ -94,7 +94,10 @@ const { iv, ct } = await seal(enc.encode(html));
 const payload = JSON.stringify({ v: 1, iter: ITER, salt: b64(salt), iv: b64(iv), ct: b64(ct) });
 const shell = await readFile(join(ROOT, 'tools/case-shell.html'), 'utf8');
 // shared assets get ?v=<content hash> so browsers pick up style / script changes instead of serving a cached copy
-let page = shell.replace('{{SLUG}}', slug).replace('{{PAYLOAD}}', payload);
+// title / description / OG image per case live in tools/case-meta.json (OG image: render tools/og.html?t=&d= → assets/og/<slug>.png)
+const meta = JSON.parse(await readFile(join(ROOT, 'tools/case-meta.json'), 'utf8'))[slug] ?? { title: 'Case', description: '' };
+const attr = s => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+let page = shell.replaceAll('{{SLUG}}', slug).replaceAll('{{TITLE}}', attr(meta.title)).replaceAll('{{DESC}}', attr(meta.description)).replace('{{PAYLOAD}}', () => payload);
 for (const f of ['case.css', 'cases.js', 'case-ui.js', 'lock.js']) {
   const v = createHash('sha256').update(await readFile(join(ROOT, 'cases', f))).digest('hex').slice(0, 8);
   page = page.replace(new RegExp(`(href|src)="${f.replace('.', '\\.')}"`), `$1="${f}?v=${v}"`);

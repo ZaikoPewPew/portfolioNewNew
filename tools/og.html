@@ -13,6 +13,12 @@ p b{font-weight:400;color:#E23336}
 .url svg{width:22px;height:22px;fill:#E23336}
 </style></head><body>
 <img src="../assets/avatar.svg" alt="">
-<div><h1>Vladislav Kurguzov</h1><p style="margin-top:14px">Senior Product Designer at Alfa-Bank · <b>fintech for millions</b></p></div>
+<div><h1 id="t">Vladislav Kurguzov</h1><p id="d" style="margin-top:14px">Senior Product Designer at Alfa-Bank · <b>fintech for millions</b></p></div>
 <div class="url"><svg viewBox="0 0 24 24"><polygon points="12,0 13.99,7.2 20.49,3.51 16.8,10.01 24,12 16.8,13.99 20.49,20.49 13.99,16.8 12,24 10.01,16.8 3.51,20.49 7.2,13.99 0,12 7.2,10.01 3.51,3.51 10.01,7.2"/></svg>krgzv.net</div>
+<script>
+/* cases: og.html?t=<title>&d=<line, *accent*> — render at 1200×630 into assets/og/<slug>.png */
+const q=new URLSearchParams(location.search), esc=s=>s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'})[c]);
+if(q.get('t')){ document.getElementById('t').textContent=q.get('t'); document.getElementById('t').style.maxWidth='960px' }
+if(q.get('d')) document.getElementById('d').innerHTML=esc(q.get('d')).replace(/\*(.+?)\*/g,'<b>$1</b>');
+</script>
 </body></html>

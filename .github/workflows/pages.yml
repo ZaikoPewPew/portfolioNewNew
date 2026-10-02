@@ -1,0 +1,35 @@
+# Deploys the site to GitHub Pages on every push to main.
+# Only the public files go out: lab/, portfolio/, tools/, NOTES.md and other working files stay in the repo but aren't served.
+name: Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Collect the site
+        run: |
+          mkdir _site
+          cp -r index.html 404.html robots.txt sitemap.xml favicon.ico favicon.svg apple-touch-icon.png assets cases _site/
+          rm -rf _site/cases/_src
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+      - id: deployment
+        uses: actions/deploy-pages@v4

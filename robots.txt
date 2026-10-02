@@ -1,0 +1,8 @@
+# Cases stay crawlable so link previews (LinkedIn, Telegram) can read their OG tags; the pages themselves carry noindex.
+User-agent: *
+Disallow: /lab/
+Disallow: /portfolio/
+Disallow: /tools/
+Disallow: /about/
+
+Sitemap: https://krgzv.net/sitemap.xml
