@@ -25,6 +25,7 @@
     const h1 = main.querySelector('h1');
     if (h1) document.title = h1.textContent.trim() + ' — Vladislav Kurguzov';
     main.querySelectorAll('img[data-enc]').forEach(img => loadImage(img, key));
+    main.querySelectorAll('video[data-enc]').forEach(v => loadVideo(v, key));
     const voice = main.querySelector('audio[data-enc]');
     if (voice){ loadVoice(voice, key); voice.remove() }   // out of the flow, or the hero stops being the first child and loses its top alignment
     reveal(main);
@@ -52,6 +53,15 @@
       img.addEventListener('load', () => img.classList.add('in'), { once:true });
       img.src = URL.createObjectURL(new Blob([data], { type:img.dataset.type }));
     }catch(e){ img.classList.add('in', 'broken') }
+  }
+
+  /* videos: decrypted into a blob; muted + looped, case-ui.js plays them only while they're on screen */
+  async function loadVideo(v, key){
+    try{
+      const data = await decryptFile(v.dataset.enc, key);
+      v.addEventListener('loadeddata', () => v.classList.add('in'), { once:true });
+      v.src = URL.createObjectURL(new Blob([data], { type:v.dataset.type }));
+    }catch(e){ v.classList.add('in', 'broken') }
   }
 
   /* sections rise in as they enter the viewport */

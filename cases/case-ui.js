@@ -268,6 +268,12 @@
     buildToc(main);
     dataBlocks(main);
     main.querySelectorAll('.c-ba').forEach(buildBA);
+    // videos play only while on screen
+    const vids = main.querySelectorAll('.c-fig video');
+    if (vids.length && 'IntersectionObserver' in window){
+      const vio = new IntersectionObserver(es => es.forEach(e => e.isIntersecting && !still() ? e.target.play().catch(() => {}) : e.target.pause()), { threshold: .4 });
+      vids.forEach(v => vio.observe(v));
+    }
     buildNext();
     addEventListener('scroll', update, { passive: true });
     addEventListener('resize', update);

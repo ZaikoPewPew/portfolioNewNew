@@ -6,7 +6,7 @@
 //        cases/_src/<slug>/case.html + its images  →  cases/<slug>.html (+ cases/<slug>/*.bin)
 //
 // Content: PBKDF2-SHA256 → AES-GCM-256 (WebCrypto, same as cases/lock.js).
-// Every local <img src> / <audio src> in the source is encrypted with the same key into an opaque .bin
+// Every local <img src> / <audio src> / <video src> in the source is encrypted with the same key into an opaque .bin
 // (12-byte IV + ciphertext) and rewritten to data-enc, so no text or image is readable without the password.
 import { readFile, writeFile, mkdir, rm, copyFile, access } from 'node:fs/promises';
 import { dirname, join, resolve, extname } from 'node:path';
@@ -16,7 +16,8 @@ import { webcrypto as crypto, createHash } from 'node:crypto';
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const ITER = 310000;
 const MIME = { '.webp': 'image/webp', '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.gif': 'image/gif', '.svg': 'image/svg+xml', '.avif': 'image/avif',
-  '.mp3': 'audio/mpeg', '.m4a': 'audio/mp4', '.aac': 'audio/aac', '.ogg': 'audio/ogg', '.opus': 'audio/ogg', '.wav': 'audio/wav' };
+  '.mp3': 'audio/mpeg', '.m4a': 'audio/mp4', '.aac': 'audio/aac', '.ogg': 'audio/ogg', '.opus': 'audio/ogg', '.wav': 'audio/wav',
+  '.mp4': 'video/mp4', '.webm': 'video/webm' };
 const b64 = u8 => Buffer.from(u8).toString('base64');
 const exists = p => access(p).then(() => true, () => false);
 
@@ -70,13 +71,13 @@ const seal = async data => {
 
 let html = (await readFile(join(srcDir, 'case.html'), 'utf8')).replace(/<!--[\s\S]*?-->/g, '').trim();
 
-// images + voice-over → cases/<slug>/<hash>.bin
+// images, videos + voice-over → cases/<slug>/<hash>.bin
 const outDir = join(ROOT, 'cases', slug);
 await rm(outDir, { recursive: true, force: true });
 await mkdir(outDir, { recursive: true });
 const done = new Map();
 let n = 0;
-for (const [tag, el, src] of [...html.matchAll(/<(img|audio)\b[^>]*?\ssrc="([^"]+)"[^>]*>/g)].map(m => [m[0], m[1], m[2]])) {
+for (const [tag, el, src] of [...html.matchAll(/<(img|audio|video)\b[^>]*?\ssrc="([^"]+)"[^>]*>/g)].map(m => [m[0], m[1], m[2]])) {
   if (/^(https?:|data:|\/\/)/.test(src)) continue;
   if (!done.has(src)) {
     const buf = await readFile(join(srcDir, src));

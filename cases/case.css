@@ -150,6 +150,12 @@ a.glass:active,button.glass:active{transform:scale(.94);transition-duration:80ms
 .c-fig img.broken{opacity:1;min-height:120px;cursor:default}
 .c-fig figcaption{margin:16px auto 0;max-width:560px;text-align:center;font-size:14px;line-height:1.45;color:var(--ink-3)}
 .c-gallery{display:flex;flex-direction:column;gap:16px}
+/* video: muted loop, plays only while on screen */
+.c-fig video{display:block;width:100%;height:auto;border-radius:14px;border:1px solid var(--panel);background:var(--panel);opacity:0;transition:opacity .6s var(--ease)}
+.c-fig video.in{opacity:1}
+/* phone screens side by side, kept small — the lightbox shows them full size */
+.c-pair{display:grid;grid-template-columns:repeat(2,minmax(0,260px));justify-content:center;gap:16px}
+.c-pair figcaption{grid-column:1/-1;margin:0 auto;max-width:560px;text-align:center;font-size:14px;line-height:1.45;color:var(--ink-3)}
 
 /* key numbers */
 .c-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:32px;padding-top:var(--div);border-top:1px solid var(--line)}
