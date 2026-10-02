@@ -412,6 +412,7 @@ span.nda-rev{display:inline-block;border-radius:6px}
 .lock.modal .lock-code{animation:none;transform:translateY(8px)}
 .lock.modal.show .lock-code{transform:none}
 .lock-title{font-size:17px;line-height:1.4;color:var(--ink);text-align:center;transition:translate .3s var(--ease)}
+.lock-title small{display:block;margin-top:4px;font-size:14px;color:var(--ink-3)}
 
 /* ───────────── Tablet & mobile: top bar + contents sheet instead of the rail ───────────── */
 @media (max-width:1279px){

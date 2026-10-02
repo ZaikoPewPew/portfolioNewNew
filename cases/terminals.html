@@ -31,7 +31,7 @@
     var tc = document.querySelector('meta[name="theme-color"]'), sync = function(){ tc.content = h.dataset.theme === 'dark' ? '#0B0D12' : '#FFFFFF' };
     sync(); new MutationObserver(sync).observe(h, { attributes: true, attributeFilter: ['data-theme'] }); })();
 </script>
-<link rel="stylesheet" href="case.css?v=89d745f4">
+<link rel="stylesheet" href="case.css?v=085eb8f4">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -263,7 +263,7 @@
 
 <div class="lock" id="lock" role="dialog" aria-modal="true" aria-label="Password">
   <a class="glass lock-x" id="lockClose" href="../index.html#deck" aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></a>
-  <p class="lock-title" id="lockTitle" hidden>this data is password-protected</p>
+  <p class="lock-title" id="lockTitle" hidden>this data is password-protected<small>one code opens everything hidden on the site</small></p>
   <form class="lock-code" id="lockForm" autocomplete="off">
     <input id="pw" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="6" aria-label="Password" autocomplete="one-time-code" spellcheck="false">
     <span class="glass"><i></i></span><span class="glass"><i></i></span><span class="glass"><i></i></span><span class="glass"><i></i></span><span class="glass"><i></i></span><span class="glass"><i></i></span>
@@ -271,7 +271,7 @@
   <p class="lock-hint">need the password? ask me on <a href="https://t.me/ezzzz12345" target="_blank" rel="noopener">telegram</a> or <a href="https://www.linkedin.com/in/kvneasy/" target="_blank" rel="noopener">linkedin</a></p>
 </div>
 
-<script type="application/json" id="payload">{"v":2,"mode":"open","iter":310000,"salt":"tWXoIbTQvPizNv1lRjDO2A==","frags":[{"iv":"Bbf5amq4f/Q4WQ96","ct":"NpD3Q/rJK1IVQktAa78ILxssgeHnNHxS0tHBp5exqsX2+KWLNqRXjvw4s1Y="},{"iv":"of4xj2MP6kfuPuMT","ct":"309+z5IOCf63lZnLmIYdVRhUZ/VZh4SivOcVfo+zDRAqGI9bx8OUey0bHmn5YC7270v6AAiuzGOkySRHLVjpVsLO8VHWziIxamXOkrskrVzEHX185+hzlTDgapjbSRJO/GJ9ysTOJud3Z/0P+ex6oarIHge8+IDU5d25NxJyVh5Jmy6HHVikpPul/RIMA/XWrXm/Sza7alSAA2hdxNOuRv89H0IwKJf8at1l2RM9VCqqlKTUAKBriYnVAkB8Fmdv1E94F/q4S9A1fylEv7mXn0ZDYBC7r+2qgt21NybKgXebTzxFMxWXqoCVkb1WW8sVeAabqCRtiYBKLuKQn1z4Z53NRO0DFtwbbUOGAwPP2A4lNByKnuWKucQhL38EKFVSXLIuBh21rdWFD5t4MujIEH5LMpPf8v6C/6zdvq5dGLPWhVVrDyB54/RdPToWlmaUCfK0Amt73Xm2BNh/oayvfjM6RjwkpH0WCCNY47Q1XNvjT7o4nmw="},{"iv":"qb1iuRlKPp/v0jzB","ct":"beI21WuYLssaDQazbNzFMXMemtoo9oemkae5fO1GCmwkBMvFs6s7WYUpsCncJGCLLICy"},{"iv":"Celd6rJaNTFZDRnu","ct":"M3Fb65FowXBqJKbbxftPHdr5xtRNJoxLZcdNSQH9JerWcRNhf5LTglqo04D3xKEoybiwJPSHiBkh/r4vigzJRmIFQZcZQvzDy9A4x5GXoz5i/IuD7LGoU6nExLQDtTf3Ihxnvg4eKdstqgCmGBJvpQAjnujj+WySSzruO+yU3opRKI2/uMt2E8w4uMLq11lZg78EMmLk05lqW7PzEpRUtNKMw9DR5du7L7ijhVjczYm3CIy/2O7gm0WSNCYcy7U6Xax90a4HFI7qJFpft5F55ywMNmq5YqT4BSqgUDJY6eB0lGHvTrOC9t0anD8+gw=="}]}</script>
+<script type="application/json" id="payload">{"v":2,"mode":"open","iter":310000,"salt":"aMxQAYP5eFVznifNNLaQ3g==","frags":[{"iv":"/ub+ixYafQcsk5sl","ct":"uiBCQsPiE4psc2Apz3W44Qzv0b6OC2JhVBVa/XuuYGpHhHkukJpwjUrSutA="},{"iv":"YK6V0v5h2NF6yi59","ct":"4pFGcVaBRAgO7aE7P/2ksz3X1awTakC4zI/j/fQRJesiTw/3ZHJ1qKMxdRgH9iAZPA6LiWnjHQeWGntmu0EvSxoQA2AOdGcecMinwKLUjHvrbHH6bJMChvG7o9uabGh1vN46ghhLdCcJ5seU71oiYiSEJKxbYtnq5kq6GHZwUcqze3zjM3yZpTheehfDE+nJ6dMXleaCKWMS+svmI9jU5BuXd7WXJRxZQvhcVoc+fw6dLbgJ0FQooPIEYVzt5vVTitCsRjZxU1gAfBs5rdods9CAXvtOGZR+aFxJfuwXw6fuSSv+L0/ZE2N7bEb4iRe4zXhqvBTjnFPsqUQNcD5VMe2x5wLwudRiuf3/D1hV/LYvyfbe0c7bLy6WZQK4MD7UwiXA1u6nW0POKG4CC0SF70Eg9KGVRxU+6anzIJTp+PI09cU+OULjU5u9QjMu5uScYZ/GoPoa8HKqbs1qFFhN3OO6AYC+98xA+51mKn4CE2ZlgfEJC0Q="},{"iv":"HOgqyAGGxCcVZdTT","ct":"KI7gOUjswynfTmO77GFyTXe1lVk8fRBnpy7Khh7imVb/PeXtyAJRj6EOgPSpzAKvEMaX"},{"iv":"rTi8TV+m5LdoSvWM","ct":"KsF9AJkcPjGiBMxWt9mw4KcDsfXDKY/EuI2bzinUMAUInENGTgXe57mwsazAcHebbp24zMPXSZSX3PCv52vtyjBvsM+bFOo6TAojb357ufaymlenalbw2F8dVoQ23fNWgyeGEIi1UDJP80lPBLbtFocRwJej7xCpdAWScYkiCDX1B+3Azu8BUFyR2vC6fMkn6V6i/nBVpz9Y2OuPDzrdQNAwvzH9BwKueNlworpS9AHIujoV04Kw2KGSrc+r4pl2NZybLt0Rf/fmSAqf26eYKekCE9HfKXcp6LtJKcVeqpKL5rILIV0yzKByIVAsEg=="}]}</script>
 <script src="cases.js?v=f6f7e6a9"></script>
 <script src="case-ui.js?v=ce3df22f"></script>
 <script src="lock.js?v=09c999c2"></script>

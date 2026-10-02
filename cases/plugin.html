@@ -31,7 +31,7 @@
     var tc = document.querySelector('meta[name="theme-color"]'), sync = function(){ tc.content = h.dataset.theme === 'dark' ? '#0B0D12' : '#FFFFFF' };
     sync(); new MutationObserver(sync).observe(h, { attributes: true, attributeFilter: ['data-theme'] }); })();
 </script>
-<link rel="stylesheet" href="case.css?v=89d745f4">
+<link rel="stylesheet" href="case.css?v=085eb8f4">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -297,7 +297,7 @@
 
 <div class="lock" id="lock" role="dialog" aria-modal="true" aria-label="Password">
   <a class="glass lock-x" id="lockClose" href="../index.html#deck" aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></a>
-  <p class="lock-title" id="lockTitle" hidden>this data is password-protected</p>
+  <p class="lock-title" id="lockTitle" hidden>this data is password-protected<small>one code opens everything hidden on the site</small></p>
   <form class="lock-code" id="lockForm" autocomplete="off">
     <input id="pw" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="6" aria-label="Password" autocomplete="one-time-code" spellcheck="false">
     <span class="glass"><i></i></span><span class="glass"><i></i></span><span class="glass"><i></i></span><span class="glass"><i></i></span><span class="glass"><i></i></span><span class="glass"><i></i></span>
@@ -305,7 +305,7 @@
   <p class="lock-hint">need the password? ask me on <a href="https://t.me/ezzzz12345" target="_blank" rel="noopener">telegram</a> or <a href="https://www.linkedin.com/in/kvneasy/" target="_blank" rel="noopener">linkedin</a></p>
 </div>
 
-<script type="application/json" id="payload">{"v":2,"mode":"open","iter":310000,"salt":"Of3No4TO/1QX3chMONjVrA==","frags":[{"iv":"a3Y+cCbJLVYImoAI","ct":"hamVe5u+3yGoq6BVuL0RJr+UkGltIDzfcDBeYOFn2L9F"}]}</script>
+<script type="application/json" id="payload">{"v":2,"mode":"open","iter":310000,"salt":"8liCB/0U76/EIO2rwWLk/A==","frags":[{"iv":"JLYO2lTbdE1Ne/am","ct":"0qytbFzhNhBMlNMyM0Xkl+YktQRk0gRyLhjwG84G6825"}]}</script>
 <script src="cases.js?v=f6f7e6a9"></script>
 <script src="case-ui.js?v=ce3df22f"></script>
 <script src="lock.js?v=09c999c2"></script>

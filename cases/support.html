@@ -31,7 +31,7 @@
     var tc = document.querySelector('meta[name="theme-color"]'), sync = function(){ tc.content = h.dataset.theme === 'dark' ? '#0B0D12' : '#FFFFFF' };
     sync(); new MutationObserver(sync).observe(h, { attributes: true, attributeFilter: ['data-theme'] }); })();
 </script>
-<link rel="stylesheet" href="case.css?v=89d745f4">
+<link rel="stylesheet" href="case.css?v=085eb8f4">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -217,7 +217,7 @@
 
 <div class="lock" id="lock" role="dialog" aria-modal="true" aria-label="Password">
   <a class="glass lock-x" id="lockClose" href="../index.html#deck" aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></a>
-  <p class="lock-title" id="lockTitle" hidden>this data is password-protected</p>
+  <p class="lock-title" id="lockTitle" hidden>this data is password-protected<small>one code opens everything hidden on the site</small></p>
   <form class="lock-code" id="lockForm" autocomplete="off">
     <input id="pw" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="6" aria-label="Password" autocomplete="one-time-code" spellcheck="false">
     <span class="glass"><i></i></span><span class="glass"><i></i></span><span class="glass"><i></i></span><span class="glass"><i></i></span><span class="glass"><i></i></span><span class="glass"><i></i></span>
@@ -225,7 +225,7 @@
   <p class="lock-hint">need the password? ask me on <a href="https://t.me/ezzzz12345" target="_blank" rel="noopener">telegram</a> or <a href="https://www.linkedin.com/in/kvneasy/" target="_blank" rel="noopener">linkedin</a></p>
 </div>
 
-<script type="application/json" id="payload">{"v":2,"mode":"open","iter":310000,"salt":"2KXyo6dS/WO+t8PownCnrA==","frags":[{"iv":"IPuqeSE92uq/ae5s","ct":"0tH0lIg5pYl1pJXOZbuPuJaChKXPxjP0lYqut0r1LM6L0q0="},{"iv":"nvLM1v3b0jxEQHe/","ct":"7+FLYIrDR0DYIoMPKPOzdIpHus3WQ++mafPJ+6PWUVsStR6nwJ/pOY05OQKoGv0qywUEX4R27jqYiZKcGB6TFHyea5Q034lo+PAFrZjaqRvvHAv6tJbDnPqMNbMRq+uKvXQAV/7vbD6ggj3kyBmbtYxzl7KoT/2v4iLSVAuysg+38LHmcSbid8H4gBjmHtaIQn216AL1AMog3sg4fWiIxWMnnedHYzJnsEOfQxD6bACw6vVaWucPHsZin7RtyOxV8qdvp3SCFZT8xKB4HC/0khqmMArWT/aobdNRf3tMeiQvvis8nfESEc70gjiqghXbNq8YQWctVzrPqcyvFz1GDK4FwW39QYwtgaaDjycjOgCfQuA82mrvzRHoHT9orkGynszCcLP41sWH0IwlZzRjOw00jnlKhm1SRfdFpBBNknbTowrDXlZvSLaF0+NblDWIrptlOMorSg=="}]}</script>
+<script type="application/json" id="payload">{"v":2,"mode":"open","iter":310000,"salt":"zczfTsg/YRS0M5Bq6t+IEw==","frags":[{"iv":"QP5GSfg7DztSsR+u","ct":"xtbOCNFvkHoC97BRq/HfJlM8Ot24Nknjz1NQ4oZ5veQyegE="},{"iv":"b/qGp2wNJ98oLjpt","ct":"NV32zo5BPl6P+fmBw/2x1Q8hR/SaCoGkSNnpi57PULZ1HYlPSW8qMKqRuIfKKa5LoPAqTzUX5RzvtCAKyw4XZbfrkXPp8XShZ3fuvH2kJidJhSR4rWXNFg2N7kIgad2Ze2N16uM6aiMCLUVPAKGk6QoCYt0+pJGu+LnjYmzcGQKOHVJbHNbKDGnxF80aahJbwSJCXuSaq5QNpyM/MS7YryrlrsXMvAW/biPjHs/upuzzNSCEoWwaOkKixAOufTX43jTGRPFB+BqlzoFlN5QTsnLnVpXze91z7Mgjpah4F1WSJLp9kTMg4X+qN8fEy9l7yDaCpzgJkU/wX46D4m4M7oJyAuovakfRm1dDQiXTeyQGnGCpYP+JC38sjSZIrx1EiNeVXHa7zgSPnJUJ8oTvw+vcnRG5EMK5G8VwVYMWHmKDbQiIpZjSGitCDbPWySq8W1bsDxYDLA=="}]}</script>
 <script src="cases.js?v=f6f7e6a9"></script>
 <script src="case-ui.js?v=ce3df22f"></script>
 <script src="lock.js?v=09c999c2"></script>
