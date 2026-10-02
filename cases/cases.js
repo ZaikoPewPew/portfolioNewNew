@@ -4,5 +4,5 @@ window.CASES = [
   { slug: 'qr',      title: 'Paying for public transport with a QR code', tags: ['Kcell / activ', '2022'] },
   { slug: 'balance', title: 'One home screen for mobile balance and bonuses', tags: ['Kcell / activ', '2023'] },
   { slug: 'ios',     title: 'A native iOS app in a month', tags: ['Prosperi', '2023'] },
-  { slug: 'desops',  title: 'DesignOps and a unified design system', tags: ['Home Credit Business', '2024'] }
+  { slug: 'desops',  title: 'DesignOps and a unified design system', tags: ['red_mad_robot / Home Credit', '2024'] }
 ];

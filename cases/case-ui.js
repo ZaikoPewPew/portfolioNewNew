@@ -216,7 +216,7 @@
   const toast = $('#toast'); let tt;
   document.querySelectorAll('[data-mail]').forEach(b => b.addEventListener('click', async e => {
     const m = e.currentTarget.dataset.mail;
-    try { await navigator.clipboard.writeText(m); toast.textContent = 'Email copied' } catch { location.href = 'mailto:' + m; return }
+    try { await navigator.clipboard.writeText(m); toast.textContent = 'email copied' } catch { location.href = 'mailto:' + m; return }
     toast.classList.add('show'); clearTimeout(tt); tt = setTimeout(() => toast.classList.remove('show'), 1600);
   }));
 
