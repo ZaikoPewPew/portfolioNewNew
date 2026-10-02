@@ -4,6 +4,11 @@
     "description": "Case study: Alfa-Bank merchant acquiring — hyper-real 3D that satisfied both business and brand, then a terminal showcase with a comparison table and a 30-second quiz.",
     "og": "Business vs brand, 2 years — *solved with hyper-real 3D*"
   },
+  "support": {
+    "title": "When 30% of sales leads are support calls",
+    "description": "Case study: Alfa-Bank merchant acquiring — intercepting support requests before the sales form, keeping the focus on a phone call, and chasing the root cause.",
+    "og": "30% of applications were *support requests*"
+  },
   "qr": {
     "title": "Paying for public transport with a QR code",
     "description": "Case study: the payment flow cut from nine screens to three, 20 seconds faster per ride and 17% more riders paying in the app.",
