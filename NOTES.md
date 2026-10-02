@@ -96,7 +96,7 @@
 - Phones (≤640px): avatar sits 120px under the 70px nav (`#work.sec` padding-top 162px).
 
 ## SEO / release (2026-10-02)
-- Root: `robots.txt` (blocks /lab/ /portfolio/ /tools/ /about/; cases stay crawlable so LinkedIn/Telegram can read their OG, the pages carry noindex), `sitemap.xml` (home only), `404.html` (absolute paths — served for any missing URL; uses /cases/case.css glass), `favicon.ico` / `favicon.svg` / `apple-touch-icon.png` (the red star).
+- Root: `robots.txt` (blocks /lab/ /portfolio/ /tools/ /about/; cases stay crawlable so LinkedIn/Telegram can read their OG, the pages carry noindex), `sitemap.xml` (home only), `404.html` (home style: star logo, statement, glass pill; a <base> set by script resolves links from the site root on both krgzv.net and *.github.io/<repo>/ — so the star is inline SVG, not <use href="#">), `favicon.ico` / `favicon.svg` / `apple-touch-icon.png` (the red star).
 - Home head: canonical, og:site_name, twitter:title/description/image, JSON-LD Person (sameAs LinkedIn, YouTube, Telegram), `theme-color` synced to the theme by a MutationObserver in the boot script. The «I'm Vlad» statement is the page's `<h1>` (same look).
 - Cases: title / description / OG line per case in `tools/case-meta.json`; `encrypt-case.mjs` fills `{{TITLE}}` `{{DESC}}` in the shell. OG images `assets/og/<slug>.png` are rendered from `tools/og.html?t=<title>&d=<line, *accent*>` in headless Chrome at 1200×630.
 - After deploy: add the site to Google Search Console and Yandex Webmaster, submit the sitemap. Hosting not chosen yet — make sure lab/, portfolio/, tools/ aren't deployed at all.
