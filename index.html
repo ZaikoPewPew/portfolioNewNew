@@ -1288,8 +1288,14 @@ const dup=set.replace(/<article /g,'<article aria-hidden="true" '); $('#loveTrac
   let sx=0, sl=0, moved=false;
   function wrap(){ const w=setW(); let d=0; if(rail.scrollLeft<w*.5) d=w; else if(rail.scrollLeft>w*2.5) d=-w; if(d){ rail.scrollLeft+=d; sl+=d } }
   requestAnimationFrame(()=>{ rail.scrollLeft=setW() });
+  // the drift keeps its own float position: iOS Safari rounds scrollLeft to whole pixels, so adding ~0.7px a frame
+  // straight to it got dropped every time and the ticker never moved on iPhones
+  let pos=null;
   function tick(t){ const dt=Math.min(64,t-last); last=t;
-    if(!reduced && visible && !hover && !drag && !touching && t>idleUntil){ rail.scrollLeft+=dt*.045; }   // ~45px/s
+    if(!reduced && visible && !hover && !drag && !touching && t>idleUntil){
+      if(pos===null||Math.abs(pos-rail.scrollLeft)>2) pos=rail.scrollLeft;   // pick up wherever a swipe or a wrap left it
+      pos+=dt*.045; rail.scrollLeft=pos }   // ~45px/s
+    else pos=null;
     wrap(); raf=visible&&!document.hidden?requestAnimationFrame(tick):0 }
   let raf=requestAnimationFrame(tick);
   const wake=()=>{ if(!raf&&visible&&!document.hidden){ last=performance.now(); raf=requestAnimationFrame(tick) } };
