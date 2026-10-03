@@ -77,14 +77,14 @@ html.locked body{overflow:hidden}
 .c-back{display:inline-flex;align-items:center;gap:6px;color:var(--ink-2);transition:color .2s,background-color .2s}
 .c-back:hover{color:var(--ink)}
 /* glass material — the home page pill recipe; used by the back button, the top-right tools and the next-case widget */
-.glass{--bw:1.5px;--angle-1:-75deg;--angle-2:-45deg;position:relative;color:var(--ink);
+:is(.glass,.nda-lock){--bw:1.5px;--angle-1:-75deg;--angle-2:-45deg;position:relative;color:var(--ink);
   background:var(--gb-fill);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:var(--gb-bevel),var(--gb-drop),var(--gb-glow);
   transition:transform .4s var(--ease),box-shadow .4s var(--ease),--angle-1 .5s,--angle-2 .5s}
-.glass::after{content:"";position:absolute;inset:calc(var(--bw) / -2);padding:var(--bw);border-radius:inherit;pointer-events:none;
+:is(.glass,.nda-lock)::after{content:"";position:absolute;inset:calc(var(--bw) / -2);padding:var(--bw);border-radius:inherit;pointer-events:none;
   background:conic-gradient(from var(--angle-1) at 50% 50%,var(--gb-rim-a),var(--gb-rim-b) 5% 40%,var(--gb-rim-a) 50%,var(--gb-rim-b) 60% 95%,var(--gb-rim-a)),var(--gb-rim-base);
   box-shadow:inset 0 0 0 calc(var(--bw) / 2) var(--gb-rim-line);
   -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
-.glass::before{content:"";position:absolute;inset:calc(var(--bw) / 2);border-radius:inherit;pointer-events:none;mix-blend-mode:screen;
+:is(.glass,.nda-lock)::before{content:"";position:absolute;inset:calc(var(--bw) / 2);border-radius:inherit;pointer-events:none;mix-blend-mode:screen;
   background:linear-gradient(var(--angle-2),#fff0 0,var(--gb-sheen) 40% 50%,#fff0 55%) 0 0/200% 200% no-repeat;transition:background-position .5s var(--ease)}
 a.glass:hover,button.glass:hover{--angle-1:-125deg;--angle-2:135deg;transform:scale(.975);box-shadow:var(--gb-bevel),var(--gb-drop-h),var(--gb-glow-h)}
 a.glass:hover::before,button.glass:hover::before{background-position:30% 30%}
@@ -468,8 +468,8 @@ span.nda{display:inline-block;width:calc(var(--len) * .6em);height:1.15em;vertic
 :root[data-theme="dark"] .nda::after{background:linear-gradient(100deg,transparent,rgba(255,255,255,.16) 50%,transparent)}
 @media (hover:hover){ .nda:hover::after{translate:220% 0;transition:translate .9s var(--ease)} }
 .nda:focus-visible{outline:2px solid var(--red);outline-offset:3px}
-.nda-lock{position:absolute;z-index:2;left:50%;top:50%;translate:-50% -50%;display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--bg);color:var(--ink-2)}
-.nda-lock svg{width:18px;height:18px}
+.nda-lock{position:absolute;z-index:2;left:50%;top:50%;translate:-50% -50%;display:grid;place-items:center;width:44px;height:44px;border-radius:50%}   /* glass, like the slider knob */
+.nda-lock svg{position:relative;z-index:1;width:18px;height:18px}
 /* while the foil is scratched off, the real content already sits under it */
 .nda-rev{position:relative;display:block;border-radius:14px}
 span.nda-rev{display:inline-block;border-radius:6px}
