@@ -31,7 +31,7 @@
     var tc = document.querySelector('meta[name="theme-color"]'), sync = function(){ tc.content = h.dataset.theme === 'dark' ? '#0B0D12' : '#FFFFFF' };
     sync(); new MutationObserver(sync).observe(h, { attributes: true, attributeFilter: ['data-theme'] }); })();
 </script>
-<link rel="stylesheet" href="case.css?v=b017ac43">
+<link rel="stylesheet" href="case.css?v=1df57d7d">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -286,11 +286,11 @@
 
 <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Image viewer"><img id="lbImg" alt=""></div>
 <div class="lb-bar" id="lbBar">
-  <button type="button" id="lbPrev" aria-label="Previous image"><svg aria-hidden="true"><use href="#i-left"/></svg></button>
-  <span id="lbCount"></span>
-  <button type="button" id="lbNext" aria-label="Next image"><svg aria-hidden="true"><use href="#i-right"/></svg></button>
-  <button type="button" id="lbZoom" aria-label="Zoom"><svg aria-hidden="true"><use href="#i-zoom"/></svg></button>
-  <button type="button" id="lbClose" aria-label="Close"><svg aria-hidden="true"><use href="#i-close"/></svg></button>
+  <button class="glass" type="button" id="lbPrev" aria-label="Previous image"><svg aria-hidden="true"><use href="#i-left"/></svg></button>
+  <span class="glass" id="lbCount"></span>
+  <button class="glass" type="button" id="lbNext" aria-label="Next image"><svg aria-hidden="true"><use href="#i-right"/></svg></button>
+  <button class="glass" type="button" id="lbZoom" aria-label="Zoom"><svg aria-hidden="true"><use href="#i-zoom"/></svg></button>
+  <button class="glass" type="button" id="lbClose" aria-label="Close"><svg aria-hidden="true"><use href="#i-close"/></svg></button>
 </div>
 <p class="lb-cap" id="lbCap"></p>
 
@@ -305,7 +305,7 @@
   <p class="lock-hint">need the password? ask me on <a href="https://t.me/ezzzz12345" target="_blank" rel="noopener">telegram</a> or <a href="https://www.linkedin.com/in/kvneasy/" target="_blank" rel="noopener">linkedin</a></p>
 </div>
 
-<script type="application/json" id="payload">{"v":2,"mode":"open","iter":310000,"salt":"CbeTXcZXxo6pmQ/Co8hmZA==","frags":[{"iv":"Wk70QxPUEZ3w8Ry4","ct":"T6GQB6HjVULKjXXkf7HNimZ3g3y0sNrmiKXKq3UV0YIG"}]}</script>
+<script type="application/json" id="payload">{"v":2,"mode":"open","iter":310000,"salt":"+NU2h9MUDJMlVIR0dZLrXw==","frags":[{"iv":"/yYzZql1tm6EGOkG","ct":"b/8WTpxyJrGbdKXpHsSY5q3Gl971WCWpkNy0BYiR0PKV"}]}</script>
 <script src="cases.js?v=c7134e36"></script>
 <script src="case-ui.js?v=43c05a6d"></script>
 <script src="lock.js?v=e1aca242"></script>

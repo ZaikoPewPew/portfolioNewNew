@@ -31,7 +31,7 @@
     var tc = document.querySelector('meta[name="theme-color"]'), sync = function(){ tc.content = h.dataset.theme === 'dark' ? '#0B0D12' : '#FFFFFF' };
     sync(); new MutationObserver(sync).observe(h, { attributes: true, attributeFilter: ['data-theme'] }); })();
 </script>
-<link rel="stylesheet" href="case.css?v=b017ac43">
+<link rel="stylesheet" href="case.css?v=1df57d7d">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -206,11 +206,11 @@
 
 <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Image viewer"><img id="lbImg" alt=""></div>
 <div class="lb-bar" id="lbBar">
-  <button type="button" id="lbPrev" aria-label="Previous image"><svg aria-hidden="true"><use href="#i-left"/></svg></button>
-  <span id="lbCount"></span>
-  <button type="button" id="lbNext" aria-label="Next image"><svg aria-hidden="true"><use href="#i-right"/></svg></button>
-  <button type="button" id="lbZoom" aria-label="Zoom"><svg aria-hidden="true"><use href="#i-zoom"/></svg></button>
-  <button type="button" id="lbClose" aria-label="Close"><svg aria-hidden="true"><use href="#i-close"/></svg></button>
+  <button class="glass" type="button" id="lbPrev" aria-label="Previous image"><svg aria-hidden="true"><use href="#i-left"/></svg></button>
+  <span class="glass" id="lbCount"></span>
+  <button class="glass" type="button" id="lbNext" aria-label="Next image"><svg aria-hidden="true"><use href="#i-right"/></svg></button>
+  <button class="glass" type="button" id="lbZoom" aria-label="Zoom"><svg aria-hidden="true"><use href="#i-zoom"/></svg></button>
+  <button class="glass" type="button" id="lbClose" aria-label="Close"><svg aria-hidden="true"><use href="#i-close"/></svg></button>
 </div>
 <p class="lb-cap" id="lbCap"></p>
 
@@ -225,7 +225,7 @@
   <p class="lock-hint">need the password? ask me on <a href="https://t.me/ezzzz12345" target="_blank" rel="noopener">telegram</a> or <a href="https://www.linkedin.com/in/kvneasy/" target="_blank" rel="noopener">linkedin</a></p>
 </div>
 
-<script type="application/json" id="payload">{"v":2,"mode":"open","iter":310000,"salt":"rbx0I5RxXEX9zsE8b9t2xw==","frags":[{"iv":"eZJD+eroOaZ2UIAW","ct":"jeJkWa7FJggJnm6UwKxPPa4xHw72rxebpqsnBO0gKe6FId4="},{"iv":"YEbosI0R4AKUQ4fU","ct":"my7MC4FTNsX5kS/P2AkPvqd7k4qBQeTeADeHnqgZYh2V3zKqfCtjr3aLbJT/igDP4Azomma7gWJmVQdtrAb7QpfixKTPAnnBjoOwbCFGGbxojUirKqd+l/pssYgA8awbOmkd7mVjCFjiZ40yFCMGYSxgFook6LucxbwyCl54pys7U0eVSmvkFTozTOiEifELaoul1lBsRA9W7g94gnRa/xhuVFAiC+ku8aMPDApwz+xK2c/gDEdOLCedY/gY92pxiTdTVNo0y9zbqSV4lnOKR8WuBOAby+YXfe4Ym0VqoltY+KkFQgakorAKTtrfnpH41kZyGaO5twBxKGii0jwhPUexp++ey5VFkKA4YOpk0VR4EeIUnO7Bq5Z0BAvRlGm+7MzgKM2Ir+u3k/o4xuMtEzqkCrXasawKLsPGBrgenMSGXhfM8DecnuZi6GzlOYvN9NHVlSiIWTn9E+3pz29E/GShBA4ViLDGinKA6wwvzZssGQ=="}]}</script>
+<script type="application/json" id="payload">{"v":2,"mode":"open","iter":310000,"salt":"csdg2744gqKJ1oGcCdJKEg==","frags":[{"iv":"L5HV8x0z8lQSVC+7","ct":"llc5z9qHG3PsKOIfBaygNWmmtMRcRhOs1N2/5I+LsfqBKI0="},{"iv":"g6HCfIodoRzEsk9I","ct":"NI+Zp1juGkeqnW5rTChk/QywxJ4M1wGfL56php+fPJvbgtASHqyF6AHl/D02aYhXIAQisfSIc345spRXuqlNcjLlxs+xboxD7SS4RHE+Pl60qY4TxpI6CG3TslmjTUUs0UaOXNb/LDlQBKKLEzMQ52/OxnJpwplgGT27VX+Om91stC4C0MCbcT29iihboFD+SxxGhX2mKdm7qvz4u+0quSQF+Wrub5KMlP+6hQrBboG12t1TKcGmlaPExhg2AebNaob4wUJ5WkoClY4jL3xLuXO/+S+K0kakFGRs4S0bIieMjDiXI74t1MCi9KHK2w9figb+IqpYNfyvyuNKNY3/aPGJY5qg4f16E5XxGnLCmpU1+r/XtSWjNrq+j3xSJM0tz08ZDJES/PAaZRcMznHn7fGPxpkRGSRbePTbFiBA1BvSGFxgKb9nzuDmEmY17A7iNDlVv68bS/hr9KxQbLEBaDtkRaRtOpwEcrhS/3gR+5szfA=="}]}</script>
 <script src="cases.js?v=c7134e36"></script>
 <script src="case-ui.js?v=43c05a6d"></script>
 <script src="lock.js?v=e1aca242"></script>

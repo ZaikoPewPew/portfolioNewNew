@@ -421,13 +421,14 @@ a.glass:active,button.glass:active{transform:scale(.94);transition-duration:80ms
 /* zoomed: the image at its real size; the overlay scrolls in both directions */
 .lb.zoom{place-items:start}
 .lb.zoom img{max-width:none;max-height:none;margin:80px var(--gutter);border-radius:8px;cursor:zoom-out}
-.lb-bar{position:fixed;z-index:41;top:16px;right:var(--gutter);display:flex;align-items:center;gap:2px;height:44px;padding:0 4px;border-radius:99px;background:var(--panel);
-  opacity:0;visibility:hidden;transition:opacity .3s var(--ease),visibility .3s}
+.lb-bar{position:fixed;z-index:41;top:28px;right:max(var(--gutter),calc((100vw - var(--col)) / 2 - clamp(40px,4vw,72px) - var(--rail)));display:flex;align-items:center;gap:8px;
+  opacity:0;visibility:hidden;transition:opacity .3s var(--ease),visibility .3s}   /* glass buttons where Listen / theme sit; close takes the theme button's place */
 .lb.open ~ .lb-bar{opacity:1;visibility:visible}
-.lb-bar button{display:grid;place-items:center;width:36px;height:36px;border-radius:50%;color:var(--ink-2);transition:color .2s,background-color .2s}
-.lb-bar button:hover{color:var(--ink);background:var(--panel-2)}
-.lb-bar svg{width:18px;height:18px}
-.lb-bar span{font-size:14px;font-variant-numeric:tabular-nums;color:var(--ink-3);padding:0 6px}
+.lb-bar button{display:grid;place-items:center;width:44px;height:44px;border-radius:50%}
+.lb-bar svg{position:relative;z-index:2;width:16px;height:16px}
+.lb-bar span{display:inline-flex;align-items:center;height:44px;padding:2px 16px 0;border-radius:99px;font-size:14px;line-height:1;font-variant-numeric:tabular-nums;color:var(--ink-2)}   /* digits have no descenders — 2px down to sit optically centred */
+.lb-bar span:empty,.lb-bar [hidden]{display:none}
+#lbZoom{margin-left:8px}   /* image tools apart from the paging */
 .lb-cap{position:fixed;z-index:41;left:50%;bottom:24px;translate:-50% 0;max-width:calc(100vw - 32px);font-size:14px;color:var(--ink-3);text-align:center;opacity:0;transition:opacity .3s}
 .lb.open ~ .lb-cap{opacity:1}
 html.lb-on body{overflow:hidden}
@@ -499,6 +500,10 @@ span.nda-rev{display:inline-block;border-radius:6px}
     transition:translate .35s var(--ease)}
   .c-bar::after{content:"";position:absolute;left:0;bottom:-1px;height:2px;width:calc(var(--p,0) * 100%);background:var(--red)}
   .c-tools{top:12px;right:12px;gap:6px}
+  .lb-bar{top:12px;right:12px;gap:6px}
+  .lb-bar button,.lb-bar span{height:40px}
+  .lb-bar button{width:40px}
+  #lbZoom{margin-left:6px}
   .c-tool{width:40px;height:40px}
   .c-bar{padding-right:108px}
   .c-bar .c-back{flex:none;justify-content:center;width:40px;height:40px;border-radius:50%;color:var(--ink)}   /* glass, like Listen / theme */

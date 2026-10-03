@@ -31,7 +31,7 @@
     var tc = document.querySelector('meta[name="theme-color"]'), sync = function(){ tc.content = h.dataset.theme === 'dark' ? '#0B0D12' : '#FFFFFF' };
     sync(); new MutationObserver(sync).observe(h, { attributes: true, attributeFilter: ['data-theme'] }); })();
 </script>
-<link rel="stylesheet" href="case.css?v=b017ac43">
+<link rel="stylesheet" href="case.css?v=1df57d7d">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -248,11 +248,11 @@
 
 <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Image viewer"><img id="lbImg" alt=""></div>
 <div class="lb-bar" id="lbBar">
-  <button type="button" id="lbPrev" aria-label="Previous image"><svg aria-hidden="true"><use href="#i-left"/></svg></button>
-  <span id="lbCount"></span>
-  <button type="button" id="lbNext" aria-label="Next image"><svg aria-hidden="true"><use href="#i-right"/></svg></button>
-  <button type="button" id="lbZoom" aria-label="Zoom"><svg aria-hidden="true"><use href="#i-zoom"/></svg></button>
-  <button type="button" id="lbClose" aria-label="Close"><svg aria-hidden="true"><use href="#i-close"/></svg></button>
+  <button class="glass" type="button" id="lbPrev" aria-label="Previous image"><svg aria-hidden="true"><use href="#i-left"/></svg></button>
+  <span class="glass" id="lbCount"></span>
+  <button class="glass" type="button" id="lbNext" aria-label="Next image"><svg aria-hidden="true"><use href="#i-right"/></svg></button>
+  <button class="glass" type="button" id="lbZoom" aria-label="Zoom"><svg aria-hidden="true"><use href="#i-zoom"/></svg></button>
+  <button class="glass" type="button" id="lbClose" aria-label="Close"><svg aria-hidden="true"><use href="#i-close"/></svg></button>
 </div>
 <p class="lb-cap" id="lbCap"></p>
 
@@ -267,7 +267,7 @@
   <p class="lock-hint">need the password? ask me on <a href="https://t.me/ezzzz12345" target="_blank" rel="noopener">telegram</a> or <a href="https://www.linkedin.com/in/kvneasy/" target="_blank" rel="noopener">linkedin</a></p>
 </div>
 
-<script type="application/json" id="payload">{"v":2,"mode":"open","iter":310000,"salt":"S52oLoI9x3o9uJyEK7Ftsg==","frags":[{"iv":"lOAB19RXhv1aKHzN","ct":"DSdoVvHFl2xER6TaBiEdqTzxLto389U8f/5vibuGboiPZDUn3ZKrettw9Us="},{"iv":"ZgUYe+8rSHwoMwLB","ct":"UBW36D2UzgK56gMQ2CQrkM7xX/J/8g7w8lkpLNKR81/OIHHN5SeVQcSLz8quO9DwRxdRMuwbzKb0EE4XXSurPti6bdBdIDSKfpfFdbsKxBXByYjiAEPlFmWvuLE/6xWtWcV877BRNIdlHvoohaH1Ni8GBRDVdnm2q/sb4fyE1RQaaKcVXe6ikNromJlPQm8BZI2xDrUejlUUadQPBZ9AhnfcemQlOaglGp67PrO70SICRXEqkrtT84HZKxCfYhpXJRawO503haiGQnC5oFBQcsgyXZD9mf/Q3fOgDuJ5eBESSq2awCEZLYSs2m6akwVscUvweVnNdax5sHd2rXhH69bzovNhMraLjy+YxoDIUuwVzoQX7xqFL9MibOCI19te2g+btLluBVjheztxVB7SXKRwGI9YfiXTkc5Jsc098MIu4sQ9unHAryvUny9n5nqp6SK8PzYzJWo+tJaUMDpFiUKAKp8VLDRhCPK53SaRK7KVBqVGfKS28ruw/6Q8Igh6O3HGmWsFXAO4edZMP7nvXI8="},{"iv":"9YjCOEt35AEULZVY","ct":"zfSrlJJwtr/MM76FPWmRXnbb5pEfwiXgkBhaGhSg+sBR26ViUBrWA3WViTbHazPOk+jf"},{"iv":"lR9+hRd2btlirllE","ct":"tSJEPTvnPO4OG68BBOvo9yMdT0EchnAY56A/83jmQst6Zk7nhHUWV7IuDsPFZIYyvHKnvStD7GCaIc5a0ZACva7rUJ53Q2VFBSu4srGevHr0u0ieLBE/Web3sDcI2TfnbQ5LNTZDPzo+0eC2BoxLfFf3THVY/pdr19t2BUSmxths11sGFfYTrT2SLBfBWRYqU0RnqhPH8912DALTgQhmBz82N1TkvgtVDWTaM+aPghQqB18caY2GszicVfqAr00iPdKh8ziAprya26MSvnZ6jgemqkXYxuuo1GgQoiBM+hnbif8ojSTNyqUzVAV7Hg=="}]}</script>
+<script type="application/json" id="payload">{"v":2,"mode":"open","iter":310000,"salt":"vs5mcdGVokitIa/EqWqs5A==","frags":[{"iv":"Ggsy5uQrRFrtepZ4","ct":"jj4iJqNm+a1815ghzZ9IhzmGiQ93fRD/ot83yVcpdDrpZ9ZFhasoW1DpO1I="},{"iv":"oqpLmbMQtdG9ciaZ","ct":"b0+YKs7mhZYGezDlQYaHmilaJsxpRDc4wftTlJoQlnBCgdavK+XhTGL9b0kvdnRiJCs82/fmmTw6OptEYk7p8FhAOzYgy/VUFY/leqXooceg1VktTXF726O7DC7OKV8/x2TsRRG3gRHjUuYo/1u+7TsplkuwqvXtvXF0KxUWPEIx8vyc3+jeINo8cnZhEuHcvmOIa4H4VejQqGL3xLush3e/7rE+yOv7gq4LlqwSAi6Kd8GXWA8Ksp3ITMYepM4FgbIKc5uVzYemw9h50fRrpw/unsBjzZKRIJZS49bWexHWjZvPKwTFgy0bsO2df3ZDt3bMnx8mNxmd27nKV4tnOnoHpM7NGnCzfQJ1qBkctS+KQDaHgFQgnMuZgojLeJc1AX4rvspGIjcVWp1kUDU6MrV4e2Hihao3P1GtCAkulkZlRzhoR1JjeiYxqpoTISmQFV0zMWbNccpwbJ7YBZ5bO7H3FPEIh824gajQLHb4cy6r0z2OHc22s5PqOTZ/pRnauBUHNdEVZFXLYSon6hokmcc="},{"iv":"1L4T2TRd+oVs0PeG","ct":"IJYsz9mcJ/8fDJ02rU8spmPaYtjAy+uBH8iAU0+uGG61Ukqfd2mtE/Gzoe/Hd9ADcRgZ"},{"iv":"9Wwamv8DBEdf/1Bs","ct":"H+pMgvwkuiszevGA6vu1DHFm7DN5U8w344jG5D9EX5ayHEFIJ5VPaxuKemXaK+EfgMPaeLRTd54jvAL/2aMPpXMSi8yb+NAiqXsS+8E1sQcF6+rnTvhzkviSpxMnUNusRuXg7DaBg4cSWbz6iprjy6g4aHLnwOGYVqDOt3y1YRzgvHPPu8pytomzOhflWEWpnX6vOW7FG1k5901dcCqEcuVntQhS8bAckyIt7l0VNVlmIw7pZTHwnBHdtANLKCK8u4JH/MqPNpFGVjrSklj8l5F58YVs7mkfvnLsMMq6G0Ob75g/oqxYNuJ3az8agg=="}]}</script>
 <script src="cases.js?v=c7134e36"></script>
 <script src="case-ui.js?v=43c05a6d"></script>
 <script src="lock.js?v=e1aca242"></script>
