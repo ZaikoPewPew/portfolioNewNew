@@ -151,7 +151,8 @@ a.glass:active,button.glass:active{transform:scale(.94);transition-duration:80ms
 .c-fig{position:relative}
 .c-fig img{width:100%;height:auto;border-radius:14px;border:1px solid var(--panel);background:var(--panel);opacity:0;cursor:zoom-in;transition:opacity .6s var(--ease)}
 .c-fig img.in{opacity:1;background:none}   /* the grey fill is only a loading placeholder — transparent PNGs stay transparent */
-.c-fig.pad img{box-sizing:border-box;padding:6%}.c-fig.pad img.in{background:var(--panel)}   /* UI screenshots sit smaller inside a grey frame, like the before / after box */
+.c-fig.pad img{box-sizing:border-box;padding:6%}   /* UI screenshots sit smaller inside the 1px frame, no fill — grey UI on grey would blend */
+.c-ba.clear .ba-box{background:none}
 .c-fig img.broken{opacity:1;min-height:120px;cursor:default}
 .c-fig figcaption{margin:16px auto 0;max-width:560px;text-align:center;font-size:14px;line-height:1.45;color:var(--ink-3)}
 .c-gallery{display:flex;flex-direction:column;gap:16px}
