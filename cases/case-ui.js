@@ -179,10 +179,54 @@
     box.insertAdjacentHTML('beforeend', `<span class="ba-tag glass l">before</span><span class="ba-tag glass r">after</span><i class="ba-line"></i>
       <span class="ba-knob glass"><svg aria-hidden="true"><use href="#i-left"/></svg><svg aria-hidden="true"><use href="#i-right"/></svg></span>
       <input type="range" min="0" max="100" step="0.5" value="50" aria-label="Before / after">`);
-    const input = box.querySelector('input'), [l, r] = box.querySelectorAll('.ba-tag');
+    const input = box.querySelector('input'), [l, r] = box.querySelectorAll('.ba-tag'), knob = box.querySelector('.ba-knob');
+    // tag text and knob arrows take their tone from what sits under them: the picture (transparent or not) over the page background.
+    // Each side is drawn into a small canvas the way it lays out in the box; luminance under an element picks dark or white ink.
+    const imgs = [...box.querySelectorAll('.ba-layer img')];
+    let maps = null;
+    const paint = () => {
+      maps = null;
+      if (!imgs.every(i => i.complete && i.naturalWidth)) return;
+      const b = box.getBoundingClientRect(), k = 160 / b.width, w = 160, h = Math.max(1, Math.round(b.height * k));
+      const bg = getComputedStyle(document.body).backgroundColor;
+      try {
+        maps = imgs.map(im => {
+          const c = document.createElement('canvas'); c.width = w; c.height = h;
+          const g = c.getContext('2d', { willReadFrequently: true });
+          g.fillStyle = bg; g.fillRect(0, 0, w, h);
+          const ir = im.getBoundingClientRect(), s = Math.min(ir.width / im.naturalWidth, ir.height / im.naturalHeight);   // object-fit: contain
+          const dw = im.naturalWidth * s, dh = im.naturalHeight * s;
+          g.drawImage(im, (ir.left - b.left + (ir.width - dw) / 2) * k, (ir.top - b.top + (ir.height - dh) / 2) * k, dw * k, dh * k);
+          return { d: g.getImageData(0, 0, w, h).data, w, h, k };
+        });
+      } catch { maps = null }
+      tone();
+    };
+    // mean luminance of map m inside the element's box, only where x is within [x0, x1] (box px)
+    const lum = (m, el, x0 = -1e9, x1 = 1e9) => {
+      const b = box.getBoundingClientRect(), e = el.getBoundingClientRect();
+      const ax = Math.max(0, Math.floor((Math.max(e.left, b.left + x0) - b.left) * m.k)), bx = Math.min(m.w, Math.ceil((Math.min(e.right, b.left + x1) - b.left) * m.k));
+      const ay = Math.max(0, Math.floor((e.top - b.top) * m.k)), by = Math.min(m.h, Math.ceil((e.bottom - b.top) * m.k));
+      let sum = 0, n = 0;
+      for (let y = ay; y < by; y++) for (let x = ax; x < bx; x++){ const i = (y * m.w + x) * 4; sum += .2126 * m.d[i] + .7152 * m.d[i + 1] + .0722 * m.d[i + 2]; n++ }
+      return n ? sum / n : null;
+    };
+    const ink = (el, v) => { if (v !== null) el.style.color = v > 150 ? '#111827' : '#fff' };
+    const tone = () => {
+      if (!maps) return;
+      ink(l, lum(maps[0], l)); ink(r, lum(maps[1], r));
+      const x = box.getBoundingClientRect().width * (parseFloat(box.style.getPropertyValue('--x')) || 50) / 100;
+      const a = lum(maps[0], knob, -1e9, x), c = lum(maps[1], knob, x, 1e9);
+      ink(knob, a === null ? c : c === null ? a : (a + c) / 2);
+    };
+    imgs.forEach(i => i.addEventListener('load', paint));
+    new MutationObserver(() => setTimeout(paint, 50)).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
+    matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change', () => setTimeout(paint, 50));
+    new ResizeObserver(paint).observe(box);
     const set = v => {
       box.style.setProperty('--x', v + '%');
       l.style.opacity = v < 18 ? 0 : 1; r.style.opacity = v > 82 ? 0 : 1;   // a tag hides once its side is almost gone
+      tone();
     };
     input.addEventListener('input', () => set(+input.value));
     // the range input sits on top: a press anywhere jumps the line there, dragging follows the pointer
@@ -202,7 +246,7 @@
         const step = now => {
           if (input.value !== '50') return;   // the visitor already grabbed it
           const k = Math.min(1, (now - t0) / 1400);
-          box.style.setProperty('--x', (50 + Math.sin(k * Math.PI * 2) * 14 * (1 - k)) + '%');
+          box.style.setProperty('--x', (50 + Math.sin(k * Math.PI * 2) * 14 * (1 - k)) + '%'); tone();
           if (k < 1) requestAnimationFrame(step); else set(50);
         };
         setTimeout(() => requestAnimationFrame(step), 500);
