@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en" data-case="calculator">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Testing a new tariff calculator inside the real page in two days — Vladislav Kurguzov</title>
+<meta name="description" content="Case study: Alfa-Bank merchant acquiring — a working AI prototype embedded into the site page for research, then a redesigned tariff calculator that won its A/B test.">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Vladislav Kurguzov">
+<meta property="og:url" content="https://krgzv.net/cases/calculator.html">
+<meta property="og:title" content="Testing a new tariff calculator inside the real page in two days">
+<meta property="og:description" content="Case study: Alfa-Bank merchant acquiring — a working AI prototype embedded into the site page for research, then a redesigned tariff calculator that won its A/B test.">
+<meta property="og:image" content="https://krgzv.net/assets/og/calculator.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Testing a new tariff calculator inside the real page in two days">
+<meta name="twitter:description" content="Case study: Alfa-Bank merchant acquiring — a working AI prototype embedded into the site page for research, then a redesigned tariff calculator that won its A/B test.">
+<meta name="twitter:image" content="https://krgzv.net/assets/og/calculator.png">
+<link rel="icon" href="../favicon.ico" sizes="32x32">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<meta name="theme-color" content="#FFFFFF">
+<script>
+  /* the theme is chosen on the home page; with nothing saved the case follows the system */
+  (function(){ var t, h = document.documentElement, mq = matchMedia('(prefers-color-scheme: dark)'); try{ t = localStorage.getItem('theme') }catch(e){}
+    h.dataset.theme = t || (mq.matches ? 'dark' : 'light');
+    if(!t) mq.addEventListener('change', function(e){ h.dataset.theme = e.matches ? 'dark' : 'light' });
+    /* browser chrome (Safari bar) follows the page background */
+    var tc = document.querySelector('meta[name="theme-color"]'), sync = function(){ tc.content = h.dataset.theme === 'dark' ? '#0B0D12' : '#FFFFFF' };
+    sync(); new MutationObserver(sync).observe(h, { attributes: true, attributeFilter: ['data-theme'] }); })();
+</script>
+<link rel="stylesheet" href="case.css?v=186f1f89">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="star" viewBox="0 0 24 24"><polygon fill="currentColor" points="12,0 13.99,7.2 20.49,3.51 16.8,10.01 24,12 16.8,13.99 20.49,20.49 13.99,16.8 12,24 10.01,16.8 3.51,20.49 7.2,13.99 0,12 7.2,10.01 3.51,3.51 10.01,7.2"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z" fill="currentColor"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><g fill="currentColor"><rect x="6.5" y="5" width="4" height="14" rx="1.2"/><rect x="13.5" y="5" width="4" height="14" rx="1.2"/></g></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+  <symbol id="i-out" viewBox="0 0 24 24"><path d="M8 16L16 8M9.5 8H16v6.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-left" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-right" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-zoom" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4 4M11 8.5v5M8.5 11h5"/></g></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="5" y="10.5" width="14" height="10" rx="3"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/></g></symbol>
+</svg>
+
+<header class="c-bar" id="bar">
+  <a class="glass c-back" href="../index.html#deck" aria-label="Go back"><svg class="ic" aria-hidden="true"><use href="#i-back"/></svg></a>
+  <button class="bar-sec" id="barSec" type="button" aria-controls="toc" aria-expanded="false"><span id="barTitle"></span><svg aria-hidden="true"><use href="#i-down"/></svg></button>
+</header>
+
+<div class="c-tools">
+  <button class="glass c-tool" id="listen" type="button" aria-label="Listen to this case"><svg class="play" aria-hidden="true"><use href="#i-play"/></svg><svg class="pause" aria-hidden="true"><use href="#i-pause"/></svg></button>
+  <button class="glass c-tool" id="themeBtn" type="button" aria-label="Toggle theme"><svg class="sun" aria-hidden="true"><use href="#i-sun"/></svg><svg class="moon" aria-hidden="true"><use href="#i-moon"/></svg></button>
+</div>
+
+<div class="c-page">
+  <aside class="c-rail">
+    <a class="glass c-back rail-back" href="../index.html#deck"><svg class="ic" aria-hidden="true"><use href="#i-back"/></svg>go back</a>
+    <nav class="c-toc" id="toc" aria-label="Contents">
+      <ol id="tocList"></ol>
+    </nav>
+  </aside>
+  <main class="c-main" id="case" aria-live="polite"><header class="c-hero">
+  <div class="c-meta">
+    <span>Senior Product Designer</span><span>Alfa-Bank</span><span>2026</span><span>Merchant acquiring</span><span>Web</span>
+  </div>
+  <h1>Testing a new tariff calculator inside the real page in two days</h1>
+  <p class="c-lead">The acquiring tariff calculator had been redesigned once and still confused people. Instead of another research round on the live version, I built a working prototype with AI, put it inside the site page and tested my hypotheses on it with business owners. The redesign that followed beat the old calculator in an A/B test.</p>
+  <div class="c-links"><a href="https://alfabank.ru/sme/payservice/acquiring/" target="_blank" rel="noopener">Acquiring page<svg aria-hidden="true"><use href="#i-out"/></svg></a></div>
+</header>
+
+<div class="c-stats">
+  <div><b>2 days</b><span>from Figma to a working calculator inside the page</span></div>
+  <div><b>0 of 8</b><span>respondents noticed they were using a prototype</span></div>
+  <div><b>12</b><span>hypotheses checked in one research round</span></div>
+</div>
+
+<figure class="c-fig"><img loading="lazy" decoding="async" src="calculator/f38f2a319ff1b130.webp" width="1140" height="574" alt="The new calculator: business details, tariff cards with rate and limit, a receipt-like breakdown and the monthly total"><figcaption>The new calculator</figcaption></figure>
+
+<section class="c-sec">
+  <h2 class="c-label">Context</h2>
+  <div class="c-body">
+    <p>Before applying for acquiring, a business owner wants to know what it will cost. The calculator answers that: industry, monthly turnover, number of terminals — and a tariff with its monthly total.</p>
+    <p>Agency research in 2024, before I joined, found it hard to use: eight tariffs named “Tariff 5, 6, 7”, prices shown before any input, and a “monthly commission” people read as a fixed fee. A redesign followed, but the tariffs still looked alike and the total still raised questions.</p>
+  </div>
+</section>
+
+<figure class="c-fig"><img loading="lazy" decoding="async" src="calculator/3173ada79a13dbac.webp" width="1140" height="634" alt="The calculator before: numbered tariffs with prices, a details panel and a monthly payment"><figcaption>The live calculator when I picked it up</figcaption></figure>
+
+<blockquote class="c-quote">
+  <p>Tariff 5, 6, 7 — that says nothing. I'd take a sheet of paper and write them down to compare.</p>
+  <cite>Business owner, planning to connect acquiring</cite>
+</blockquote>
+
+<section class="c-sec">
+  <h2 class="c-label">Problem</h2>
+  <div class="c-body">
+    <p>The usual path is to research the live version again, design, build, then research once more. Two rounds and months in between — with the risk of fixing only half again.</p>
+  </div>
+</section>
+
+<section class="c-sec">
+  <h2 class="c-label">Decision 1: research the new calculator, not the old one</h2>
+  <div class="c-body">
+    <p class="c-big">I turned my hypotheses into a <em>working calculator</em>, so one research round could check both: are the old problems gone, and do the new ideas work.</p>
+    <p>Figma → Figma Make → code polished in Cursor → GitHub Pages → the site's own iframe widget on an unpublished page. The researcher asked for full immersion — the calculator inside the real page — and the iframe gave it without rebuilding the page around it.</p>
+    <p>My worry was that people would spot a foreign embed and judge the prototype, not the calculator. <em>None of the 8 respondents did.</em></p>
+  </div>
+</section>
+
+<section class="c-sec">
+  <h2 class="c-label">Decision 2: let the research sort the hypotheses</h2>
+  <div class="c-body">
+    <p>About half of the 12 hypotheses held up: people understood how to set turnover, where the commission, terminal fee and VAT are, and used the tooltips. The rest showed what to fix:</p>
+    <ul class="c-list">
+      <li><em>Tariffs looked alike.</em> “Basic” and “Affordable” cost more than “Advanced”; tooltips described different things</li>
+      <li><em>The total read as a fixed fee</em>, not an estimate based on turnover</li>
+      <li><em>The carousel arrows went unnoticed</em> — people thought there were only four tariffs</li>
+      <li><em>No industry search</em> — people scrolled the whole list and settled for “Other”</li>
+    </ul>
+  </div>
+</section>
+
+<blockquote class="c-quote">
+  <p>3,600 a month — is that for service? My turnover is different every month. Do I have to pay it right away?</p>
+  <cite>Business owner, uses acquiring from another bank</cite>
+</blockquote>
+
+<section class="c-sec">
+  <h2 class="c-label">Decision 3: a calculator that explains itself</h2>
+  <div class="c-body">
+    <ul class="c-list">
+      <li><em>One card format:</em> name, one feature or who it's for, rate, limit. Prices left the cards — people chose by rate</li>
+      <li><em>Cards sort from cheapest to priciest and physically swap places</em> when inputs change, so the order and the full range are visible. Two and a half cards on screen, clear scroll buttons</li>
+      <li><em>Commission in steps:</em> drag turnover past 500k and a second line appears — 1% up to 500k, 2.2% above. The total is the sum of the lines, laid out like a receipt</li>
+      <li><em>Industry search</em> by letters, plus “Other industry — choose it if yours isn't listed”, so a narrow business never hits a dead end</li>
+      <li><em>Instant crediting moved below the tariffs:</em> respondents said they'd rather wait two days than pay a higher rate. Where a tariff doesn't support it, the card says why instead of disappearing</li>
+    </ul>
+  </div>
+</section>
+
+<figure class="c-fig"><img loading="lazy" decoding="async" src="calculator/69839311f4f075ca.webp" width="1600" height="805" alt="Turnover at 2.5 million: the breakdown shows 1% up to 500k and 2.2% above as two lines"><figcaption>Past 500k a second commission line appears, the total is their sum</figcaption></figure>
+
+<figure class="c-fig"><img loading="lazy" decoding="async" src="calculator/593972c7e67d0716.webp" width="1600" height="805" alt="An industry tariff selected: its card moves into the sorted row with its own label"><figcaption>An industry tariff takes its place in the sorted row</figcaption></figure>
+
+<div class="c-gallery">
+  <figure class="c-fig"><img loading="lazy" decoding="async" src="calculator/c9ce7d8f05dc1cd7.webp" width="1600" height="805" alt="Loading state: skeletons while tariffs come from the backend"></figure>
+  <figure class="c-fig"><img loading="lazy" decoding="async" src="calculator/f8316f3560527783.webp" width="1600" height="806" alt="Error state when the backend doesn't respond"><figcaption>Loading and backend error states</figcaption></figure>
+</div>
+
+<div class="c-body c-note"><p>Developers got every tariff case, interaction and timing described, plus the prototype and the card animation code.</p></div>
+
+<figure class="c-fig"><img loading="lazy" decoding="async" src="calculator/4d90c238428ca032.webp" width="1600" height="833" alt="Handoff board: industry search, sorting, click zones, carousel alignment, card animation timings, tooltips"><figcaption>Handoff: every detail of the calculator described</figcaption></figure>
+
+<section class="c-sec">
+  <h2 class="c-label">Calculator or table</h2>
+  <div class="c-body">
+    <p>The agency suggested replacing the calculator with a table. I proposed a tariff picker instead — tell us about your business, we pick the tariff. The business liked it and parked it until the redesign proves itself.</p>
+  </div>
+</section>
+
+<section class="c-sec">
+  <h2 class="c-label">Results</h2>
+  <div class="c-body">
+    <p class="c-big">In the A/B test the new calculator <em>beat the old one</em>.</p>
+    <p>The prototype-in-the-page approach stayed with the team for research. I also proposed running A/B tests on such prototypes; it was postponed in favour of a planned platform solution.</p>
+  </div>
+</section>
+
+<section class="c-sec">
+  <h2 class="c-label">What I took from it</h2>
+  <div class="c-body">
+    <ul class="c-list">
+      <li><em>A working prototype in the real page</em> answers more in one round than two rounds on mockups</li>
+      <li><em>Most problems were about meaning, not layout:</em> names, totals and conditions had to explain themselves</li>
+    </ul>
+  </div>
+</section></main>
+</div>
+
+<nav class="glass c-next" id="next" aria-label="More cases" hidden></nav>
+
+<footer class="c-foot" id="foot" hidden>
+  <div class="dotline"></div>
+  <div class="frow">
+    <a href="../index.html" class="me"><span class="star"><svg><use href="#star"/></svg></span>krgzv.net © 2026</a>
+    <div class="fl">
+      <span class="lab">contacts:</span>
+      <a href="https://www.linkedin.com/in/kvneasy/" target="_blank" rel="noopener">linkedin</a>
+      <a href="https://t.me/ezzzz12345" target="_blank" rel="noopener">telegram</a>
+      <a href="https://www.youtube.com/@DesignLeadd" target="_blank" rel="noopener">youtube</a>
+      <a href="https://drive.google.com/file/d/1my4PuK5nmtYblFCPzaZSvwsXG5zIFDX8/view" target="_blank" rel="noopener">cv</a>
+      <button type="button" data-mail="kvneasyy@gmail.com">kvneasyy@gmail.com</button>
+    </div>
+  </div>
+</footer>
+
+<audio id="voice" preload="metadata"></audio>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Image viewer"><img id="lbImg" alt=""></div>
+<div class="lb-bar" id="lbBar">
+  <button type="button" id="lbPrev" aria-label="Previous image"><svg aria-hidden="true"><use href="#i-left"/></svg></button>
+  <span id="lbCount"></span>
+  <button type="button" id="lbNext" aria-label="Next image"><svg aria-hidden="true"><use href="#i-right"/></svg></button>
+  <button type="button" id="lbZoom" aria-label="Zoom"><svg aria-hidden="true"><use href="#i-zoom"/></svg></button>
+  <button type="button" id="lbClose" aria-label="Close"><svg aria-hidden="true"><use href="#i-close"/></svg></button>
+</div>
+<p class="lb-cap" id="lbCap"></p>
+
+
+<div class="lock" id="lock" role="dialog" aria-modal="true" aria-label="Password">
+  <a class="glass lock-x" id="lockClose" href="../index.html#deck" aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></a>
+  <p class="lock-title" id="lockTitle" hidden>this data is password-protected<small>one code opens everything hidden on the site</small></p>
+  <form class="lock-code" id="lockForm" autocomplete="off">
+    <input id="pw" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="6" aria-label="Password" autocomplete="one-time-code" spellcheck="false">
+    <span class="glass"><i></i></span><span class="glass"><i></i></span><span class="glass"><i></i></span><span class="glass"><i></i></span><span class="glass"><i></i></span><span class="glass"><i></i></span>
+  </form>
+  <p class="lock-hint">need the password? ask me on <a href="https://t.me/ezzzz12345" target="_blank" rel="noopener">telegram</a> or <a href="https://www.linkedin.com/in/kvneasy/" target="_blank" rel="noopener">linkedin</a></p>
+</div>
+
+<script type="application/json" id="payload">{"v":2,"mode":"open","iter":310000,"salt":"X2IEi7tr1fB1nb/0TpJ7jQ==","frags":[]}</script>
+<script src="cases.js?v=421235a7"></script>
+<script src="case-ui.js?v=ce3df22f"></script>
+<script src="lock.js?v=e1aca242"></script>
+<script src="../assets/haptic.js?v=2"></script>
+</body>
+</html>

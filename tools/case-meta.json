@@ -11,6 +11,12 @@
     "og": "30% of applications were *support requests*",
     "mode": "open"
   },
+  "calculator": {
+    "title": "Testing a new tariff calculator inside the real page in two days",
+    "description": "Case study: Alfa-Bank merchant acquiring — a working AI prototype embedded into the site page for research, then a redesigned tariff calculator that won its A/B test.",
+    "og": "Prototype inside the real page *in 2 days*, then an A/B win",
+    "mode": "open"
+  },
   "plugin": {
     "title": "One designer, one plugin, every designer on the site",
     "description": "Case study: a Figma plugin I designed and coded for Alfa-Bank's site team — an hour of image assembly in one click, and AI page generation from a knowledge base.",

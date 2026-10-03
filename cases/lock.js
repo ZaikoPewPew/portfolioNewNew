@@ -155,7 +155,7 @@
     document.dispatchEvent(new CustomEvent('case:ready', { detail:{ main, voice:!!voice } }));
 
     const foils = [...main.querySelectorAll('.nda')];
-    if (!foils.length && !voice) return;
+    if (!foils.length && !voice){ lock.remove(); return }   // nothing hidden — no code screen at all
     title.hidden = false;
     lock.classList.add('modal');
     lock.setAttribute('aria-label', 'Password for the hidden data');
