@@ -19,7 +19,7 @@
 
 ## Done (2026-09-30)
 - `index.html` rebuilt from Figma frame `Desktop` (1139:19139) via TalkToFigma: white minimal hero with stickers, grey/ink scroll-lit statements (40px), 700×600 r=60 case cards + synced case info, photo fan, 4 products (ies, obratka, time travel, tippy), concepts bento, community carousel in a panel, dotted footer.
-- Exported to `assets/`: `sticker-scarf.png`, `sticker-sleepy.png`, `logo-alfa.png`, `case-qr.webp`, `photo-1…5.png` (pre-rotated with white frames, transparent), `product-ies.webp`, `product-obratka.png`, `product-tippy.png`.
+- Exported to `assets/`: `case-qr.webp`, `photo-1…5.png` (pre-rotated with white frames, transparent), `product-ies.webp`, `product-obratka.png`, `product-tippy.png`.
 - Enriched: experience chips under the intro, case metrics/links, ies stats, extra community posts (2 known videos, ies build-in-public), footer contacts (LinkedIn/Telegram/YouTube/copy email instead of Twitter/Instagram).
 
 ## Next step
@@ -68,7 +68,7 @@
 - Voice-over: glass pill in the nav left of the theme button — play + track only, no text. `<audio class="c-voice" src="audio/voice.m4a">` in the case source (encrypted too). Without it the pill is dimmed, tooltip «Voice-over is coming soon».
 - Images: click → lightbox (fit to screen; click / zoom button → real size with scroll; ← → between images; Esc closes). Export wide flows large — they're studied in the lightbox.
 - QR case filled from the Notion export (images → webp, 15 MB → 0.9 MB); home card links to `cases/qr.html`.
-- 2026-09-30: `cases/balance.html`, `cases/ios.html`, `cases/desops.html` filled from Notion (translated to English) — all 4 home cards now open local case pages. Images pulled via the public notion.site API (`/api/v3/loadCachedPageChunkV2` + `syncRecordValuesMain` with a browser UA; the MCP's signed S3 links expire in 5 min), converted to webp. DesOps survey chart rebuilt as `.c-bars`.
+- Notion images: pull via the public notion.site API (`/api/v3/loadCachedPageChunkV2` + `syncRecordValuesMain` with a browser UA; the MCP's signed S3 links expire in 5 min), convert to webp.
 
 ## Case template v2 (2026-10-01)
 - Refs for cases: Medium article layout + voiceos.com/blog. No glass, blur or shadows in cases — flat `--panel #F0F2F6` cards, text `#111827` + gray shades, Styrene 400 only.
@@ -96,10 +96,10 @@
 - Phones (≤640px): avatar sits 120px under the 70px nav (`#work.sec` padding-top 162px).
 
 ## SEO / release (2026-10-02)
-- Root: `robots.txt` (blocks /lab/ /portfolio/ /tools/ /about/; cases stay crawlable so LinkedIn/Telegram can read their OG, the pages carry noindex), `sitemap.xml` (home only), `404.html` (home style: star logo, statement, glass pill; a <base> set by script resolves links from the site root on both krgzv.net and *.github.io/<repo>/ — so the star is inline SVG, not <use href="#">), `favicon.ico` / `favicon.svg` / `apple-touch-icon.png` (the red star).
+- Root: `robots.txt` (blocks /lab/ /tools/ /about/; cases stay crawlable so LinkedIn/Telegram can read their OG, the pages carry noindex), `sitemap.xml` (home only), `404.html` (home style: star logo, statement, glass pill; a <base> set by script resolves links from the site root on both krgzv.net and *.github.io/<repo>/ — so the star is inline SVG, not <use href="#">), `favicon.ico` / `favicon.svg` / `apple-touch-icon.png` (the red star).
 - Home head: canonical, og:site_name, twitter:title/description/image, JSON-LD Person (sameAs LinkedIn, YouTube, Telegram), `theme-color` synced to the theme by a MutationObserver in the boot script. The «I'm Vlad» statement is the page's `<h1>` (same look).
 - Cases: title / description / OG line per case in `tools/case-meta.json`; `encrypt-case.mjs` fills `{{TITLE}}` `{{DESC}}` in the shell. OG images `assets/og/<slug>.png` are rendered from `tools/og.html?t=<title>&d=<line, *accent*>` in headless Chrome at 1200×630.
-- After deploy: add the site to Google Search Console and Yandex Webmaster, submit the sitemap. Hosting not chosen yet — make sure lab/, portfolio/, tools/ aren't deployed at all.
+- After deploy: add the site to Google Search Console and Yandex Webmaster, submit the sitemap. Hosting not chosen yet — make sure lab/, tools/ aren't deployed at all.
 - 2026-10-02: tab title «Vladislav Kurguzov — Senior Product Designer»; the first statement (h1) is fully lit from the start (no word fill, the rise-in stays), «Alfa-Bank» never breaks at the hyphen; nav logo and footer star (`data-home`) do a full reload of the home page from the top (relative `./`, so it works on github.io and on the custom domain); footer star turns 90° on every hover of a footer link (spring). 404 subtitle 18px.
 - 2026-10-02: «Work with me» faces are Vlad's own photos (`assets/me/1-3.webp`, 120px face crops; the 4th was dropped) instead of the colleagues; line under it «slide into my DMs — let’s cook» (was «and 100+ other colleagues»).
 
@@ -125,13 +125,11 @@ Source: slides from the demo of the Site Development & Primary Sales Platform Di
 ## Support case (2026-10-02)
 - `cases/support.html` — «When 30% of sales leads are support calls»: ~300 of ~1,000 acquiring form applications were existing clients wanting support (call centre can't help or transfer). Decisions: clickable Support 24/7 benefit tile → numbers + QR window; form tabs Connect / Support 24/7; argued for phone numbers only (no knowledge base / bot links); root cause (welcome email, internet bank) passed to other teams; welcome page draft not sold. Second card on the home carousel, second in `cases/cases.js`; card image `assets/case-support.webp`.
 - NOT shipped yet: rolling out to 100% (no A/B). When numbers arrive: support share 30% → X%, banner window opens, CR1 holds → update the «Rolling out» chip, `.c-stats` and the Status section. Source + questions: Notion «Форма заявки: 30% обращений не по адресу».
-- 2026-10-02: iOS case hidden — card removed from the home carousel and from `cases/cases.js`; `cases/ios.html` still exists for direct links. The calendar script in index.html only runs if `#calSlide` is back. Planned line-up: 3 Alfa product cases (terminals, support, calculator), QR, DesOps (to be rebuilt around Alfa work).
 
 ## Plugin case (2026-10-02)
 - `cases/plugin.html` — «One designer, one plugin, every designer on the site»: Vlad's own Figma master plugin (design + code, ~1 day a week): Assembly / Fitting (~1 h → 1 click), Typographer (editorial policy), AI page generation from a layered knowledge base (Planning → Registry → Knowledge → Constraints → Reference → Build Plan → Figma Builder). 30+ designers = 100% of the site team; shown at Alfa's design meetup (300+ online); he set up the vibe-coding & AI competence centre. Videos: `img/assembly.mp4` (Fitting + Assembly), `img/ai.mp4` (2× speed, throwaway test design). Third card on the home carousel; card image `assets/case-plugin.webp` in a wider `.device.device-wide`.
 - Reviews: only the 3 real quotes from colleagues. Never write reviews on Vlad's behalf.
-- DesOps (Home Credit) case hidden like iOS: removed from the carousel and `cases/cases.js`, page still exists.
-- Line-up now: terminals, support, plugin, QR (balance hidden too, page still exists). Calculator case to come after its release.
+- 2026-10-03: legacy iOS, Balance and DesOps (Home Credit) cases deleted from the project (pages, media, OG, meta, calendar script). Line-up: terminals, calculator, plugin, support, QR.
 - 2026-10-02: plugin case «What it saves» — estimate at ₽250K/month (≈₽1,560/h; Habr Career avg 219K, senior 280K, Alfa senior vacancy from ~249K): one assembly ≈ ₽1,000–1,500; 10–30 layouts/week × 40 min = 7–20 h/week ≈ 330–1,000 h ≈ ₽0.5–1.6M (shown as $6–19K at ~₽83/$, $12–18 per assembly) a year. New block `.c-calc` (chain of steps, result line in red).
 - 2026-10-02: new blocks `.c-dots` (support: 15 of 50 call-backs) and `.c-time` (terminals: 2024 research → Q2 2026 CR1, before Results). Timeline dates = only what Vlad confirmed; «2025 renders» is inferred (between early 2025 and the Q1 2026 release).
 

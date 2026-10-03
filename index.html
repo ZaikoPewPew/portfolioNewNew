@@ -38,6 +38,7 @@
   "knowsAbout": ["Product design", "Fintech", "Design systems", "DesOps", "Mobile apps"],
   "sameAs": [
     "https://www.linkedin.com/in/kvneasy/",
+    "https://x.com/kvneasy",
     "https://www.youtube.com/@DesignLeadd",
     "https://t.me/dsgn_thinking",
     "https://t.me/ezzzz12345"
@@ -393,9 +394,6 @@ section.sec{padding-top:var(--gap)}
 .chips{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
 .chips i{aspect-ratio:1;border-radius:10px;background:var(--panel)}
 .chips i:nth-child(2){background:#FFE3E1}
-.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
-.cal i{aspect-ratio:1;border-radius:5px;background:var(--panel);transition:background-color .3s}
-.cal i.on{background:var(--ink)}
 .ds{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .ds > div{border-radius:12px;background:var(--panel);padding:10px;display:flex;flex-direction:column;gap:6px}
 .ds .sw{height:22px;border-radius:7px}
@@ -990,6 +988,7 @@ footer.wrap{margin-top:var(--gap)}
         <span class="lab">contacts:</span>
         <a href="https://www.linkedin.com/in/kvneasy/" target="_blank" rel="noopener">linkedin</a>
         <a href="https://t.me/ezzzz12345" target="_blank" rel="noopener">telegram</a>
+        <a href="https://x.com/kvneasy" target="_blank" rel="noopener">x</a>
         <a class="m-only" href="https://www.youtube.com/@DesignLeadd" target="_blank" rel="noopener">youtube</a>
         <a class="m-only" href="https://drive.google.com/file/d/1my4PuK5nmtYblFCPzaZSvwsXG5zIFDX8/view" target="_blank" rel="noopener">cv</a>
         <button id="copyMail" data-mail="kvneasyy@gmail.com">kvneasyy@gmail.com</button>
@@ -1315,14 +1314,6 @@ const dup=set.replace(/<article /g,'<article aria-hidden="true" '); $('#loveTrac
   $$('.hero-ava,#otwBtn').forEach(el=>io.observe(el)) }
 /* ───── Photo video: plays from the start once the fan is on screen, pauses off-screen ───── */
 { const v=$('.ph video'); new IntersectionObserver(([e])=>{ if(e.isIntersecting) v.play().catch(()=>{}); else v.pause() },{threshold:.25}).observe(v) }
-
-/* ───── Case visuals: 31-day calendar fills up ───── */
-/* (the iOS case card is hidden for now — this only runs if it's back in the deck) */
-const cal=$('#cal'), cc=$('#calSlide');
-if(cal && cc){ for(let d=1;d<=35;d++){ const i=document.createElement('i'); if(d<=31) i.dataset.d=d; else i.style.visibility='hidden'; cal.appendChild(i) }
-let ct;
-cc.addEventListener('pointerenter',()=>{ let d=0; const loud=realHover(); clearInterval(ct); ct=setInterval(()=>{ const el=$(`i[data-d="${++d}"]`,cal); if(!el){ clearInterval(ct); return } el.classList.add('on'); if(loud && d%3===0) play('tick') },28) });
-cc.addEventListener('pointerleave',()=>{ clearInterval(ct); $$('i.on',cal).forEach(i=>i.classList.remove('on')) }); }
 
 /* ───── Product tiles on touch: no hover, so each tile plays its animation once, the first time it scrolls into view ───── */
 const touch=!matchMedia('(hover:hover)').matches;
