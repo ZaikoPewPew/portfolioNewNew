@@ -153,6 +153,17 @@ a.glass:active,button.glass:active{transform:scale(.94);transition-duration:80ms
 .c-fig img.in{opacity:1;background:none}   /* the grey fill is only a loading placeholder — transparent PNGs stay transparent */
 .c-fig.pad img{box-sizing:border-box;padding:6%}   /* UI screenshots sit smaller inside the 1px frame, no fill — grey UI on grey would blend */
 .c-ba.clear .ba-box{background:none}
+/* states switcher: <figure class="c-states"><div class="c-fig pad"><img data-label="…" data-cap="…">…</div><figcaption></figcaption></figure>
+   chips on top pick the state, one frame below crossfades; images must share one aspect ratio */
+.st-tabs{display:flex;gap:8px;margin-bottom:16px;overflow-x:auto;scrollbar-width:none;-webkit-mask:linear-gradient(90deg,#000 calc(100% - 24px),#0000)}
+.st-tabs::-webkit-scrollbar{display:none}
+.st-tabs button{flex:none;height:44px;padding:0 20px;border:0;border-radius:99px;background:var(--panel);font:inherit;font-size:15px;line-height:1;color:var(--ink-2);white-space:nowrap;cursor:pointer;transition:background-color .25s,color .25s}
+.st-tabs button:hover{color:var(--ink)}
+.st-tabs button[aria-selected=true]{background:var(--red);color:#fff}
+.c-states .c-fig{position:relative;touch-action:pan-y}
+.c-states .c-fig img+img{position:absolute;inset:0}
+.c-states .c-fig img.in:not(.on){opacity:0;pointer-events:none}
+.c-states figcaption{margin-top:14px;text-align:center;font-size:14px;line-height:1.45;color:var(--ink-3);min-height:1.45em}
 .c-fig img.broken{opacity:1;min-height:120px;cursor:default}
 .c-fig figcaption{margin:16px auto 0;max-width:560px;text-align:center;font-size:14px;line-height:1.45;color:var(--ink-3)}
 .c-gallery{display:flex;flex-direction:column;gap:16px}

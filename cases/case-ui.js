@@ -230,6 +230,45 @@
     }
   }
 
+  /* ── states switcher: chips pick a state, the frame crossfades; plays on its own while in view until touched ── */
+  function buildStates(fig){
+    const imgs = [...fig.querySelectorAll('.c-fig img')], cap = fig.querySelector('figcaption');
+    if (imgs.length < 2) return;
+    const tabs = document.createElement('div');
+    tabs.className = 'st-tabs'; tabs.setAttribute('role', 'tablist');
+    tabs.innerHTML = imgs.map((im, k) => `<button type="button" role="tab" aria-selected="${!k}">${im.dataset.label || k + 1}</button>`).join('');
+    fig.prepend(tabs);
+    const btns = [...tabs.children];
+    let at = 0, timer = 0, seen = false, held = false;
+    const go = i => {
+      at = (i + imgs.length) % imgs.length;
+      imgs.forEach((im, k) => im.classList.toggle('on', k === at));
+      btns.forEach((b, k) => b.setAttribute('aria-selected', k === at));
+      btns[at].scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' });
+      if (cap) cap.textContent = imgs[at].dataset.cap || imgs[at].alt;
+    };
+    const stop = () => { held = true; clearInterval(timer) };
+    const play = () => { clearInterval(timer); if (!held && seen && !still()) timer = setInterval(() => go(at + 1), 3200) };
+    btns.forEach((b, k) => b.addEventListener('click', () => { stop(); go(k) }));
+    tabs.addEventListener('keydown', e => {
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      stop(); go(at + (e.key === 'ArrowRight' ? 1 : -1)); btns[at].focus();
+    });
+    // swipe on touch: a horizontal flick switches the state
+    const frame = fig.querySelector('.c-fig');
+    let x0 = null;
+    frame.addEventListener('pointerdown', e => { if (e.pointerType !== 'mouse') x0 = e.clientX });
+    frame.addEventListener('pointerup', e => {
+      if (x0 === null) return;
+      const dx = e.clientX - x0; x0 = null;
+      if (Math.abs(dx) > 40){ stop(); go(at + (dx < 0 ? 1 : -1)) }
+    });
+    frame.addEventListener('mouseenter', () => clearInterval(timer));
+    frame.addEventListener('mouseleave', play);
+    if ('IntersectionObserver' in window) new IntersectionObserver(es => { seen = es[0].isIntersecting; seen ? play() : clearInterval(timer) }, { threshold: .5 }).observe(frame);
+    go(0);
+  }
+
   /* ── previous / next case, cyclic, from cases.js ── */
   function buildNext(){
     const all = window.CASES || [], i = all.findIndex(c => c.slug === root.dataset.case), nav = $('#next');
@@ -309,6 +348,7 @@
     buildToc(main);
     dataBlocks(main);
     main.querySelectorAll('.c-ba').forEach(buildBA);
+    main.querySelectorAll('.c-states').forEach(buildStates);
     // videos play only while on screen
     const vids = main.querySelectorAll('.c-fig video');
     if (vids.length && 'IntersectionObserver' in window){

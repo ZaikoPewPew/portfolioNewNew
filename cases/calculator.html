@@ -31,7 +31,7 @@
     var tc = document.querySelector('meta[name="theme-color"]'), sync = function(){ tc.content = h.dataset.theme === 'dark' ? '#0B0D12' : '#FFFFFF' };
     sync(); new MutationObserver(sync).observe(h, { attributes: true, attributeFilter: ['data-theme'] }); })();
 </script>
-<link rel="stylesheet" href="case.css?v=d4a6dc3d">
+<link rel="stylesheet" href="case.css?v=8f3688fa">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -168,14 +168,15 @@
   </div>
 </section>
 
-<figure class="c-fig pad"><img loading="lazy" decoding="async" src="calculator/69839311f4f075ca.webp" width="1600" height="805" alt="Turnover at 2.5 million: the breakdown shows 1% up to 500k and 2.2% above as two lines"><figcaption>Past 500k a second commission line appears, the total is their sum</figcaption></figure>
-
-<figure class="c-fig pad"><img loading="lazy" decoding="async" src="calculator/593972c7e67d0716.webp" width="1600" height="805" alt="An industry tariff selected: its card moves into the sorted row with its own label"><figcaption>An industry tariff takes its place in the sorted row</figcaption></figure>
-
-<div class="c-gallery">
-  <figure class="c-fig pad"><img loading="lazy" decoding="async" src="calculator/c9ce7d8f05dc1cd7.webp" width="1600" height="805" alt="Loading state: skeletons while tariffs come from the backend"></figure>
-  <figure class="c-fig pad"><img loading="lazy" decoding="async" src="calculator/f8316f3560527783.webp" width="1600" height="806" alt="Error state when the backend doesn't respond"><figcaption>Loading and backend error states</figcaption></figure>
-</div>
+<figure class="c-states">
+  <div class="c-fig pad">
+    <img loading="lazy" decoding="async" src="calculator/69839311f4f075ca.webp" width="1600" height="805" data-label="Commission in steps" data-cap="Past 500k a second commission line appears, the total is their sum" alt="Turnover at 2.5 million: the breakdown shows 1% up to 500k and 2.2% above as two lines">
+    <img loading="lazy" decoding="async" src="calculator/593972c7e67d0716.webp" width="1600" height="805" data-label="Industry tariff" data-cap="An industry tariff takes its place in the sorted row" alt="An industry tariff selected: its card moves into the sorted row with its own label">
+    <img loading="lazy" decoding="async" src="calculator/c9ce7d8f05dc1cd7.webp" width="1600" height="805" data-label="Loading" data-cap="Tariffs come from the backend, skeletons hold the layout" alt="Loading state: skeletons while tariffs come from the backend">
+    <img loading="lazy" decoding="async" src="calculator/f8316f3560527783.webp" width="1600" height="806" data-label="Backend error" data-cap="The backend didn't answer" alt="Error state when the backend doesn't respond">
+  </div>
+  <figcaption></figcaption>
+</figure>
 
 <div class="c-body c-note"><p>Developers got every tariff case, interaction and timing described, plus the prototype and the card animation code.</p></div>
 
@@ -262,9 +263,9 @@
   <p class="lock-hint">need the password? ask me on <a href="https://t.me/ezzzz12345" target="_blank" rel="noopener">telegram</a> or <a href="https://www.linkedin.com/in/kvneasy/" target="_blank" rel="noopener">linkedin</a></p>
 </div>
 
-<script type="application/json" id="payload">{"v":2,"mode":"open","iter":310000,"salt":"Ncmlid1czOJ838ygSVr2HA==","frags":[]}</script>
+<script type="application/json" id="payload">{"v":2,"mode":"open","iter":310000,"salt":"bUUm/qaBL4pfddgzABNBrQ==","frags":[]}</script>
 <script src="cases.js?v=421235a7"></script>
-<script src="case-ui.js?v=ce3df22f"></script>
+<script src="case-ui.js?v=17178d44"></script>
 <script src="lock.js?v=e1aca242"></script>
 <script src="../assets/haptic.js?v=2"></script>
 </body>
