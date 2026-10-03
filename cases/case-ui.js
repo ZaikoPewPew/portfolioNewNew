@@ -269,6 +269,62 @@
     go(0);
   }
 
+  /* ── phone carousel: native scroll + snap, mouse drag; glass dots + arrows under it, like the home carousel ── */
+  function buildRoll(fig){
+    const track = fig.querySelector('.ph-track');
+    const ims = [...track.querySelectorAll('img')];
+    const ctrl = document.createElement('div');
+    ctrl.className = 'ph-ctrl';
+    ctrl.innerHTML = `<div class="glass ph-dots">${ims.map((_, k) => `<button type="button" aria-label="Screen ${k + 1}"></button>`).join('')}</div>
+      <div class="ph-arrows">${['left', 'right'].map(d => `<button class="glass" type="button" aria-label="${d === 'left' ? 'Previous screens' : 'Next screens'}"><svg aria-hidden="true"><use href="#i-${d}"/></svg></button>`).join('')}</div>`;
+    track.parentNode.after(ctrl);
+    const cap = fig.querySelector('figcaption');
+    if (cap) ctrl.firstElementChild.after(cap);   // one row: dots — caption — arrows
+    const dots = [...ctrl.querySelector('.ph-dots').children], [prev, next] = ctrl.querySelector('.ph-arrows').children;
+    const glide = left => track.scrollTo({ left, behavior: still() ? 'auto' : 'smooth' });
+    const pad = () => parseFloat(getComputedStyle(track).scrollPaddingLeft) || 0;
+    const step = () => ims[0] ? (ims[0].offsetWidth + parseFloat(getComputedStyle(track).columnGap || 0)) * 2 : 300;
+    const sync = () => {
+      const end = track.scrollLeft > track.scrollWidth - track.clientWidth - 4;
+      prev.disabled = track.scrollLeft < 4;
+      next.disabled = end;
+      // the active dot = the first phone at the left edge, the last one once the end is reached
+      let at = end ? ims.length - 1 : 0;
+      if (!end) ims.forEach((im, k) => { if (im.offsetLeft - pad() <= track.scrollLeft + 4) at = k });
+      dots.forEach((d, k) => d.classList.toggle('on', k === at));
+    };
+    dots.forEach((d, k) => d.addEventListener('click', () => glide(ims[k].offsetLeft - pad())));
+    prev.addEventListener('click', () => glide(track.scrollLeft - step()));
+    next.addEventListener('click', () => glide(track.scrollLeft + step()));
+    track.addEventListener('scroll', sync, { passive: true });
+    addEventListener('resize', sync);
+    ims.forEach(im => im.addEventListener('load', sync));
+    // mouse drag; a drag never opens the lightbox
+    let x0 = null, s0 = 0, moved = false;
+    track.addEventListener('pointerdown', e => {
+      if (e.pointerType !== 'mouse' || e.button) return;
+      x0 = e.clientX; s0 = track.scrollLeft; moved = false;
+    });
+    addEventListener('pointermove', e => {
+      if (x0 === null) return;
+      const dx = e.clientX - x0;
+      if (!moved && Math.abs(dx) > 5){ moved = true; track.classList.add('drag') }
+      if (moved) track.scrollLeft = s0 - dx;
+    });
+    addEventListener('pointerup', () => {
+      if (x0 === null) return;
+      x0 = null;
+      if (!moved) return;
+      // let snap pick the nearest phone from where the drag stopped
+      const left = track.scrollLeft;
+      track.classList.remove('drag');
+      track.scrollLeft = left;
+    });
+    track.addEventListener('dragstart', e => e.preventDefault());
+    track.addEventListener('click', e => { if (moved){ e.stopPropagation(); moved = false } }, true);
+    sync();
+  }
+
   /* ── previous / next case, cyclic, from cases.js ── */
   function buildNext(){
     const all = window.CASES || [], i = all.findIndex(c => c.slug === root.dataset.case), nav = $('#next');
@@ -349,6 +405,7 @@
     dataBlocks(main);
     main.querySelectorAll('.c-ba').forEach(buildBA);
     main.querySelectorAll('.c-states').forEach(buildStates);
+    main.querySelectorAll('.c-phones.roll').forEach(buildRoll);
     // videos play only while on screen
     const vids = main.querySelectorAll('.c-fig video');
     if (vids.length && 'IntersectionObserver' in window){

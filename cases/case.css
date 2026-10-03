@@ -152,7 +152,6 @@ a.glass:active,button.glass:active{transform:scale(.94);transition-duration:80ms
 .c-fig img{width:100%;height:auto;border-radius:14px;border:1px solid var(--panel);background:var(--panel);opacity:0;cursor:zoom-in;transition:opacity .6s var(--ease)}
 .c-fig img.in{opacity:1;background:none}   /* the grey fill is only a loading placeholder — transparent PNGs stay transparent */
 .c-fig.pad img{box-sizing:border-box;padding:6%}   /* UI screenshots sit smaller inside the 1px frame, no fill — grey UI on grey would blend */
-.c-ba.clear .ba-box{background:none}
 /* states switcher: <figure class="c-states"><div class="c-fig pad"><img data-label="…" data-cap="…">…</div><figcaption></figcaption></figure>
    chips on top pick the state, one frame below crossfades; images must share one aspect ratio */
 .st-tabs{display:flex;gap:8px;margin-bottom:16px;overflow-x:auto;scrollbar-width:none;-webkit-mask:linear-gradient(90deg,#000 calc(100% - 24px),#0000)}
@@ -175,6 +174,61 @@ a.glass:active,button.glass:active{transform:scale(.94);transition-duration:80ms
 /* phone screens side by side, kept small — the lightbox shows them full size */
 .c-pair{display:grid;grid-template-columns:repeat(2,minmax(0,260px));justify-content:center;gap:16px}
 .c-pair figcaption{grid-column:1/-1;margin:0 auto;max-width:560px;text-align:center;font-size:14px;line-height:1.45;color:var(--ink-3)}
+/* phone mockups (transparent PNGs in a device frame) on a coloured stage:
+   <figure class="c-phones [roll]"><div class="c-fig"><div class="ph-track"><img>…</div></div><figcaption></figcaption></figure>
+   a row by default; .roll = a carousel for long flows (drag, swipe, arrows); the stage is the home card glass */
+.c-phones{--pw:180px;--pad:32px}   /* one inset on every side of the stage, the carousel end included */
+/* the stage = the home case-card glass (.slide recipe: fill, sheen, conic rim, bevel + soft drop) */
+:root{--sl-fill:linear-gradient(rgba(240,242,246,.7),rgba(232,235,240,.58));--sl-bw:1.5px;
+  --sl-sheen:linear-gradient(-58deg,transparent 34%,rgba(255,255,255,.28) 47% 51%,transparent 62%),linear-gradient(rgba(255,255,255,.35) 0%,transparent 45%);
+  --sl-drop:0 18px 36px -24px rgba(17,24,39,.18)}
+:root[data-theme="dark"]{--sl-fill:linear-gradient(rgba(30,30,34,.66),rgba(20,20,23,.56));
+  --sl-sheen:linear-gradient(-58deg,transparent 34%,rgba(255,255,255,.025) 47% 51%,transparent 62%),linear-gradient(rgba(255,255,255,.03) 0%,transparent 45%);
+  --sl-drop:0 18px 36px -24px rgba(0,0,0,.6)}
+/* every media frame is a glass stage: figures (.c-frame), states, pairs, before/after, phone stages */
+:is(.c-frame,.c-states .c-fig,.c-pair .c-fig,.ba-box,.c-phones>.c-fig){--fr:40px;position:relative;isolation:isolate;border-radius:var(--fr);overflow:hidden;background:var(--sl-fill);-webkit-backdrop-filter:blur(20px) saturate(180%);backdrop-filter:blur(20px) saturate(180%);
+  box-shadow:var(--gb-bevel),var(--gb-glow),var(--sl-drop)}
+:is(.c-frame,.c-states .c-fig,.c-pair .c-fig,.ba-box,.c-phones>.c-fig)::before,:is(.c-frame,.c-states .c-fig,.c-pair .c-fig,.ba-box,.c-phones>.c-fig)::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none}
+:is(.c-frame,.c-states .c-fig,.c-pair .c-fig,.ba-box,.c-phones>.c-fig)::before{z-index:-1;background:var(--sl-sheen) 0 0/200% 200% no-repeat;background-position:60% 60%;transition:background-position .9s var(--ease)}
+:is(.c-frame,.c-states .c-fig,.c-pair .c-fig,.ba-box,.c-phones>.c-fig)::after{--angle-1:-75deg;z-index:5;padding:var(--sl-bw);box-sizing:border-box;
+  background:conic-gradient(from var(--angle-1) at 50% 50%,var(--gb-rim-a),var(--gb-rim-b) 5% 40%,var(--gb-rim-a) 50%,var(--gb-rim-b) 60% 95%,var(--gb-rim-a)),var(--gb-rim-base);
+  box-shadow:inset 0 0 0 calc(var(--sl-bw) / 2) var(--gb-rim-line);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);
+  transition:--angle-1 .8s var(--ease)}
+:is(.c-frame,.c-states .c-fig,.c-pair .c-fig,.ba-box,.c-phones>.c-fig):hover::before{background-position:35% 35%}
+:is(.c-frame,.c-states .c-fig,.c-pair .c-fig,.ba-box,.c-phones>.c-fig):hover::after{--angle-1:-125deg}
+.c-pair .c-fig{--fr:28px}
+/* media inside a frame: no own border, radius or placeholder fill — the glass is the frame */
+:is(.c-frame,.c-states .c-fig,.c-pair .c-fig) :is(img,video){display:block;border:0;border-radius:0;background:none}
+.ph-track{position:relative;display:flex;justify-content:center;gap:20px;padding:var(--pad)}
+.c-phones .c-fig img{flex:0 1 var(--pw);width:0;min-width:0;border:0;border-radius:0;background:none;-webkit-user-drag:none;user-select:none}
+.c-phones.roll{--pw:160px}
+.c-phones.roll .ph-track{justify-content:flex-start;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:var(--pad);scrollbar-width:none;overscroll-behavior-x:contain;cursor:grab}
+.c-phones.roll .ph-track::-webkit-scrollbar{display:none}
+.c-phones.roll .c-fig img{flex:none;width:var(--pw);scroll-snap-align:start}
+.c-phones.roll .ph-track.drag{scroll-snap-type:none;cursor:grabbing}
+.c-phones.roll .ph-track.drag img{cursor:grabbing}
+.ph-ctrl{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:24px}   /* = the home carousel controls: dots pill left, round arrows right, both glass */
+.ph-dots{display:flex;gap:8px;align-items:center;height:44px;padding:0 18px;border-radius:99px}
+.ph-dots button{position:relative;z-index:2;width:8px;height:8px;padding:0;border:0;border-radius:99px;background:var(--ink-4);cursor:pointer;transition:width .5s var(--spring),background-color .3s}
+.ph-dots button.on{width:32px;background:var(--ink)}
+.ph-arrows{display:flex;gap:8px}
+.c-phones .ph-ctrl figcaption{flex:1;min-width:0;margin:0;max-width:none}
+.ph-arrows button{display:grid;place-items:center;width:44px;height:44px;padding:0;border:0;border-radius:50%;cursor:pointer;font:inherit}
+.ph-arrows button:disabled{opacity:.4;cursor:default;transform:none}
+.ph-arrows svg{position:relative;z-index:2;width:18px;height:18px}
+.c-phones figcaption{margin:16px auto 0;max-width:560px;text-align:center;font-size:14px;line-height:1.45;color:var(--ink-3)}
+@media (max-width:560px){
+  .c-phones{--pad:20px}
+  .ph-track{gap:12px}
+  :is(.c-frame,.c-states .c-fig,.c-pair .c-fig,.ba-box,.c-phones>.c-fig){--fr:28px}
+  .c-pair .c-fig{--fr:20px}
+  .c-phones.roll{--pw:132px}
+  .ph-dots{padding:0 14px;gap:6px}
+  .ph-ctrl{flex-wrap:wrap}
+  .c-phones .ph-ctrl figcaption{order:3;flex-basis:100%}   /* no room in one row on phones — the caption drops under the controls */
+  .ph-dots button.on{width:20px}
+}
 
 /* key numbers */
 .c-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:32px;padding-top:var(--div);border-top:1px solid var(--line)}
@@ -296,7 +350,7 @@ a.glass:active,button.glass:active{transform:scale(.94);transition-duration:80ms
 /* before / after slider: each image sits on its own layer, clipped to its side of the line at --x, so a transparent
    "after" never shows "before" through it; --ba-pad shrinks the images inside the box (12.5% each side = 75% size) */
 .c-ba{position:relative}
-.ba-box{--x:50%;--ba-pad:12.5%;position:relative;overflow:hidden;border-radius:14px;border:1px solid var(--panel);background:var(--panel);touch-action:pan-y;user-select:none;cursor:ew-resize}
+.ba-box{--x:50%;--ba-pad:12.5%;touch-action:pan-y;user-select:none;cursor:ew-resize}
 .ba-layer{padding:var(--ba-pad);clip-path:inset(0 calc(100% - var(--x)) 0 0)}
 .ba-layer+.ba-layer{position:absolute;inset:0;clip-path:inset(0 0 0 var(--x))}
 .ba-layer img{width:100%;height:auto;opacity:0;transition:opacity .6s var(--ease);pointer-events:none}
@@ -326,12 +380,15 @@ a.glass:active,button.glass:active{transform:scale(.94);transition-duration:80ms
 
 /* ───────────── Prefooter: previous / next case (cyclic) ───────────── */
 .c-next{width:min(1216px,100% - var(--gutter)*2);margin:clamp(112px,14vw,176px) auto 0;display:grid;grid-template-columns:1fr 1fr;border-radius:32px}
-.c-next a{position:relative;z-index:1;display:flex;flex-direction:column;gap:16px;padding:clamp(28px,4vw,48px)}
-.c-next a+a{text-align:right;align-items:flex-end;border-left:1px solid var(--line)}
+.c-next a{position:relative;z-index:1;display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;column-gap:12px;row-gap:16px;padding:clamp(28px,4vw,48px)}   /* arrow + title on one line, chips below */
+.c-next a+a{grid-template-columns:minmax(0,1fr) auto;text-align:right;border-left:1px solid var(--line)}
+.c-next a+a .nx-dir{grid-column:2;grid-row:1}
+.c-next a+a strong{grid-column:1;grid-row:1}
+.c-next .c-chips{grid-column:1/-1}
 .c-next a:hover strong,.c-next a:hover .nx-dir{color:var(--red)}
 .c-next .nx-dir{display:flex;color:var(--ink-3);transition:color .2s}
 .c-next .nx-dir svg{width:20px;height:20px}
-.c-next strong{font-size:clamp(21px,2.2vw,26px);line-height:1.25;letter-spacing:-.025em;color:var(--ink);text-wrap:balance;transition:color .2s}
+.c-next strong{font-size:clamp(21px,2.2vw,26px);line-height:1.25;letter-spacing:-.025em;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:color .2s}
 .c-next a+a .c-chips{justify-content:flex-end}
 
 /* footer — the same as on the home page */
@@ -481,11 +538,10 @@ span.nda-rev{display:inline-block;border-radius:6px}
   .c-table tr>:nth-child(2):not(:last-child){display:none}   /* phones: problem → outcome; the change is in the text above */
   /* prev / next: one compact row — arrow + two-line title, no chips */
   .c-next{border-radius:24px}
-  .c-next a{gap:8px;padding:16px 18px}
+  .c-next a{column-gap:8px;padding:16px 18px}
   .c-next .nx-dir svg{width:18px;height:18px}
-  .c-next strong{align-self:stretch;text-wrap:wrap;font-size:15px;line-height:1.3;letter-spacing:-.01em;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .c-next strong{font-size:15px;line-height:1.3;letter-spacing:-.01em}
   .c-next .c-chips{display:none}
-  .c-next a+a strong{text-align:left}   /* the arrow stays right; Chrome drops the "…" of a right-aligned clamp */
   .lock-code span{width:44px;height:56px;border-radius:12px}
 }
 @media (max-width:640px){   /* phones: everything centred — contacts on top, the email on its own line, © last */

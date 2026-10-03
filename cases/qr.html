@@ -31,7 +31,7 @@
     var tc = document.querySelector('meta[name="theme-color"]'), sync = function(){ tc.content = h.dataset.theme === 'dark' ? '#0B0D12' : '#FFFFFF' };
     sync(); new MutationObserver(sync).observe(h, { attributes: true, attributeFilter: ['data-theme'] }); })();
 </script>
-<link rel="stylesheet" href="case.css?v=c5793194">
+<link rel="stylesheet" href="case.css?v=b017ac43">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -67,7 +67,7 @@
       <ol id="tocList"></ol>
     </nav>
   </aside>
-  <main class="c-main" id="case" aria-live="polite"><audio class="c-voice" data-enc="qr/86d7dac9d15749bd.bin" data-type="audio/mp4"></audio>
+  <main class="c-main" id="case" aria-live="polite"><audio class="c-voice" data-enc="qr/305e6e320704143b.bin" data-type="audio/mp4"></audio>
 
 <header class="c-hero">
   <div class="c-meta">
@@ -103,7 +103,7 @@
   </div>
 </section>
 
-<figure class="c-fig"><img loading="lazy" decoding="async" src="qr/89a2582e777b027e.webp" width="2400" height="971" alt="QR stickers on a bus and at a stop; a rider paying with a phone"></figure>
+<figure class="c-fig"><div class="c-frame"><img loading="lazy" decoding="async" src="qr/89a2582e777b027e.webp" width="2400" height="971" alt="QR stickers on a bus and at a stop; a rider paying with a phone"></div></figure>
 
 <section class="c-sec">
   <h2 class="c-label">Problem</h2>
@@ -146,7 +146,21 @@
   </div>
 </section>
 
-<figure class="c-fig"><img loading="lazy" decoding="async" src="qr/c579074a7814b491.webp" width="3200" height="623" alt="The old 9-screen payment flow"><figcaption>The old flow — 9 screens from home to ticket</figcaption></figure>
+<figure class="c-phones roll">
+  <div class="c-fig"><div class="ph-track">
+    <img loading="lazy" decoding="async" src="qr/48edb77fc8e3fb8a.webp" width="600" height="1235" alt="Old flow, step 1: Home screen of the app">
+    <img loading="lazy" decoding="async" src="qr/5ffb41cbaa0bc41c.webp" width="600" height="1235" alt="Old flow, step 2: Transport payment screen">
+    <img loading="lazy" decoding="async" src="qr/c65ef4883d80889e.webp" width="600" height="1235" alt="Old flow, step 3: QR scanner">
+    <img loading="lazy" decoding="async" src="qr/4a12c5c550120071.webp" width="600" height="1235" alt="Old flow, step 4: Payment details from the backend">
+    <img loading="lazy" decoding="async" src="qr/72a777d4dc561195.webp" width="600" height="1235" alt="Old flow, step 5: Payment method and bonuses">
+    <img loading="lazy" decoding="async" src="qr/da19bd34fa3eb2db.webp" width="600" height="1235" alt="Old flow, step 6: Payment confirmation with the timer">
+    <img loading="lazy" decoding="async" src="qr/19b41ed7b45093bf.webp" width="600" height="1235" alt="Old flow, step 7: Payment success">
+    <img loading="lazy" decoding="async" src="qr/1ebb47afe1924d80.webp" width="600" height="1235" alt="Old flow, step 8: My tickets">
+    <img loading="lazy" decoding="async" src="qr/92a96dd42999eb95.webp" width="600" height="1235" alt="Old flow, step 9: The ticket with its QR code">
+    <img loading="lazy" decoding="async" src="qr/6ac6d1864a28cfbf.webp" width="600" height="1235" alt="Old flow, step 10: The receipt">
+  </div></div>
+  <figcaption>The old flow — 9 screens from home to ticket</figcaption>
+</figure>
 
 <section class="c-sec">
   <h2 class="c-label">Research</h2>
@@ -156,9 +170,9 @@
 </section>
 
 <div class="c-gallery">
-  <figure class="c-fig"><img loading="lazy" decoding="async" src="qr/b3b2c262b104e1fd.webp" width="2400" height="971" alt="The research team on a bus"></figure>
-  <figure class="c-fig"><img loading="lazy" decoding="async" src="qr/aaf2e8bab667e1c7.webp" width="2400" height="971" alt="Riders paying for the ride on their phones"></figure>
-  <figure class="c-fig"><img loading="lazy" decoding="async" src="qr/20ce61bfb911fe72.webp" width="2400" height="971" alt="Observing a rider during payment"></figure>
+  <figure class="c-fig"><div class="c-frame"><img loading="lazy" decoding="async" src="qr/b3b2c262b104e1fd.webp" width="2400" height="971" alt="The research team on a bus"></div></figure>
+  <figure class="c-fig"><div class="c-frame"><img loading="lazy" decoding="async" src="qr/aaf2e8bab667e1c7.webp" width="2400" height="971" alt="Riders paying for the ride on their phones"></div></figure>
+  <figure class="c-fig"><div class="c-frame"><img loading="lazy" decoding="async" src="qr/20ce61bfb911fe72.webp" width="2400" height="971" alt="Observing a rider during payment"></div></figure>
 </div>
 
 <section class="c-sec">
@@ -206,7 +220,14 @@
   </div>
 </section>
 
-<figure class="c-fig"><img loading="lazy" decoding="async" src="qr/c678d44e2f66b531.webp" width="2400" height="1350" alt="New flow: scan the QR, confirm the payment, get the ticket"></figure>
+<figure class="c-phones">
+  <div class="c-fig"><div class="ph-track">
+    <img loading="lazy" decoding="async" src="qr/d49a38e94c92365d.webp" width="600" height="1235" alt="New flow, step 1: scan the QR code">
+    <img loading="lazy" decoding="async" src="qr/353aec888ce978fb.webp" width="600" height="1235" alt="New flow, step 2: confirm the payment">
+    <img loading="lazy" decoding="async" src="qr/6e301ba113fd0886.webp" width="600" height="1235" alt="New flow, step 3: the ticket">
+  </div></div>
+  <figcaption>The new flow — scan, confirm, ticket</figcaption>
+</figure>
 
 <section class="c-sec">
   <h2 class="c-label">Validation</h2>
@@ -233,7 +254,13 @@
   </div>
 </section>
 
-<figure class="c-fig"><img loading="lazy" decoding="async" src="qr/a71c242781aea4de.webp" width="2400" height="1350" alt="Heatmaps of the home screen and the payment screen"><figcaption>Click heatmaps from the unmoderated test</figcaption></figure>
+<figure class="c-phones">
+  <div class="c-fig"><div class="ph-track">
+    <img loading="lazy" decoding="async" src="qr/e28453bbe1a8d696.webp" width="600" height="1235" alt="Click heatmap of the home screen">
+    <img loading="lazy" decoding="async" src="qr/f5e9b466431453c8.webp" width="600" height="1235" alt="Click heatmap of the payment screen">
+  </div></div>
+  <figcaption>Click heatmaps from the unmoderated test</figcaption>
+</figure>
 
 <section class="c-sec">
   <h2 class="c-label">Results</h2>
@@ -289,9 +316,9 @@
   <p class="lock-hint">need the password? ask me on <a href="https://t.me/ezzzz12345" target="_blank" rel="noopener">telegram</a> or <a href="https://www.linkedin.com/in/kvneasy/" target="_blank" rel="noopener">linkedin</a></p>
 </div>
 
-<script type="application/json" id="payload">{"v":2,"mode":"open","iter":310000,"salt":"jXf+buR3zzQ4i8I30k0wLg==","frags":[{"iv":"a5Pc6FLx9b+ubxWH","ct":"e/VdTVKg3ARwzRxP2s+V+/2lOQodpIffAMlwSwz6Wuwv1HFC"},{"iv":"/KWUW0dQniGciCp1","ct":"8PCXuAnCUPDyZ6gHtoYpjcagTffyCczkNUgQs7yS5oE="}]}</script>
+<script type="application/json" id="payload">{"v":2,"mode":"open","iter":310000,"salt":"6hhHpUS2pawAt3iiWfhS6Q==","frags":[{"iv":"DCRR50vLFVIrRVEG","ct":"YBQMo1v5YCNl7AEf7hTFtVR3g2en39aDAYREarnd5cj0mNGS"},{"iv":"fhCCl2f9ticxDMA6","ct":"96BJTUdjOV5bgyxXsWOPuEOwUXp0z+GfPPYs2E1Uomg="}]}</script>
 <script src="cases.js?v=c7134e36"></script>
-<script src="case-ui.js?v=17178d44"></script>
+<script src="case-ui.js?v=43c05a6d"></script>
 <script src="lock.js?v=e1aca242"></script>
 <script src="../assets/haptic.js?v=2"></script>
 </body>
