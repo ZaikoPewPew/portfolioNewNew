@@ -234,17 +234,24 @@
   function buildStates(fig){
     const imgs = [...fig.querySelectorAll('.c-fig img')], cap = fig.querySelector('figcaption');
     if (imgs.length < 2) return;
-    const tabs = document.createElement('div');
-    tabs.className = 'st-tabs'; tabs.setAttribute('role', 'tablist');
-    tabs.innerHTML = imgs.map((im, k) => `<button type="button" role="tab" aria-selected="${!k}">${im.dataset.label || k + 1}</button>`).join('');
-    fig.prepend(tabs);
-    const btns = [...tabs.children];
+    const bar = document.createElement('div');
+    bar.className = 'st-bar glass';
+    bar.innerHTML = `<div class="st-tabs" role="tablist"><i class="st-pill" aria-hidden="true"></i>${imgs.map((im, k) => `<button type="button" role="tab" aria-selected="${!k}">${im.dataset.label || k + 1}</button>`).join('')}</div>`;
+    fig.prepend(bar);
+    const tabs = bar.firstElementChild, pill = tabs.firstElementChild, btns = [...tabs.querySelectorAll('button')];
     let at = 0, timer = 0, seen = false, held = false;
+    // the light pill rides under the active chip
+    const place = () => { const b = btns[at]; pill.style.width = b.offsetWidth + 'px'; pill.style.transform = `translateX(${b.offsetLeft}px)` };
+    const edge = () => { tabs.classList.toggle('less', tabs.scrollLeft > 4); tabs.classList.toggle('more', tabs.scrollLeft < tabs.scrollWidth - tabs.clientWidth - 4) };
+    tabs.addEventListener('scroll', edge, { passive: true });
+    new ResizeObserver(() => { place(); edge() }).observe(tabs);
+    document.fonts && document.fonts.ready.then(() => { place(); requestAnimationFrame(() => pill.classList.add('go')) });
     const go = i => {
       at = (i + imgs.length) % imgs.length;
       imgs.forEach((im, k) => im.classList.toggle('on', k === at));
       btns.forEach((b, k) => b.setAttribute('aria-selected', k === at));
-      btns[at].scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' });
+      place();
+      tabs.scrollTo({ left: btns[at].offsetLeft - (tabs.clientWidth - btns[at].offsetWidth) / 2, behavior: still() ? 'auto' : 'smooth' });
       if (cap) cap.textContent = imgs[at].dataset.cap || imgs[at].alt;
     };
     const stop = () => { held = true; clearInterval(timer) };

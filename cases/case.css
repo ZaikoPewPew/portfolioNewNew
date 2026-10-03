@@ -136,6 +136,8 @@ a.glass:active,button.glass:active{transform:scale(.94);transition-duration:80ms
 .c-body em{color:var(--ink)}
 .c-big{font-size:clamp(22px,2.3vw,26px);line-height:1.45;letter-spacing:-.02em}
 .c-body h3{margin-bottom:16px}
+/* data blocks inside the text: a lead-in sits 24px on top, the text that follows steps back to 40px so the caption under a chart never merges with the next paragraph */
+.c-body>:is(.c-cols,.c-bars,.c-dots,.c-calc,.c-shift,.c-table,.nda-block)+*{margin-top:16px}   /* 24px gap + 16 = 40 */
 
 .c-list{list-style:none;counter-reset:li}
 .c-list li{counter-increment:li;position:relative;padding:16px 0 16px 44px;color:var(--ink)}
@@ -153,12 +155,18 @@ a.glass:active,button.glass:active{transform:scale(.94);transition-duration:80ms
 .c-fig img.in{opacity:1;background:none}   /* the grey fill is only a loading placeholder — transparent PNGs stay transparent */
 .c-fig.pad img{box-sizing:border-box;padding:6%}   /* UI screenshots sit smaller inside the 1px frame, no fill — grey UI on grey would blend */
 /* states switcher: <figure class="c-states"><div class="c-fig pad"><img data-label="…" data-cap="…">…</div><figcaption></figcaption></figure>
-   chips on top pick the state, one frame below crossfades; images must share one aspect ratio */
-.st-tabs{display:flex;gap:8px;margin-bottom:16px;overflow-x:auto;scrollbar-width:none;-webkit-mask:linear-gradient(90deg,#000 calc(100% - 24px),#0000)}
+   one glass capsule on top holds the chips, a light pill rides under the active one; one frame below crossfades */
+.st-bar{display:flex;margin-bottom:16px;border-radius:99px}   /* as wide as the frame below */
+.st-tabs{position:relative;display:flex;flex:1;min-width:0;gap:4px;padding:5px;overflow-x:auto;border-radius:inherit;scrollbar-width:none}
+.st-tabs{--fl:#000;--fr:#000;-webkit-mask:linear-gradient(90deg,var(--fl),#000 32px calc(100% - 32px),var(--fr));mask:linear-gradient(90deg,var(--fl),#000 32px calc(100% - 32px),var(--fr))}
+.st-tabs.less{--fl:#0000}.st-tabs.more{--fr:#0000}   /* fade only on the side where chips run past the edge */
 .st-tabs::-webkit-scrollbar{display:none}
-.st-tabs button{flex:none;height:44px;padding:0 20px;border:0;border-radius:99px;background:var(--panel);font:inherit;font-size:15px;line-height:1;color:var(--ink-2);white-space:nowrap;cursor:pointer;transition:background-color .25s,color .25s}
-.st-tabs button:hover{color:var(--ink)}
-.st-tabs button[aria-selected=true]{background:var(--red);color:#fff}
+.st-tabs button{position:relative;z-index:1;flex:1 1 0;min-width:max-content;height:38px;padding:0 18px;border:0;border-radius:99px;background:none;font:inherit;font-size:15px;line-height:1;color:var(--ink-3);white-space:nowrap;cursor:pointer;transition:color .25s}
+.st-tabs button:hover,.st-tabs button[aria-selected=true]{color:var(--ink)}
+.st-pill{position:absolute;top:5px;left:0;height:38px;border-radius:99px;background:var(--st-pill);box-shadow:var(--st-pill-sh);pointer-events:none}
+.st-pill.go{transition:transform .45s var(--ease),width .45s var(--ease)}
+:root{--st-pill:#ffffffe6;--st-pill-sh:0 6px 16px #0f172a1a,inset 0 1px #fffd}
+:root[data-theme="dark"]{--st-pill:#ffffff1f;--st-pill-sh:0 6px 16px #0007,inset 0 1px #ffffff26}
 .c-states .c-fig{position:relative;touch-action:pan-y}
 .c-states .c-fig img+img{position:absolute;inset:0}
 .c-states .c-fig img.in:not(.on){opacity:0;pointer-events:none}
@@ -331,7 +339,6 @@ a.glass:active,button.glass:active{transform:scale(.94);transition-duration:80ms
 .c-calc.in>:nth-child(2){transition-delay:.15s}.c-calc.in>:nth-child(3){transition-delay:.3s}.c-calc.in>:nth-child(4){transition-delay:.45s}
 .c-calc.in>:nth-child(5){transition-delay:.6s}.c-calc.in>:nth-child(6){transition-delay:.75s}.c-calc.in>:nth-child(7){transition-delay:.9s}
 .c-calc.in>:nth-child(8){transition-delay:1.05s}.c-calc.in>:nth-child(9){transition-delay:1.2s}
-.c-body>.c-calc{margin-top:8px}
 
 /* quote: a user's words — larger text, a red line on the left, who said it underneath */
 .c-quote{padding-left:28px;border-left:2px solid var(--red)}
