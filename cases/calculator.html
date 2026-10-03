@@ -31,7 +31,7 @@
     var tc = document.querySelector('meta[name="theme-color"]'), sync = function(){ tc.content = h.dataset.theme === 'dark' ? '#0B0D12' : '#FFFFFF' };
     sync(); new MutationObserver(sync).observe(h, { attributes: true, attributeFilter: ['data-theme'] }); })();
 </script>
-<link rel="stylesheet" href="case.css?v=186f1f89">
+<link rel="stylesheet" href="case.css?v=dccca51a">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -73,7 +73,6 @@
   </div>
   <h1>Testing a new tariff calculator inside the real page in two days</h1>
   <p class="c-lead">The acquiring tariff calculator had been redesigned once and still confused people. Instead of another research round on the live version, I built a working prototype with AI, put it inside the site page and tested my hypotheses on it with business owners. The redesign that followed beat the old calculator in an A/B test.</p>
-  <div class="c-links"><a href="https://alfabank.ru/sme/payservice/acquiring/" target="_blank" rel="noopener">Acquiring page<svg aria-hidden="true"><use href="#i-out"/></svg></a></div>
 </header>
 
 <div class="c-stats">
@@ -82,7 +81,32 @@
   <div><b>12</b><span>hypotheses checked in one research round</span></div>
 </div>
 
-<figure class="c-fig"><img loading="lazy" decoding="async" src="calculator/f38f2a319ff1b130.webp" width="1140" height="574" alt="The new calculator: business details, tariff cards with rate and limit, a receipt-like breakdown and the monthly total"><figcaption>The new calculator</figcaption></figure>
+<figure class="c-ba">
+  <div class="ba-box">
+    <img loading="lazy" decoding="async" src="calculator/73f30e4bd3636391.webp" width="1140" height="634" alt="The calculator before: numbered tariffs with prices, a details panel and a monthly payment">
+    <img loading="lazy" decoding="async" src="calculator/277b2609976afd17.webp" width="1140" height="634" alt="The new calculator: tariff cards with rate and limit, a receipt-like breakdown and the monthly total">
+  </div>
+  <figcaption>The calculator before and after — drag to compare</figcaption>
+</figure>
+
+<section class="c-sec">
+  <h2 class="c-label">About</h2>
+  <div class="c-body">
+    <div class="c-company">
+      <img loading="lazy" decoding="async" src="calculator/946060cdbad36910.webp" width="95" height="96" alt="Alfa-Bank logo">
+      <p>Russia's largest private bank. I work on merchant acquiring — card payments for small and medium businesses — on the bank's website. The tariff calculator sits on the acquiring page, right before the application form.</p>
+      <div class="c-links"><a href="https://alfabank.ru/sme/payservice/acquiring/" target="_blank" rel="noopener">Acquiring page<svg aria-hidden="true"><use href="#i-out"/></svg></a></div>
+      <div class="c-co-row"><dl><div><dt>Site MAU</dt><dd>22M+</dd></div><div><dt>Respondents</dt><dd>8</dd></div></dl></div>
+    </div>
+  </div>
+</section>
+
+<section class="c-sec">
+  <h2 class="c-label">My role</h2>
+  <div class="c-body">
+    <p>Senior Product Designer on merchant acquiring. The 12 hypotheses, the prototype and the redesign are mine: I built the working calculator myself, a frontend developer helped put it into the page, and a researcher ran the sessions. I handed the final calculator to development with every case and animation described.</p>
+  </div>
+</section>
 
 <section class="c-sec">
   <h2 class="c-label">Context</h2>
@@ -91,8 +115,6 @@
     <p>Agency research in 2024, before I joined, found it hard to use: eight tariffs named “Tariff 5, 6, 7”, prices shown before any input, and a “monthly commission” people read as a fixed fee. A redesign followed, but the tariffs still looked alike and the total still raised questions.</p>
   </div>
 </section>
-
-<figure class="c-fig"><img loading="lazy" decoding="async" src="calculator/3173ada79a13dbac.webp" width="1140" height="634" alt="The calculator before: numbered tariffs with prices, a details panel and a monthly payment"><figcaption>The live calculator when I picked it up</figcaption></figure>
 
 <blockquote class="c-quote">
   <p>Tariff 5, 6, 7 — that says nothing. I'd take a sheet of paper and write them down to compare.</p>
@@ -146,16 +168,22 @@
   </div>
 </section>
 
-<figure class="c-fig"><img loading="lazy" decoding="async" src="calculator/69839311f4f075ca.webp" width="1600" height="805" alt="Turnover at 2.5 million: the breakdown shows 1% up to 500k and 2.2% above as two lines"><figcaption>Past 500k a second commission line appears, the total is their sum</figcaption></figure>
+<figure class="c-fig pad"><img loading="lazy" decoding="async" src="calculator/69839311f4f075ca.webp" width="1600" height="805" alt="Turnover at 2.5 million: the breakdown shows 1% up to 500k and 2.2% above as two lines"><figcaption>Past 500k a second commission line appears, the total is their sum</figcaption></figure>
 
-<figure class="c-fig"><img loading="lazy" decoding="async" src="calculator/593972c7e67d0716.webp" width="1600" height="805" alt="An industry tariff selected: its card moves into the sorted row with its own label"><figcaption>An industry tariff takes its place in the sorted row</figcaption></figure>
+<figure class="c-fig pad"><img loading="lazy" decoding="async" src="calculator/593972c7e67d0716.webp" width="1600" height="805" alt="An industry tariff selected: its card moves into the sorted row with its own label"><figcaption>An industry tariff takes its place in the sorted row</figcaption></figure>
 
 <div class="c-gallery">
-  <figure class="c-fig"><img loading="lazy" decoding="async" src="calculator/c9ce7d8f05dc1cd7.webp" width="1600" height="805" alt="Loading state: skeletons while tariffs come from the backend"></figure>
-  <figure class="c-fig"><img loading="lazy" decoding="async" src="calculator/f8316f3560527783.webp" width="1600" height="806" alt="Error state when the backend doesn't respond"><figcaption>Loading and backend error states</figcaption></figure>
+  <figure class="c-fig pad"><img loading="lazy" decoding="async" src="calculator/c9ce7d8f05dc1cd7.webp" width="1600" height="805" alt="Loading state: skeletons while tariffs come from the backend"></figure>
+  <figure class="c-fig pad"><img loading="lazy" decoding="async" src="calculator/f8316f3560527783.webp" width="1600" height="806" alt="Error state when the backend doesn't respond"><figcaption>Loading and backend error states</figcaption></figure>
 </div>
 
 <div class="c-body c-note"><p>Developers got every tariff case, interaction and timing described, plus the prototype and the card animation code.</p></div>
+
+<figure class="c-pair">
+  <div class="c-fig"><img loading="lazy" decoding="async" src="calculator/7723e8d1c4dfc026.webp" width="800" height="1474" alt="Every tariff case laid out at 500k and 2.5M turnover"></div>
+  <div class="c-fig"><img loading="lazy" decoding="async" src="calculator/6185339155a5078a.webp" width="800" height="1312" alt="Technical description of the calculator for developers"></div>
+  <figcaption>Every tariff case at two turnovers, and a technical description for layout — even on the design system it helps</figcaption>
+</figure>
 
 <figure class="c-fig"><img loading="lazy" decoding="async" src="calculator/4d90c238428ca032.webp" width="1600" height="833" alt="Handoff board: industry search, sorting, click zones, carousel alignment, card animation timings, tooltips"><figcaption>Handoff: every detail of the calculator described</figcaption></figure>
 
@@ -226,7 +254,7 @@
   <p class="lock-hint">need the password? ask me on <a href="https://t.me/ezzzz12345" target="_blank" rel="noopener">telegram</a> or <a href="https://www.linkedin.com/in/kvneasy/" target="_blank" rel="noopener">linkedin</a></p>
 </div>
 
-<script type="application/json" id="payload">{"v":2,"mode":"open","iter":310000,"salt":"X2IEi7tr1fB1nb/0TpJ7jQ==","frags":[]}</script>
+<script type="application/json" id="payload">{"v":2,"mode":"open","iter":310000,"salt":"WqaUIS6byk3ns6IcatDP0w==","frags":[]}</script>
 <script src="cases.js?v=421235a7"></script>
 <script src="case-ui.js?v=ce3df22f"></script>
 <script src="lock.js?v=e1aca242"></script>
