@@ -365,7 +365,8 @@ section.sec{padding-top:var(--gap)}
   opacity:0;translate:0 -24px;transition:opacity .45s var(--ease),translate .8s var(--spring)}
 .ov h3{max-width:385px;font-size:clamp(18px,2.2vw,24px);font-weight:400;line-height:1.2;letter-spacing:-.01em;color:var(--ink);text-wrap:balance}
 .ov .pills{display:flex;flex-wrap:nowrap;justify-content:center;gap:8px;margin-block:auto}  /* same air above and below: title ↔ pills ↔ phone */
-.ov .pills span{display:inline-flex;align-items:center;height:43px;padding:0 24px;border-radius:60px;background:var(--bg);font-size:16px;color:var(--ink);white-space:nowrap}
+.ov .pills span{display:inline-flex;align-items:center;height:43px;padding:0 24px;border-radius:60px;background:#111827;font-size:16px;color:#FFFFFF;white-space:nowrap}
+:root[data-theme="dark"] .ov .pills span{background:#FFFFFF;color:#111827}   /* white pills vanished on light cards: dark on light, white on dark */
 /* the front card always shows its title and pills; side cards stay bare */
 .slide.top .device{top:38.5%}
 .slide.top .ov{opacity:1;translate:0 0}
@@ -804,23 +805,23 @@ footer.wrap{margin-top:var(--gap)}
       <div class="deck" id="deck">
         <div class="deck-in">
           <a class="slide" href="cases/terminals.html" data-snd="click">
-            <div class="ov"><h3>Terminal showcase for Alfa-Bank acquiring</h3><div class="pills"><span>ended a 2-year standoff</span><span>hyper-real 3D</span></div></div>
+            <div class="ov"><h3>Terminal showcase for Alfa-Bank acquiring</h3><div class="pills"><span>ended a 2-year standoff</span><span>3D showcase</span></div></div>
             <div class="device"><img src="assets/case-terminals.webp" alt="3D render of the mPOS terminal" draggable="false"></div>
           </a>
           <a class="slide" href="cases/calculator.html" data-snd="click">
-            <div class="ov"><h3>A new tariff calculator, tested inside the real page in two days</h3><div class="pills"><span>AI prototype</span><span>+13.7% CR1 in A/B</span></div></div>
+            <div class="ov"><h3>A new tariff calculator, tested inside the real page in two days</h3><div class="pills"><span>+13.7% CR1 in A/B</span><span>AI prototype</span></div></div>
             <div class="device device-wide"><img src="assets/case-calculator.webp" alt="The new tariff calculator" draggable="false"></div>
           </a>
           <a class="slide" href="cases/plugin.html" data-snd="click">
-            <div class="ov"><h3>One plugin, built solo, now the whole website design team runs on it</h3><div class="pills"><span>30+ designers</span><span>AI</span></div></div>
+            <div class="ov"><h3>One plugin, built solo, now the whole website design team runs on it</h3><div class="pills"><span>30+ designers use it</span><span>designops</span></div></div>
             <div class="device device-wide"><img src="assets/case-plugin.webp" alt="The plugin panel" draggable="false"></div>
           </a>
           <a class="slide" href="cases/support.html" data-snd="click">
-            <div class="ov"><h3>Turns out 30% of sales leads were support calls</h3><div class="pills"><span>Alfa-Bank</span><span>rolling out now</span></div></div>
+            <div class="ov"><h3>Turns out 30% of sales leads were support calls</h3><div class="pills"><span>rolling out now</span><span>research</span></div></div>
             <div class="device"><img src="assets/case-support.webp" alt="Support number with a QR code to call" draggable="false"></div>
           </a>
           <a class="slide" href="cases/qr.html" data-snd="click">
-            <div class="ov"><h3>Paying for public transport with a QR code</h3><div class="pills"><span>−20 s per payment</span><span>+17% in app</span></div></div>
+            <div class="ov"><h3>Paying for public transport with a QR code</h3><div class="pills"><span>−20 s per payment</span><span>product</span></div></div>
             <div class="device"><img src="assets/case-qr.webp" alt="QR-code transport payment screen" draggable="false"></div>
           </a>
         </div>
