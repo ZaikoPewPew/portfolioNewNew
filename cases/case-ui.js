@@ -182,11 +182,12 @@
     const input = box.querySelector('input'), [l, r] = box.querySelectorAll('.ba-tag'), knob = box.querySelector('.ba-knob');
     // tag text and knob arrows take their tone from what sits under them: the picture (transparent or not) over the page background.
     // Each side is drawn into a small canvas the way it lays out in the box; luminance under an element picks dark or white ink.
-    const imgs = [...box.querySelectorAll('.ba-layer img')];
+    const imgsNow = () => [...box.querySelectorAll('.ba-layer img')];
     let maps = null;
     const paint = () => {
       maps = null;
-      if (!imgs.every(i => i.complete && i.naturalWidth)) return;
+      const imgs = imgsNow();
+      if (imgs.length < 2 || !imgs.every(i => i.complete && i.naturalWidth)) return;
       const b = box.getBoundingClientRect(), k = 160 / b.width, w = 160, h = Math.max(1, Math.round(b.height * k));
       const bg = getComputedStyle(document.body).backgroundColor;
       try {
@@ -219,10 +220,12 @@
       const a = lum(maps[0], knob, -1e9, x), c = lum(maps[1], knob, x, 1e9);
       ink(knob, a === null ? c : c === null ? a : (a + c) / 2);
     };
-    imgs.forEach(i => i.addEventListener('load', paint));
+    box.addEventListener('load', paint, true);   // capture: any image inside, even one swapped in later
     new MutationObserver(() => setTimeout(paint, 50)).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
     matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change', () => setTimeout(paint, 50));
     new ResizeObserver(paint).observe(box);
+    addEventListener('load', paint, { once: true });
+    if ('IntersectionObserver' in window) new IntersectionObserver(es => { if (es[0].isIntersecting && !maps) paint() }).observe(box);   // late decode or a lazy image: sample again once it's on screen
     const set = v => {
       box.style.setProperty('--x', v + '%');
       l.style.opacity = v < 18 ? 0 : 1; r.style.opacity = v > 82 ? 0 : 1;   // a tag hides once its side is almost gone
