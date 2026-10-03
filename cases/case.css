@@ -163,6 +163,8 @@ a.glass:active,button.glass:active{transform:scale(.94);transition-duration:80ms
 .c-states .c-fig{position:relative;touch-action:pan-y}
 .c-states .c-fig img+img{position:absolute;inset:0}
 .c-states .c-fig img.in:not(.on){opacity:0;pointer-events:none}
+.c-states.fit .c-fig{aspect-ratio:var(--ar,16/10)}   /* .fit + --ar: images of different proportions share one frame, each fitted inside */
+.c-states.fit .c-fig img{position:absolute;inset:0;height:100%;object-fit:contain}
 .c-states figcaption{margin-top:14px;text-align:center;font-size:14px;line-height:1.45;color:var(--ink-3);min-height:1.45em}
 .c-fig img.broken{opacity:1;min-height:120px;cursor:default}
 .c-fig figcaption{margin:16px auto 0;max-width:560px;text-align:center;font-size:14px;line-height:1.45;color:var(--ink-3)}

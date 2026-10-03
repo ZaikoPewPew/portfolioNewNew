@@ -31,7 +31,7 @@
     var tc = document.querySelector('meta[name="theme-color"]'), sync = function(){ tc.content = h.dataset.theme === 'dark' ? '#0B0D12' : '#FFFFFF' };
     sync(); new MutationObserver(sync).observe(h, { attributes: true, attributeFilter: ['data-theme'] }); })();
 </script>
-<link rel="stylesheet" href="case.css?v=8f3688fa">
+<link rel="stylesheet" href="case.css?v=c5793194">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -157,24 +157,20 @@
   </div>
 </section>
 
-
-<div class="c-body c-note"><p><em>The acquiring page</em> keeps a compact block: realistic renders, three key specs and a way into the showcase.</p></div>
-
-<figure class="c-fig"><img loading="lazy" decoding="async" src="terminals/50acfca8fb48dc97.webp" width="1600" height="988" alt="The new terminals block on the acquiring page with an All terminals button"></figure>
-
-<div class="c-body c-note"><p><em>The showcase</em> shows every terminal at once, with key specs and filters: all, stationary, portable.</p></div>
-
-<figure class="c-fig"><img loading="lazy" decoding="async" src="terminals/bab9383fa8d5a2f1.webp" width="1280" height="838" alt="The terminal showcase page with filters: all, stationary, portable"></figure>
+<figure class="c-states fit" style="--ar:1.5">
+  <div class="c-fig pad">
+    <img loading="lazy" decoding="async" src="terminals/50acfca8fb48dc97.webp" width="1600" height="988" data-label="Acquiring page" data-cap="The acquiring page keeps a compact block: realistic renders, three key specs and a way into the showcase" alt="The new terminals block on the acquiring page with an All terminals button">
+    <img loading="lazy" decoding="async" src="terminals/bab9383fa8d5a2f1.webp" width="1280" height="838" data-label="Showcase" data-cap="The showcase shows every terminal at once, with key specs and filters: all, stationary, portable" alt="The terminal showcase page with filters: all, stationary, portable">
+    <img loading="lazy" decoding="async" src="terminals/163cf7f30e5b0052.webp" width="2400" height="1278" data-label="Comparison" data-cap="The comparison table, built in a hurry earlier, finally found a proper home" alt="Comparing terminals by specs: features side by side">
+  </div>
+  <figcaption></figcaption>
+</figure>
 
 <figure class="c-pair">
   <div class="c-fig"><img loading="lazy" decoding="async" src="terminals/c646e790957b13ea.webp" width="600" height="1353" alt="The showcase on a phone: filters and the first terminal"></div>
   <div class="c-fig"><img loading="lazy" decoding="async" src="terminals/7801bbdb8c9e652f.webp" width="600" height="1353" alt="A terminal card on a phone with Connect and More buttons"></div>
   <figcaption>On mobile the filters stay pinned while you scroll</figcaption>
 </figure>
-
-<div class="c-body c-note"><p><em>The comparison table</em>, built in a hurry earlier, finally found a proper home.</p></div>
-
-<figure class="c-fig"><img loading="lazy" decoding="async" src="terminals/163cf7f30e5b0052.webp" width="2400" height="1278" alt="Comparing terminals by specs: features side by side"></figure>
 
 <section class="c-sec">
   <h2 class="c-label">Decision 3: a 30-second quiz</h2>
@@ -271,7 +267,7 @@
   <p class="lock-hint">need the password? ask me on <a href="https://t.me/ezzzz12345" target="_blank" rel="noopener">telegram</a> or <a href="https://www.linkedin.com/in/kvneasy/" target="_blank" rel="noopener">linkedin</a></p>
 </div>
 
-<script type="application/json" id="payload">{"v":2,"mode":"open","iter":310000,"salt":"N1Cs2TArftLhJTuCGF1T9g==","frags":[{"iv":"ls5mBoxesiAbWLLR","ct":"diPHwLs/xhP+o3/Tz4ePluF30KdLruGY/48VAlV9WJlKBwpOc07bNtVvMNo="},{"iv":"Gg15cdTIeZwflIBt","ct":"9qcjGJ1FfcID3wJ5udxhrPIi8MG6eDBRQoc24yV48a71LFAbHkhYJpNSBgk9fu/XMpKYMzlAN9Rg597aPwPKSo/dCSYCAV6WFK+DErh6O/JAndXf1fMVpa5pB9GUq4Ywc+qhNZd3jGA1lXxGykA4d+mNgxS5Gm764ERf3uyOgPw0UEDSIIaUcKqH5/lvGyj1Ms0zS1mXInjuM2vn4jazAda6u6E7pJrj20LNNgZtdjkgF0z2xpMZXHRpaZ+2PE+7dw1PDe25F02b0RyARTRIrRIre4EJpzbiryk0OA/7B6M1H2l0kBPYCEBFCE76cJRtXF3n8oWfEkCp9PVq8S9Wrs03A9It8e+Ple6mwCgghN3s/RjNDUZ467tOr+ptf+yFYKD8CPpO4ckfzxNffXGXDQPt7aVH1EU+g4Hv3LmaNzRCaUczy0bV1OQRT6nLWw+DsXQDrK1CIqOZzhhneV9Ntfq8MYsCP2kET7WnU7YNxK2qrbRpB38="},{"iv":"XT+tgmtIzus9yPkK","ct":"+KDVvuH+Eo66NEIOHmkpdIrtJ7naoR40m5keOlxGgT7wKfRSWFs7fTDywsKkDMefdphC"},{"iv":"bE6G/rkuUVUjblFS","ct":"PnvdtdbYpL413YNpXXvkc/tryziKb+anprKDiTNMMl7Mp1Gkca27eLOUbdaLTo4AARs7OjYz91LjYmZYm1LfwtaLUzSzBOM/Ml8ib3ai61oY0p/m7Jk1AeqRvTAJLSKLYH57MnMX1IUmVpQcND6LVCbcggfGVhcX/f8pIuQWKbsSXw1lWbeQ/jPS+jWYUULfcthYztngIeK4Q4sYlmIpT7ZUv8vSBqb10BHQoncSUO0KGv+4ZLMGmniT3QTSHnRa+7xKiP/oL7ltMcVbMM0Y6Jh4MWc0WMHmBRZ7TX9kTbLFudaKqJjlgPMHmg477g=="}]}</script>
+<script type="application/json" id="payload">{"v":2,"mode":"open","iter":310000,"salt":"U8n29pjfHLwtq6Cjwcl4XQ==","frags":[{"iv":"v6gnkVLy+9qO515H","ct":"m1GOHBpxY4bTo5nGUqeesop4N3ilX1LEec2WOM0tf1S2CibPxxcsErCHTXY="},{"iv":"GneGp2jsIHKuTNNL","ct":"BTu+cEmcHAlmSKEd6N77/jzes1VukqNzOF3HqSftIUqAxXKc1nmPrUMg7A2+ODuZnYj8HBOjYK5rDvRcV1xp0Cb9RYSdU7KXiTQmr7b0FIguTAYdObbNSFjY9+ANi4SoqZuuPjTQix7q/uQpX3TrGIGT3PBsX4AcVaNqT11P6JqBFq9fbzHnhNo2ShioqwNosF1QAhbMo2LiZH5XCANZYAdV5OpRwW35zwrEnPZNQHq0wZwks1viuMv3zZnyqQ+44E5fAfzCf1FtMJTP42AJqnaMgs4NqZxhJ/Rid7d1M9xYI3Nvg3byWfUkjexfeVPqplq7qdFwHA4PAQPqXtYvCzyX5Ocbj/hn34d8cX5FmSSy1Sgs5KGjP6nB8NdzmsyPwh6/kK5JRDCv2A5mJ3Z4vlkSh19xWgcb6k37YNdlEg9KV4n0zWvIseDnVawN9B6izBe2Ygaqdclid2WvSAizZIgH3PqLmztWPZaMnjffdsUJLfTK7lU="},{"iv":"BOo4NJorf4KnGegM","ct":"G/oHtoy182jAnZWrOVSHNKWFnBtGH6dGouwwTwACSvgR/j3WsbLqp07INhln1imJ9+l2"},{"iv":"EpXaYISYa4Ppk/pD","ct":"X2a7qHAsdm72MTvM6SEWXw4zyVc3w6WoKGig3uN167b20RMCxeiHIIbCmY5GL5cEHZ4GhJnHrzonxANQ3F5a1rQoSY3cPqzKZRYAE2DOmddDXf8hQ/qjinXpkSSWK9jnQThTHxsKCA0Zrv5XvyInKqsDRJqp4p4ooug3HB2Xi+jvco32VB/FBxQBb2sVK7hiBOqJlBoVMDpj8LSJ71MoFmLAm/oc7HfKPhqVs71zpYrDi35oWs6xdaRj0Ng36m4AzQvJefZu0gYKwQTb9ootWHm1a0DN3Uo4il0IjmjvJ6c0pnqWFTIqVrIUnDUY+g=="}]}</script>
 <script src="cases.js?v=c7134e36"></script>
 <script src="case-ui.js?v=17178d44"></script>
 <script src="lock.js?v=e1aca242"></script>
