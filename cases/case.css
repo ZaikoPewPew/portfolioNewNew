@@ -244,8 +244,7 @@ a.glass:active,button.glass:active{transform:scale(.94);transition-duration:80ms
 .c-time li::before{content:"";position:absolute;left:-32px;top:5px;box-sizing:border-box;width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid var(--ink-5);
   transition:background-color .35s var(--d,0s),border-color .35s var(--d,0s)}
 .c-time.in li{opacity:1}
-.c-time.in li::before{border-color:var(--red)}
-.c-time.in li.acc::before{background:var(--red)}
+.c-time.in li::before{border-color:var(--red);background:var(--red)}   /* every dot fills; .acc only darkens the text */
 .c-time.done::after,.c-time.done li,.c-time.done li::before{transition:none}
 .c-time b{font-size:14px;line-height:1.5;color:var(--ink-3);font-variant-numeric:tabular-nums}
 .c-time span{font-size:17px;line-height:1.5;color:var(--ink-2);text-wrap:pretty}
